@@ -3,6 +3,7 @@
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MyTestController;
+use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Auth;
 use function Laravel\Prompts\text;
 
@@ -27,7 +28,7 @@ Route::get('/test', function () {
 
 
 
-Route::get('/user', [UserController::class, 'index']);
+// Route::get('/user', [UserController::class, 'index']);
 
 
 Route::controller(MyTestController::class)->group(function () {
@@ -41,6 +42,7 @@ Route::get('/auth', function () {
 
 // Route::get('user', [UserController::class, 'index']);
 Route::resource('users', UserController::class);
+Route::resource('roles', RoleController::class);
 
 Auth::routes();
 

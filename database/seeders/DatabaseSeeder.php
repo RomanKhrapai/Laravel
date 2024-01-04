@@ -28,8 +28,8 @@ class DatabaseSeeder extends Seeder
             DegreeSeeder::class,
             RoleSeeder::class,
             TypeSeeder::class,
-            LanguagesSeeder::class
-
+            LanguagesSeeder::class,
+            PermisionSeeder::class
         ]);
 
         User::factory(10)->create();

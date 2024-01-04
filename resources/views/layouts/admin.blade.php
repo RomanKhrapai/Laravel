@@ -33,50 +33,6 @@
                     <ul class="nav nav-pills flex-sm-column flex-row flex-nowrap flex-shrink-1 flex-sm-grow-0 flex-grow-1 mb-sm-auto mb-0 justify-content-center align-items-center align-items-sm-start"
                         id="menu">
                         <li class="nav-item">
-                            <div class="dropdown show">
-                                <a class="btn btn-secondary dropdown-toggle" href="#" role="button"
-                                    id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Dropdown link
-                                </a>
-
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <div class="dropdown py-sm-2 mt-sm-auto ms-auto ms-sm-0 flex-shrink-1">
-                                <a href="#"
-                                    class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-                                    id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span class="d-none d-sm-inline mx-1 text-dark h5">Posts</span>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-dark text-small shadow"
-                                    aria-labelledby="dropdownUser1">
-                                    <li>
-                                        <a href="#" class="dropdown-item">All posts</a>
-                                        {{-- <a href="{{ route('posts.index') }}" class="dropdown-item">All posts</a> --}}
-                                    </li>
-                                    <li>
-                                        <a href="#" class="dropdown-item">Create post</a>
-                                        {{-- <a href="{{ route('posts.create') }}" class="dropdown-item">Create post</a> --}}
-                                    </li>
-                                </ul>
-                                <ul class="dropdown-menu dropdown-menu-dark text-small shadow"
-                                    aria-labelledby="dropdownUser1">
-                                    <li>All posts
-                                        {{-- <a href="{{ route('posts.index') }}" class="dropdown-item">All posts</a> --}}
-                                    </li>
-                                    <li>Create post
-                                        {{-- <a href="{{ route('posts.create') }}" class="dropdown-item">Create post</a> --}}
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li class="nav-item">
                             <div class="dropdown py-sm-2 mt-sm-auto ms-auto ms-sm-0 flex-shrink-1">
                                 <a href="#"
                                     class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
@@ -85,12 +41,12 @@
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-dark text-small shadow"
                                     aria-labelledby="dropdownUser1">
-                                    <li>All users
-                                        {{-- <a href="{{ route('users.index') }}" class="dropdown-item">All users</a> --}}
+                                    <li>
+                                        <a href="{{ route('users.index') }}" class="dropdown-item">All users</a>
                                     </li>
 
-                                    <li>Create user
-                                        {{-- <a href="{{ route('users.create') }}" class="dropdown-item">Create user</a> --}}
+                                    <li>
+                                        <a href="{{ route('users.create') }}" class="dropdown-item">Create user</a>
                                     </li>
 
                                 </ul>
@@ -106,53 +62,17 @@
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-dark text-small shadow"
                                     aria-labelledby="dropdownRole">
-                                    <li>All roles
-                                        {{-- <a href="{{ route('roles.index') }}" class="dropdown-item">All roles</a> --}}
-                                    </li>
-                                    <li>Create role
-                                        {{-- <a href="{{ route('roles.create') }}" class="dropdown-item">Create role</a> --}}
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li class="nav-item">
-                            <div class="dropdown py-sm-2 mt-sm-auto ms-auto ms-sm-0 flex-shrink-1">
-                                <a href="#"
-                                    class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-                                    id="dropdownPermissions" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span class="d-none d-sm-inline mx-1 text-dark h5">Permissions</span>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-dark text-small shadow"
-                                    aria-labelledby="dropdownPermissions">
-                                    <li>All permissions
-                                        {{-- <a href="{{ route('permissions.index') }}" class="dropdown-item">All permissions</a> --}}
-                                    </li>
-                                    <li>Create permission
-                                        {{-- <a href="{{ route('permissions.create') }}" class="dropdown-item">Create permission</a> --}}
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li class="nav-item">
-                            <div class="dropdown py-sm-2 mt-sm-auto ms-auto ms-sm-0 flex-shrink-1">
-                                <a href="#"
-                                    class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-                                    id="dropdownCommons" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span class="d-none d-sm-inline mx-1 text-dark h5">Commons</span>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-dark text-small shadow"
-                                    aria-labelledby="dropdownCommons">
-                                    <li>All commons
-                                        {{-- <a href="{{ route('commons.index') }}" class="dropdown-item">All commons</a> --}}
-                                    </li>Create common
                                     <li>
-                                        {{-- <a href="{{ route('commons.create') }}" class="dropdown-item">Create common</a> --}}
+                                        <a href="{{ route('roles.index') }}" class="dropdown-item">All roles</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('roles.create') }}" class="dropdown-item">Create role</a>
                                     </li>
                                 </ul>
                             </div>
                         </li>
+
+
                     </ul>
 
 
@@ -166,8 +86,7 @@
                             </a>
                             <h4>{{ Auth::user()->role->name }} </h4>
                         @endisset
-                        <ul class="dropdown-menu dropdown-menu-dark text-small shadow"
-                            aria-labelledby="dropdownUser1">
+                        <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
 
                             <li><a class="dropdown-item" href="{{ route('logout') }}"
                                     onclick="event.preventDefault();
@@ -192,13 +111,10 @@
                         </section>
                     </div>
                 </main>
-                <footer class="row bg-secondary py-4 mt-auto">
-                    <div class="col"> Footer content here... </div>
-                </footer>
+
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 

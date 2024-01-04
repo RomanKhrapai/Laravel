@@ -9,7 +9,15 @@ class Role extends Model
 {
     use HasFactory;
     protected $table = 'roles';
-    protected $guarded = false;
+    // protected $fillable = ['name'];
+    // protected $guarded = false;
+    public $timestamps = false;
+    protected $guarded = ['id', 'created_at', 'updated_at'];
+
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class);
+    }
 
     public function users()
     {
