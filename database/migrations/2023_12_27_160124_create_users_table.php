@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('mail');
-            $table->string('foto_url')->nullable();;
+            $table->string('foto_url')->nullable();
             $table->string('telephone');
-            $table->string('token');
+            $table->string('token')->nullable();
             $table->string('password');
             $table->unsignedBigInteger('role_id');
             $table->timestamps();

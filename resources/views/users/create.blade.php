@@ -1,17 +1,20 @@
 @extends('layouts.admin')
 
 @section('title')
-    Form for creating roles
+    Form for creating users
 @endsection
 
 @section('content')
-    <h1 class="text-white">Form for creating roles</h1>
+    <h1 class="text-white">Form for creating users</h1>
 
-    <form action="{{ route('roles.store') }}" method="post" enctype="multipart/form-data">
+    <form action="{{ route('users.store') }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('POST')
+
         <div class="form-group">
-            <label for="name">name</label>
+            <label class="text-white" for="name">
+                name
+            </label>
             <input type="text" name="name" placeholder="Enter a name" id="name" class="form-control"
                 value="{{ old('name') }}" class="@error('name') is-invalid @enderror">
         </div>
@@ -19,16 +22,69 @@
             <div class="alert alert-danger">{{ $message }}</div>
         @enderror
 
-        <div class="col-md-4 bg-white">
-            @foreach ($permissions as $permission)
-                <input type="checkbox" class="block" name="permissions[]"
-                    {{ in_array($permission->id, old('permissions', [])) ? 'checked' : '' }} class="form-check-input"
-                    value="{{ $permission->id }}" id="{{ $permission->id }}">
-                {{ $permission->name }}
-                <br />
-            @endforeach
+        <div class="form-group">
+            <label class="text-white" for="mail">
+                Email
+            </label>
+            <input type="text" name="mail" placeholder="Enter a email" id="mail" class="form-control"
+                value="{{ old('mail') }}" class="@error('mail') is-invalid @enderror">
         </div>
-        @error('permissions')
+        @error('mail')
+            <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
+
+        <div class="form-group">
+            <label class="text-white" for="telephone">
+                telephone
+            </label>
+            <input type="text" name="telephone" placeholder="Enter a telephone" id="telephone" class="form-control"
+                value="{{ old('telephone') }}" class="@error('telephone') is-invalid @enderror">
+        </div>
+        @error('telephone')
+            <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
+
+        <div class=" form-group">
+            <label class="text-white d-block">
+                Role:
+                <br>
+                <div class="form-control bg-white d-flex justify-content-around">
+                    @foreach ($roles as $role)
+                        <label class='form-check-label'><input value="{{ $role->id }}" type="radio"
+                                class="form-check-input block" name="role_id"
+                                {{ $role->id == old('role_id') ? 'checked' : '' }}>
+                            {{ $role->name }}
+                        </label>
+                    @endforeach
+                </div>
+
+            </label>
+
+        </div>
+        @error('roles')
+            <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
+
+        <div class="form-group">
+            <label class="text-white" for="password">
+                password
+            </label>
+            <input type="password" name="password" placeholder="Enter a password" id="password" class="form-control"
+                class="@error('password') is-invalid @enderror">
+        </div>
+        @error('password')
+            <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
+
+        <div class="form-group">
+            <label class="text-white" for="password_confirmation">
+                confirm password
+            </label>
+            <input type="password" name="password_confirmation" placeholder="Enter a confirm password"
+                id="password_confirmation" class="form-control"
+                class="@error('password_confirmation') is-invalid @enderror">
+        </div>
+        @error('password_confirmation')
             <div class="alert alert-danger">{{ $message }}</div>
         @enderror
 

@@ -2,12 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use App\Models\Role;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+
+    public function __construct(
+        protected User $user
+    ) {
+        // $this->middleware('auth');
+        // $this->middleware('admin');
+    }
     /**
      * Display a listing of the resource.
      */
@@ -15,7 +24,6 @@ class UserController extends Controller
     {
         $users = User::paginate(5);
         return view('users.index', ['users' => $users]);
-        //dd($users);
     }
 
     /**
@@ -30,9 +38,16 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        //
+        $password = $request->input('password');
+        $data = $request->except('_token', 'password', 'password_confirmation');
+
+        $data['password'] = Hash::make($password);
+
+        $user = User::create($data);
+
+        return redirect()->route('users.show', ['user' => $user])->with('success', ['id' => $user->id]);
     }
 
     /**
@@ -40,7 +55,8 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $user = User::findOrFail($id);
+        return view('users.show', ['user' => $user]);
     }
 
     /**
@@ -48,15 +64,25 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $user = User::findOrFail($id);
+        $roles = Role::all();
+        return view('users.edit', ['user' => $user, 'roles' => $roles]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        //
+        $password = $request->input('password');
+        $data = $request->except('_token', 'password');
+
+        if (!empty($password)) {
+            $data['password'] = Hash::make($password);
+        }
+        $user->update($data);
+
+        return redirect()->route('users.show', ['user' => $user]);
     }
 
     /**
@@ -64,6 +90,11 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $role = Role::findOrFail($id);
+
+        $role->permissions()->detach();
+        $role->delete();
+
+        return redirect()->route('roles.index')->with('success', 'Role deleted successfully.');
     }
 }

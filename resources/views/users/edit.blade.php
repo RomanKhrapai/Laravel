@@ -1,41 +1,85 @@
 @extends('layouts.admin')
 
 @section('title')
-    Form for updating roles
+    Form for updating users
 @endsection
 
 @section('content')
-    <h1 class="text-white">Form for updating roles</h1>
-
-    <form class="" action="{{ route('roles.update', ['role' => $role->id]) }}" method="post"
+    <h1 class="text-white">Form for updating users</h1>
+    {{-- {{ dd($user) }} --}}
+    <span class="text-white">
+        ID: {{ $user->id }}
+    </span>
+    <form class="" action="{{ route('users.update', ['user' => $user->id]) }}" method="post"
         enctype="multipart/form-data">
         @csrf
         @method('PATCH')
 
-        <div class="mb-3">
-            <label for="name" class="form-label">Name</label>
-            <input value="{{ $role->name }}" type="text" class="form-control" name="name" placeholder="Name" required>
-        </div>
-
-        <div>
-            <label for="permissions" class="block mb-2 text-sm font-medium text-gray-900">
-                Select permissions
+        <div class="form-group">
+            <label class="text-white" for="name">
+                name
             </label>
-            <select id="permissions" name="permissions[]" style="width: 100%; height: 200px; background-color: white;"
-                class="mh-100 bg-gray-600 border border-gray-300 text-gray-900 rounded-lg block w-full p-3" multiple>
-                @foreach ($permissions as $permission)
-                    <option class="mb-2" value="{{ $permission->id }}" @selected($role->permissions->contains($permission->id))
-                        @class([
-                            'bg-purple-600 text-dark' => $role->permissions->contains($permission->id),
-                        ])>
-                        {{ $permission->name }}
-                    </option>
-                @endforeach
-            </select>
+            <input type="text" name="name" placeholder="Enter a name" id="name" class="form-control"
+                value="{{ $user->name }}" class="@error('name') is-invalid @enderror">
         </div>
-        @error('permissions')
+        @error('name')
             <div class="alert alert-danger">{{ $message }}</div>
         @enderror
+
+        <div class="form-group">
+            <label class="text-white" for="mail">
+                Email
+            </label>
+            <input type="text" name="mail" placeholder="Enter a email" id="mail" class="form-control"
+                value="{{ $user->mail }}" class="@error('mail') is-invalid @enderror">
+        </div>
+        @error('mail')
+            <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
+
+        <div class="form-group">
+            <label class="text-white" for="telephone">
+                telephone
+            </label>
+            <input type="text" name="telephone" placeholder="Enter a telephone" id="telephone" class="form-control"
+                value="{{ $user->telephone }}" class="@error('telephone') is-invalid @enderror">
+        </div>
+        @error('telephone')
+            <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
+
+        <div class=" form-group">
+            <label class="text-white d-block">
+                Role:
+                <br>
+                <div class="form-control bg-white d-flex justify-content-around">
+                    @foreach ($roles as $role)
+                        <label class='form-check-label'><input value="{{ $role->id }}" type="radio"
+                                class="form-check-input block" name="role_id"
+                                {{ $role->id == $user->role_id ? 'checked' : '' }}>
+                            {{ $role->name }}
+                        </label>
+                    @endforeach
+                </div>
+
+            </label>
+
+        </div>
+        @error('roles')
+            <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
+
+        <div class="form-group">
+            <label class="text-white" for="password">
+                password
+            </label>
+            <input type="password" name="password" placeholder="Enter a password" id="password" class="form-control"
+                class="@error('password') is-invalid @enderror">
+        </div>
+        @error('password')
+            <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
+
 
         <button type="submit" class="btn btn-success">Submit</button>
     </form>

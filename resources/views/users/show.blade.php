@@ -2,30 +2,76 @@
 
 @section('content')
     <div class="bg-light p-4 rounded">
-        <h1>{{ ucfirst($role->name) }} Role</h1>
+        <h1>{{ ucfirst($user->name) }}</h1>
         <div class="lead">
 
         </div>
 
         <div class="container mt-4">
 
-            <h3>Assigned permissions</h3>
 
             <table class="table table-striped">
                 <thead>
-                    <th scope="col">Name</th>
+                    <th scope="col">field name</th>
+                    <th scope="col">value</th>
                 </thead>
-                @foreach ($role['permissions'] as $permission)
+                <tbody>
                     <tr>
-                        <td>{{ $permission->name }}</td>
+                        <td>
+                            <h5>ID</h5>
+                        </td>
+                        <td>
+                            <h6>{{ $user->id }}</h6>
+                        </td>
                     </tr>
-                @endforeach
+                    <tr>
+                        <td>
+                            <h5>name</h5>
+                        </td>
+                        <td>
+                            <h6>{{ $user->name }}</h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h5>email</h5>
+                        </td>
+                        <td>
+                            <h6>{{ $user->mail }}</h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h5>telephone</h5>
+                        </td>
+                        <td>
+                            <h6>{{ $user->telephone }}</h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h5>role id (role)</h5>
+                        </td>
+                        <td>
+                            <h6>{{ $user->role_id }} ({{ $user['role']->name }})</h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h5>foto url</h5>
+                        </td>
+                        <td>
+                            <h6>{{ $user->foto_url }}</h6>
+                        </td>
+                    </tr>
+
+                </tbody>
             </table>
         </div>
 
     </div>
     <div class="mt-4">
-        <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-info">Edit</a>
-        <a href="{{ route('roles.index') }}" class="btn btn-info">Back</a>
+        <a href="{{ route('users.edit', $user->id) }}" class="btn btn-info">Edit</a>
+        <a href="{{ route('users.index') }}" class="btn btn-info">Back</a>
     </div>
 @endsection

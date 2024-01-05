@@ -10,6 +10,12 @@
         <thead class="">
             <tr>
                 <th scope="col">user name</th>
+                <th scope="col">user email</th>
+                <th scope="col">user foto url</th>
+                <th scope="col">user telephone</th>
+                <th scope="col">user role</th>
+                <th scope="col">updated_at</th>
+                <th scope="col">created_at</th>
                 <th scope="col">Access buttons</th>
             </tr>
         </thead>
@@ -21,16 +27,38 @@
                         <h5>{{ $user->name }}</h5>
                     </td>
                     <td>
-                        <a href="{{ route('users.show', $user->id) }}"><button class="btn btn-success">Show user</button></a>
+                        <h6>{{ $user->mail }}</h6>
+                    </td>
+                    <td>
+                        <h6>{{ $user->foto_url }}</h6>
+                    </td>
+                    <td>
+                        <h6>{{ $user->telephone }}</h6>
+                    </td>
+                    <td>
+                        <h6>{{ $user['role']->name }}</h6>
+                    </td>
+                    <td>
+                        <h6>{{ $user->updated_at }}</h6>
+                    </td>
+                    <td>
+                        <h6>{{ $user->created_at }}</h6>
+                    </td>
+                    <td>
+                        <a href="{{ route('users.show', $user->id) }}"><button class="btn btn-success">
+                                <img src="icons/view-show.svg" alt="show" />
+                            </button></a>
 
-                        @can('update', $user)
-                            <a href="{{ route('users.edit', $user->id) }}"><button class="btn btn-warning">Edit</button></a>
-                        @endcan
-                        @can('delete', $user)
-                            <button data-bs-toggle="modal" class="btn bg-secondary text-white"
-                                data-bs-target="#deleteuserModal_{{ $user->id }}"
-                                data-action="{{ route('users.destroy', $user->id) }}">Delete</button>
-                        @endcan
+                        {{-- @can('update', $user) --}}
+                        <a href="{{ route('users.edit', $user->id) }}"><button class="btn btn-warning"><img
+                                    src="icons/view-show.svg" alt="edit" /></button></a>
+                        {{-- @endcan
+                        @can('delete', $user) --}}
+                        <button data-bs-toggle="modal" class="btn bg-secondary text-white"
+                            data-bs-target="#deleteuserModal_{{ $user->id }}"
+                            data-action="{{ route('users.destroy', $user->id) }}"><img src="icons/view-show.svg"
+                                alt="delete" /></button>
+                        {{-- @endcan --}}
                     </td>
                 </tr>
             </tbody>
@@ -44,7 +72,8 @@
                             <h5 class="modal-title" id="deleteuserModalLabel">This action is irreversible.</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <form action="{{ route('users.destroy', $user->id) }}" method="post" enctype="multipart/form-data">
+                        <form action="{{ route('users.destroy', $user->id) }}" method="post"
+                            enctype="multipart/form-data">
                             @csrf
                             @method('DELETE')
                             <div class="modal-body">
