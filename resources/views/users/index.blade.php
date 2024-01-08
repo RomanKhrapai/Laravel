@@ -46,18 +46,23 @@
                     </td>
                     <td>
                         <a href="{{ route('users.show', $user->id) }}"><button class="btn btn-success">
-                                <img src="icons/view-show.svg" alt="show" />
+                                <img src="{{ Vite::asset('resources/icons/view-show.svg') }}" alt="show" />
                             </button></a>
 
                         {{-- @can('update', $user) --}}
-                        <a href="{{ route('users.edit', $user->id) }}"><button class="btn btn-warning"><img
-                                    src="icons/view-show.svg" alt="edit" /></button></a>
+                        <a href="{{ route('users.edit', $user->id) }}">
+                            <button class="btn btn-warning">
+                                <img src="{{ Vite::asset('resources/icons/pencil2.svg') }}" alt="edit" />
+                            </button>
+                        </a>
                         {{-- @endcan
                         @can('delete', $user) --}}
                         <button data-bs-toggle="modal" class="btn bg-secondary text-white"
                             data-bs-target="#deleteuserModal_{{ $user->id }}"
-                            data-action="{{ route('users.destroy', $user->id) }}"><img src="icons/view-show.svg"
-                                alt="delete" /></button>
+                            data-action="{{ route('users.destroy', $user->id) }}">
+                            <img src="{{ Vite::asset('resources/icons/bin.svg') }}" alt="delete" />
+                        </button>
+
                         {{-- @endcan --}}
                     </td>
                 </tr>

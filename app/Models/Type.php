@@ -10,5 +10,5 @@ class Type extends Model
     use HasFactory;
 
     protected $table = 'types';
-    protected $guarded = false;
+    protected $fillable = ['name'];
 }
