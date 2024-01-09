@@ -12,6 +12,7 @@ use App\Http\Controllers\TypeController;
 use App\Http\Controllers\NatureController;
 use App\Http\Controllers\SkillController;
 use App\Http\Controllers\VacancyController;
+use App\Http\Controllers\CompanyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,39 +25,18 @@ use App\Http\Controllers\VacancyController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
-Route::get('/test', function () {
-    return view('test');
-});
-
-
-
-// Route::get('/user', [UserController::class, 'index']);
-
-
-Route::controller(MyTestController::class)->group(function () {
-    Route::get('/test1', 'index');
-});
-// Route::get('/test1', 'MyTestController@index');
-
-Route::get('/auth', function () {
-    return "autorisation page";
-});
-
-// Route::get('user', [UserController::class, 'index']);
-Route::resource('users', UserController::class);
-Route::resource('roles', RoleController::class);
-Route::resource('areas', AreaController::class);
-Route::resource('categories', CategoryController::class);
-Route::resource('languages', LanguageController::class);
-Route::resource('types', TypeController::class);
-Route::resource('natures', NatureController::class);
-Route::resource('skills', SkillController::class);
-Route::resource('vacancy', VacancyController::class);
+Route::resource('users', UserController::class)->middleware('auth');
+Route::resource('roles', RoleController::class)->middleware('auth');
+Route::resource('areas', AreaController::class)->middleware('auth');
+Route::resource('categories', CategoryController::class)->middleware('auth');
+Route::resource('languages', LanguageController::class)->middleware('auth');
+Route::resource('types', TypeController::class)->middleware('auth');
+Route::resource('natures', NatureController::class)->middleware('auth');
+Route::resource('skills', SkillController::class)->middleware('auth');
+Route::resource('vacancies', VacancyController::class)->middleware('auth');
+Route::resource('companies', CompanyController::class)->middleware('auth');
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('auth');

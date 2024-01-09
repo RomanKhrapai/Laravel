@@ -1,69 +1,78 @@
 @extends('layouts.admin')
 
 @section('title')
-    All users
+    All companys
 @endsection
 
 @section('content')
-    <h1 class="text-white">All users</h1>
+    <h1 class="text-white">All companys</h1>
     <table class="table table-bordered table-hover m-2 bg-white">
         <thead class="">
             <tr>
-                <th scope="col">user name</th>
-                <th scope="col">user email</th>
-                <th scope="col">user foto url</th>
-                <th scope="col">user telephone</th>
-                <th scope="col">user role</th>
+                <th scope="col">id</th>
+                <th scope="col">name</th>
+                <th scope="col">foto url</th>
+                <th scope="col">mail</th>
+                <th scope="col">position</th>
+                <th scope="col">address</th>
+                <th scope="col">description</th>
+                <th scope="col">owner name</th>
                 <th scope="col">updated_at</th>
                 <th scope="col">created_at</th>
                 <th scope="col">Access buttons</th>
             </tr>
         </thead>
 
-        @foreach ($users as $user)
+        @foreach ($companies as $company)
             <tbody>
                 <tr>
                     <td>
-                        <h5>{{ $user->name }}</h5>
+                        <h5>{{ $company->id }}</h5>
                     </td>
                     <td>
-                        <h6>{{ $user->email }}</h6>
+                        <h5>{{ $company->name }}</h5>
                     </td>
                     <td>
-                        <h6>{{ $user->foto_url }}</h6>
+                        <h6>{{ $company->foto_url }}</h6>
                     </td>
                     <td>
-                        <h6>{{ $user->telephone }}</h6>
+                        <h6>{{ $company->mail }}</h6>
+                    </td>
+
+                    <td>
+                        <h6>{{ $company->position }}</h6>
                     </td>
                     <td>
-                        @if (isset($user['role']))
-                            <h6>{{ $user['role']->name }}</h6>
-                        @else
-                            <h6>Null</h6>
-                        @endif
+                        <h6>{{ $company->address }}</h6>
                     </td>
                     <td>
-                        <h6>{{ $user->updated_at }}</h6>
+                        <h6>{{ $company->description }}</h6>
                     </td>
                     <td>
-                        <h6>{{ $user->created_at }}</h6>
+                        <h6>{{ $company['user']->name }}</h6>
                     </td>
                     <td>
-                        <a href="{{ route('users.show', $user->id) }}"><button class="btn btn-success">
+                        <h6>{{ $company->updated_at }}</h6>
+                    </td>
+                    <td>
+                        <h6>{{ $company->created_at }}</h6>
+                    </td>
+                    <td>
+                        <a href="{{ route('companies.show', $company->id) }}"><button class="btn btn-success">
                                 <img src="{{ Vite::asset('resources/icons/view-show.svg') }}" alt="show" />
                             </button></a>
 
-                        {{-- @can('update', $user) --}}
-                        <a href="{{ route('users.edit', $user->id) }}">
+                        {{-- @can('update', $company) --}}
+                        <a href="{{ route('companies.edit', $company->id) }}">
                             <button class="btn btn-warning">
                                 <img src="{{ Vite::asset('resources/icons/pencil2.svg') }}" alt="edit" />
                             </button>
                         </a>
                         {{-- @endcan
-                        @can('delete', $user) --}}
+                        @can('delete', $company) --}}
                         <button data-bs-toggle="modal" class="btn bg-secondary text-white"
-                            data-bs-target="#deleteuserModal_{{ $user->id }}"
-                            data-action="{{ route('users.destroy', $user->id) }}">
+                            data-bs-target="#deletecompanyModal_{{ $company->id }}"
+                            data-action="{{ route('companies.destroy', $company->id) }}">
                             <img src="{{ Vite::asset('resources/icons/bin.svg') }}" alt="delete" />
                         </button>
 
@@ -72,22 +81,22 @@
                 </tr>
             </tbody>
 
-            <!-- Delete user Modal -->
-            <div class="modal fade" id="deleteuserModal_{{ $user->id }}" data-backdrop="static" tabindex="-1"
-                user="dialog" aria-labelledby="deleteuserModalLabel" aria-hidden="true">
-                <div class="modal-dialog" user="document">
+            <!-- Delete company Modal -->
+            <div class="modal fade" id="deleteCompanyModal_{{ $company->id }}" data-backdrop="static" tabindex="-1"
+                company="dialog" aria-labelledby="deleteCompanyModalLabel" aria-hidden="true">
+                <div class="modal-dialog" company="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="deleteuserModalLabel">This action is irreversible.</h5>
+                            <h5 class="modal-title" id="deleteCompanyModalLabel">This action is irreversible.</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <form action="{{ route('users.destroy', $user->id) }}" method="post"
+                        <form action="{{ route('companies.destroy', $company->id) }}" method="post"
                             enctype="multipart/form-data">
                             @csrf
                             @method('DELETE')
                             <div class="modal-body">
-                                <input id="id" name="$user->id" hidden value="">
-                                <h5 class="text-center">Are you sure you want to delete this user?</h5>
+                                <input id="id" name="$company->id" hidden value="">
+                                <h5 class="text-center">Are you sure you want to delete this company?</h5>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -101,6 +110,6 @@
     </table>
 
     <div class="mt-3">
-        {{ $users->withQueryString()->links() }}
+        {{ $companies->withQueryString()->links() }}
     </div>
 @endsection

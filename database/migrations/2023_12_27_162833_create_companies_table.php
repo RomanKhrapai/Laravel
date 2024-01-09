@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('position');
             $table->string('name');
-            $table->integer('foto_url')->nullable();
+            $table->integer('image')->nullable();
             $table->string('mail');
             $table->string('address');
             $table->text('description');
