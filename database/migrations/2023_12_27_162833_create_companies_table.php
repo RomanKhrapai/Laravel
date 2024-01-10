@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('address');
             $table->text('description');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });

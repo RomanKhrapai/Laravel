@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('salary_max')->nullable();
             $table->unsignedBigInteger('area_id');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('area_id')->references('id')->on('areas')->onDelete('cascade');
         });

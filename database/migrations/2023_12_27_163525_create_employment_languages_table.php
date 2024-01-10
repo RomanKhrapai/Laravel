@@ -17,6 +17,7 @@ return new class extends Migration
             $table->primary(['language_id', 'employment_id']);
             $table->integer('level');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('language_id')->references('id')->on('languages')->onDelete('cascade');
             $table->foreign('employment_id')->references('id')->on('employments')->onDelete('cascade');

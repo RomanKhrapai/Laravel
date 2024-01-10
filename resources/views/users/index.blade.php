@@ -6,6 +6,8 @@
 
 @section('content')
     <h1 class="text-white">All users</h1>
+    <img src="{{ Vite::asset('public/poster.jpg') }}" width="40px">
+
     <table class="table table-bordered table-hover m-2 bg-white">
         <thead class="">
             <tr>

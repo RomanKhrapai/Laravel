@@ -22,43 +22,50 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-    /**
-     * @var repository
-     */
-    private $repository;
-
-    /**
-     * UserController constructor.
-     *
-     * @param repository $repository
-     */
-    public function __construct(UserRepositoryInterface $repository)
+    public function t(Request $request)
     {
-        $this->repository = $repository;
+
+        return response()->json(['token' => '$token->plainTextToken']);
     }
-
-    public function register(RegisterRequest $request)
+    public function register(Request $request)
     {
+        $validateUser = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed'
+        ]);
+        if ($validateUser->fails()) {
+            return response()->json([
+                'message' => 'Validation failed',
+                'errors' => $validateUser->errors()
+            ], 422);
+        }
 
-        $user = $this->repository->register([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'image' => $request->image,
+            'password' => Hash::make($request->password)
         ]);
 
-        $is_user = User::where('role_id', 1)->get();
-        Notification::send($is_user, new RegisteredUserNotification($user));
-
-        $token = $user->createToken('auth_token')->plainTextToken;
         return response()->json([
             'user' => new UserResource($user),
-            'access_token' => $token,
-        ]);
+            'access_token' => $user->createToken('API Token')->plainTextToken
+        ], 201);
     }
 
-    public function login(LoginRequest $request)
+    public function login(Request $request)
     {
+        $validateUser = Validator::make($request->all(), [
+            'email' => 'required|string|email|max:255',
+            'password' => 'required|string|min:8'
+        ]);
+        if ($validateUser->fails()) {
+            return response()->json([
+                'message' => 'Validation failed',
+                'errors' => $validateUser->errors()
+            ], 422);
+        }
+
         if (!Auth::attempt($request->only('email', 'password'))) {
             return response()->json([
                 'email' => 'Authentication email or password is not valid.',
@@ -93,7 +100,10 @@ class AuthController extends Controller
         $user = Auth::user();
         if (!$user) {
             return response()->json(['message' => 'Logged out']);
+        } else {
+            $user->tokens()->where('name', 'token-name')->delete();
         }
+
 
         Auth::logout();
         $request->session()->invalidate();

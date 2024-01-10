@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('vote');
             $table->text('review');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('evaluated_user_id')->references('id')->on('users')->onDelete('cascade');

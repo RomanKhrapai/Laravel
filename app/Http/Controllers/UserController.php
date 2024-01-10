@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -22,6 +23,7 @@ class UserController extends Controller
      */
     public function index()
     {
+
         $users = User::paginate(5);
         return view('users.index', ['users' => $users]);
     }

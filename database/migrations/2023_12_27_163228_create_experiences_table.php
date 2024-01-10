@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('description');
             $table->integer('months');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('employment_id')->references('id')->on('employments')->onDelete('cascade');
         });

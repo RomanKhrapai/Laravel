@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MyTestController;
 use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AreaController;
