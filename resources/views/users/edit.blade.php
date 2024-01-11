@@ -20,18 +20,18 @@
                 name
             </label>
             <input type="text" name="name" placeholder="Enter a name" id="name" class="form-control"
-                value="{{ $user->name }}" class="@error('name') is-invalid @enderror">
+                value="{{ old('name', $user->name) }}" class="@error('name') is-invalid @enderror">
         </div>
         @error('name')
             <div class="alert alert-danger">{{ $message }}</div>
         @enderror
 
         <div class="form-group">
-            <label class="text-white" for="mail">
+            <label class="text-white" for="email">
                 Email
             </label>
-            <input type="text" name="mail" placeholder="Enter a email" id="mail" class="form-control"
-                value="{{ $user->mail }}" class="@error('mail') is-invalid @enderror">
+            <input type="text" name="email" placeholder="Enter a email" id="email" class="form-control"
+                value="{{ old('email', $user->email) }}" class="@error('email') is-invalid @enderror">
         </div>
         @error('mail')
             <div class="alert alert-danger">{{ $message }}</div>
@@ -42,7 +42,7 @@
                 telephone
             </label>
             <input type="text" name="telephone" placeholder="Enter a telephone" id="telephone" class="form-control"
-                value="{{ $user->telephone }}" class="@error('telephone') is-invalid @enderror">
+                value="{{ old('telephone', $user->telephone) }}" class="@error('telephone') is-invalid @enderror">
         </div>
         @error('telephone')
             <div class="alert alert-danger">{{ $message }}</div>
@@ -56,7 +56,7 @@
                     @foreach ($roles as $role)
                         <label class='form-check-label'><input value="{{ $role->id }}" type="radio"
                                 class="form-check-input block" name="role_id"
-                                {{ $role->id == $user->role_id ? 'checked' : '' }}>
+                                {{ $role->id == old('role_id', $user->role_id) ? 'checked' : '' }}>
                             {{ $role->name }}
                         </label>
                     @endforeach

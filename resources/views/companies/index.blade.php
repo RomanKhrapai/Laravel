@@ -5,7 +5,10 @@
 @endsection
 
 @section('content')
-    <h1 class="text-white">All companys</h1>
+    <div class="d-flex justify-content-between">
+        <h1 class="text-white">All companies</h1>
+        <a href="{{ route('companies.create') }}" class="btn btn-primary">Create companies</a>
+    </div>
     <table class="table table-bordered table-hover m-2 bg-white">
         <thead class="">
             <tr>

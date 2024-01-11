@@ -5,8 +5,14 @@
 @endsection
 
 @section('content')
-    <h1 class="text-white">All users</h1>
-    <img src="{{ Vite::asset('public/poster.jpg') }}" width="40px">
+    <div class="d-flex justify-content-between">
+        <h1 class="text-white">All users</h1>
+
+        @can('create', auth()->user())
+            <a href="{{ route('users.create') }}" class="btn btn-primary">Create user</a>
+        @endcan
+
+    </div>
 
     <table class="table table-bordered table-hover m-2 bg-white">
         <thead class="">
@@ -53,52 +59,54 @@
                     <td>
                         <a href="{{ route('users.show', $user->id) }}"><button class="btn btn-success">
                                 <img src="{{ Vite::asset('resources/icons/view-show.svg') }}" alt="show" />
+
                             </button></a>
 
-                        {{-- @can('update', $user) --}}
-                        <a href="{{ route('users.edit', $user->id) }}">
-                            <button class="btn btn-warning">
-                                <img src="{{ Vite::asset('resources/icons/pencil2.svg') }}" alt="edit" />
+                        @can('update', $user)
+                            <a href="{{ route('users.edit', $user->id) }}">
+                                <button class="btn btn-warning">
+                                    <img src="{{ Vite::asset('resources/icons/pencil2.svg') }}" alt="edit" />
+                                </button>
+                            </a>
+                        @endcan
+                        @can('delete', $user)
+                            <button data-bs-toggle="modal" class="btn bg-secondary text-white"
+                                data-bs-target="#deleteuserModal_{{ $user->id }}"
+                                data-action="{{ route('users.destroy', $user->id) }}">
+                                <img src="{{ Vite::asset('resources/icons/bin.svg') }}" alt="delete" />
                             </button>
-                        </a>
-                        {{-- @endcan
-                        @can('delete', $user) --}}
-                        <button data-bs-toggle="modal" class="btn bg-secondary text-white"
-                            data-bs-target="#deleteuserModal_{{ $user->id }}"
-                            data-action="{{ route('users.destroy', $user->id) }}">
-                            <img src="{{ Vite::asset('resources/icons/bin.svg') }}" alt="delete" />
-                        </button>
-
-                        {{-- @endcan --}}
+                        @endcan
                     </td>
                 </tr>
             </tbody>
 
             <!-- Delete user Modal -->
-            <div class="modal fade" id="deleteuserModal_{{ $user->id }}" data-backdrop="static" tabindex="-1"
-                user="dialog" aria-labelledby="deleteuserModalLabel" aria-hidden="true">
-                <div class="modal-dialog" user="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="deleteuserModalLabel">This action is irreversible.</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            @can('delete', $user)
+                <div class="modal fade" id="deleteuserModal_{{ $user->id }}" data-backdrop="static" tabindex="-1"
+                    user="dialog" aria-labelledby="deleteuserModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" user="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="deleteuserModalLabel">This action is irreversible.</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form action="{{ route('users.destroy', $user->id) }}" method="post"
+                                enctype="multipart/form-data">
+                                @csrf
+                                @method('DELETE')
+                                <div class="modal-body">
+                                    <input id="id" name="$user->id" hidden value="">
+                                    <h5 class="text-center">Are you sure you want to delete this user?</h5>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-danger">Yes, delete post</button>
+                                </div>
+                            </form>
                         </div>
-                        <form action="{{ route('users.destroy', $user->id) }}" method="post"
-                            enctype="multipart/form-data">
-                            @csrf
-                            @method('DELETE')
-                            <div class="modal-body">
-                                <input id="id" name="$user->id" hidden value="">
-                                <h5 class="text-center">Are you sure you want to delete this user?</h5>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                <button type="submit" class="btn btn-danger">Yes, delete post</button>
-                            </div>
-                        </form>
                     </div>
                 </div>
-            </div>
+            @endcan
         @endforeach
     </table>
 

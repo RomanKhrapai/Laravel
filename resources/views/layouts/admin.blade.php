@@ -26,196 +26,59 @@
             <div class="col-12 col-sm-3 col-xl-2 px-sm-2 px-0 bg-secondary d-flex sticky-top">
                 <div
                     class="d-flex flex-sm-column flex-row flex-grow-1 align-items-center align-items-sm-start px-3 pt-2 text-white">
-                    {{-- <a href="{{ route('layouts.admin') }}" 
-                    class="d-flex align-items-center pb-sm-3 mb-md-0 me-md-auto text-dark text-decoration-none"> --}}
-                    <span class="h3">Admin panel</span>
-                    {{-- </a> --}}
-                    <ul class="nav nav-pills flex-sm-column flex-row flex-nowrap flex-shrink-1 flex-sm-grow-0 flex-grow-1 mb-sm-auto mb-0 justify-content-center align-items-center align-items-sm-start"
-                        id="menu">
-                        <li class="nav-item">
-                            <div class="dropdown py-sm-2 mt-sm-auto ms-auto ms-sm-0 flex-shrink-1">
-                                <a href="#"
-                                    class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-                                    id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span class="d-none d-sm-inline mx-1 text-dark h5">Users</span>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-dark text-small shadow"
-                                    aria-labelledby="dropdownUser1">
-                                    <li>
-                                        <a href="{{ route('users.index') }}" class="dropdown-item">All users</a>
-                                    </li>
+                    <a href="{{ route('home') }}"
+                        class="d-flex align-items-center pb-sm-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+                        <span class="h3">Admin panel</span>
+                    </a>
 
-                                    <li>
-                                        <a href="{{ route('users.create') }}" class="dropdown-item">Create user</a>
+                    <div class=" p-2 no-select block-menu">
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-action">
+                                <div data-bs-toggle="collapse" data-bs-target="#node1" aria-expanded="false"
+                                    aria-controls="node1">Data tables</div>
+                                <ul class="collapse " id="node1">
+
+                                    @can('view', auth()->user())
+                                        <li class="list-group-item item-action">
+                                            <a href="{{ route('users.index') }}" class="dropdown-item">Users</a>
+                                        </li>
+                                    @endcan
+
+                                    <li class="list-group-item item-action">
+                                        <a href="{{ route('companies.index') }}" class="dropdown-item">Companies</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="list-group-item list-group-item-action">
+                                <div data-bs-toggle="collapse" data-bs-target="#node2" aria-expanded="false"
+                                    aria-controls="node2">Data options</div>
+                                <ul class="collapse" id="node2">
+                                    <li class="list-group-item item-action">
+                                        <a href="{{ route('areas.index') }}" class="dropdown-item">Areas</a>
+                                    </li>
+                                    <li class="list-group-item item-action">
+                                        <a href="{{ route('categories.index') }}" class="dropdown-item">Categories</a>
+                                    </li>
+                                    <li class="list-group-item item-action">
+                                        <a href="{{ route('languages.index') }}" class="dropdown-item">Languages</a>
+                                    </li>
+                                    <li class="list-group-item item-action">
+                                        <a href="{{ route('natures.index') }}" class="dropdown-item">Natures</a>
+                                    </li>
+                                    <li class="list-group-item item-action">
+                                        <a href="{{ route('types.index') }}" class="dropdown-item">Types</a>
+                                    </li>
+                                    <li class="list-group-item item-action">
+                                        <a href="{{ route('skills.index') }}" class="dropdown-item">Skills</a>
+                                    </li>
+                                    <li class="list-group-item item-action">
+                                        <a href="{{ route('roles.index') }}" class="dropdown-item">Roles</a>
                                     </li>
 
                                 </ul>
-                            </div>
-                        </li>
-
-                        <li class="nav-item">
-                            <div class="dropdown py-sm-2 mt-sm-auto ms-auto ms-sm-0 flex-shrink-1">
-                                <a href="#"
-                                    class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-                                    id="dropdownArea" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span class="d-none d-sm-inline mx-1 text-dark h5">Areas</span>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-dark text-small shadow"
-                                    aria-labelledby="dropdownArea">
-                                    <li>
-                                        <a href="{{ route('areas.index') }}" class="dropdown-item">All areas</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('areas.create') }}" class="dropdown-item">Create area</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li class="nav-item">
-                            <div class="dropdown py-sm-2 mt-sm-auto ms-auto ms-sm-0 flex-shrink-1">
-                                <a href="#"
-                                    class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-                                    id="dropdownArea" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span class="d-none d-sm-inline mx-1 text-dark h5">Categories</span>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-dark text-small shadow"
-                                    aria-labelledby="dropdownArea">
-                                    <li>
-                                        <a href="{{ route('categories.index') }}" class="dropdown-item">All
-                                            categories</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('categories.create') }}" class="dropdown-item">Create
-                                            category</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li class="nav-item">
-                            <div class="dropdown py-sm-2 mt-sm-auto ms-auto ms-sm-0 flex-shrink-1">
-                                <a href="#"
-                                    class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-                                    id="dropdownArea" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span class="d-none d-sm-inline mx-1 text-dark h5">Languages</span>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-dark text-small shadow"
-                                    aria-labelledby="dropdownArea">
-                                    <li>
-                                        <a href="{{ route('languages.index') }}" class="dropdown-item">All
-                                            languages</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('languages.create') }}" class="dropdown-item">Create
-                                            language</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li class="nav-item">
-                            <div class="dropdown py-sm-2 mt-sm-auto ms-auto ms-sm-0 flex-shrink-1">
-                                <a href="#"
-                                    class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-                                    id="dropdownArea" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span class="d-none d-sm-inline mx-1 text-dark h5">Natures</span>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-dark text-small shadow"
-                                    aria-labelledby="dropdownArea">
-                                    <li>
-                                        <a href="{{ route('natures.index') }}" class="dropdown-item">All
-                                            natures</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('natures.create') }}" class="dropdown-item">Create
-                                            nature</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li class="nav-item">
-                            <div class="dropdown py-sm-2 mt-sm-auto ms-auto ms-sm-0 flex-shrink-1">
-                                <a href="#"
-                                    class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-                                    id="dropdownArea" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span class="d-none d-sm-inline mx-1 text-dark h5">Types</span>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-dark text-small shadow"
-                                    aria-labelledby="dropdownArea">
-                                    <li>
-                                        <a href="{{ route('types.index') }}" class="dropdown-item">All
-                                            types</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('types.create') }}" class="dropdown-item">Create
-                                            type</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li class="nav-item">
-                            <div class="dropdown py-sm-2 mt-sm-auto ms-auto ms-sm-0 flex-shrink-1">
-                                <a href="#"
-                                    class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-                                    id="dropdownSkill" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span class="d-none d-sm-inline mx-1 text-dark h5">Skills</span>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-dark text-small shadow"
-                                    aria-labelledby="dropdownSkill">
-                                    <li>
-                                        <a href="{{ route('skills.index') }}" class="dropdown-item">All skills</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('skills.create') }}" class="dropdown-item">Create skill</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li class="nav-item">
-                            <div class="dropdown py-sm-2 mt-sm-auto ms-auto ms-sm-0 flex-shrink-1">
-                                <a href="#"
-                                    class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-                                    id="dropdownRole" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span class="d-none d-sm-inline mx-1 text-dark h5">Roles</span>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-dark text-small shadow"
-                                    aria-labelledby="dropdownRole">
-                                    <li>
-                                        <a href="{{ route('roles.index') }}" class="dropdown-item">All roles</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('roles.create') }}" class="dropdown-item">Create role</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li class="nav-item">
-                            <div class="dropdown py-sm-2 mt-sm-auto ms-auto ms-sm-0 flex-shrink-1">
-                                <a href="#"
-                                    class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-                                    id="dropdownCompany" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span class="d-none d-sm-inline mx-1 text-dark h5">Companies</span>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-dark text-small shadow"
-                                    aria-labelledby="dropdownCompany">
-                                    <li>
-                                        <a href="{{ route('companies.index') }}" class="dropdown-item">All
-                                            companies</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('companies.create') }}" class="dropdown-item">Create
-                                            company</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-
-                    </ul>
+                            </li>
+                        </ul>
+                    </div>
 
 
                     <div class="dropdown py-sm-4 mt-sm-auto ms-auto ms-sm-0 flex-shrink-1">
@@ -232,8 +95,7 @@
                                 <p>User has no role assigned.</p>
                             @endif
                         @endisset
-                        <ul class="dropdown-menu dropdown-menu-dark text-small shadow"
-                            aria-labelledby="dropdownUser1">
+                        <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
 
                             <li><a class="dropdown-item" href="{{ route('logout') }}"
                                     onclick="event.preventDefault();

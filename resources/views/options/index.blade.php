@@ -5,7 +5,11 @@
 @endsection
 
 @section('content')
-    <h1 class="text-white">All {{ $titleIndex }}</h1>
+    <div class="d-flex justify-content-between">
+        <h1 class="text-white">All {{ $titleIndex }}</h1>
+        <a href="{{ route($titleIndex . '.create') }}" class="btn btn-primary">Create {{ $index }}</a>
+    </div>
+
     <table class="table table-bordered table-hover bg-white">
         <thead class="">
             <tr>

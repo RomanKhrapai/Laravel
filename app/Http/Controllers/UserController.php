@@ -23,6 +23,7 @@ class UserController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', User::class);
 
         $users = User::paginate(5);
         return view('users.index', ['users' => $users]);
@@ -33,6 +34,8 @@ class UserController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', User::class);
+
         $roles = Role::all();
         return view('users.create', ['roles' => $roles]);
     }
@@ -42,6 +45,8 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
+        $this->authorize('create', User::class);
+
         $password = $request->input('password');
         $data = $request->except('_token', 'password', 'password_confirmation');
 
@@ -57,6 +62,8 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
+        $this->authorize('view', User::class);
+
         $user = User::findOrFail($id);
         return view('users.show', ['user' => $user]);
     }
@@ -66,6 +73,8 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
+        $this->authorize('update', User::class);
+
         $user = User::findOrFail($id);
         $roles = Role::all();
         return view('users.edit', ['user' => $user, 'roles' => $roles]);
@@ -76,6 +85,8 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
+        $this->authorize('update', User::class);
+
         $password = $request->input('password');
         $data = $request->except('_token', 'password');
 
@@ -90,13 +101,13 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
-        $role = Role::findOrFail($id);
+        $this->authorize('delete', User::class);
 
-        $role->permissions()->detach();
-        $role->delete();
 
-        return redirect()->route('roles.index')->with('success', 'Role deleted successfully.');
+        $user->delete();
+
+        return redirect()->route('users.index')->with('success', 'User deleted successfully.');
     }
 }

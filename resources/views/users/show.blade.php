@@ -37,7 +37,7 @@
                             <h5>email</h5>
                         </td>
                         <td>
-                            <h6>{{ $user->mail }}</h6>
+                            <h6>{{ $user->email }}</h6>
                         </td>
                     </tr>
                     <tr>
@@ -61,7 +61,7 @@
                             <h5>foto url</h5>
                         </td>
                         <td>
-                            <h6>{{ $user->foto_url }}</h6>
+                            <h6>{{ $user->image ?? 'null' }}</h6>
                         </td>
                     </tr>
 

@@ -15,3 +15,35 @@
     background-color: #333;
     color: white;
 }
+.list-group-list {
+    display: list-item;
+    background: none;
+    padding: 0;
+    border: none;
+    font-size: 20px;
+}
+.list-group-item {
+    display: list-item;
+    background: none;
+    padding: 0;
+    border: none;
+    font-size: 20px;
+}
+.no-select {
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+    cursor: pointer;
+}
+
+.block-menu {
+    min-width: 180px;
+}
+.item-action:hover,
+.item-action:focus {
+    z-index: 1;
+    color: var(--bs-list-group-action-hover-bg);
+    text-decoration: none;
+    background-color: var(--bs-list-group-action-hover-color);
+}
