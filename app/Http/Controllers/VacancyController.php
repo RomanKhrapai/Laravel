@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreVacancyRequest;
 use App\Http\Requests\UpdateVacancyRequest;
+use App\Models\Area;
+use App\Models\Company;
+use App\Models\Nature;
+use App\Models\Type;
 use App\Models\Vacancy;
 
 class VacancyController extends Controller
@@ -29,7 +33,16 @@ class VacancyController extends Controller
      */
     public function create()
     {
-        //
+        $areas = Area::all();
+        $natures = Nature::all();
+        $types = Type::all();
+        $companies = Company::all();
+        return view('vacancies.create', [
+            'areas' => $areas,
+            'natures' => $natures,
+            'types' => $types,
+            'companies' => $companies
+        ]);
     }
 
     /**
@@ -37,7 +50,18 @@ class VacancyController extends Controller
      */
     public function store(StoreVacancyRequest $request)
     {
-        //
+
+        $max_salary = $request->input('max_salary');
+        $data = $request->except('_token', 'max_salary');
+
+        if (!empty($password)) {
+            $data['max_salary'] = $max_salary;
+        }
+
+        $vacancy = Vacancy::create($data);
+
+        return redirect()->route('vacancies.show', ['vacancy' => $vacancy])
+            ->with('success', ['id' => $vacancy->id]);
     }
 
     /**
@@ -45,7 +69,7 @@ class VacancyController extends Controller
      */
     public function show(Vacancy $vacancy)
     {
-        //
+        return view('vacancies.show', ['vacancy' => $vacancy]);
     }
 
     /**
@@ -53,7 +77,17 @@ class VacancyController extends Controller
      */
     public function edit(Vacancy $vacancy)
     {
-        //
+        $areas = Area::all();
+        $natures = Nature::all();
+        $types = Type::all();
+        $companies = Company::all();
+        return view('vacancies.edit', [
+            'vacancy' => $vacancy,
+            'areas' => $areas,
+            'natures' => $natures,
+            'types' => $types,
+            'companies' => $companies
+        ]);
     }
 
     /**
@@ -61,7 +95,11 @@ class VacancyController extends Controller
      */
     public function update(UpdateVacancyRequest $request, Vacancy $vacancy)
     {
-        //
+        $data = $request->except('_token');
+
+        $vacancy->update($data);
+
+        return redirect()->route('vacancies.show', ['vacancy' => $vacancy]);
     }
 
     /**
@@ -69,6 +107,8 @@ class VacancyController extends Controller
      */
     public function destroy(Vacancy $vacancy)
     {
-        //
+        $vacancy->delete();
+
+        return redirect()->route('vacancy.index')->with('success', 'User deleted successfully.');
     }
 }

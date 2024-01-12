@@ -23,13 +23,24 @@
         @enderror
 
         <div class="form-group">
-            <label class="text-white" for="mail">
-                Email
+            <label class="text-white" for="description">
+                description
             </label>
-            <input type="text" name="mail" placeholder="Enter a email" id="mail" class="form-control"
-                value="{{ old('mail') }}" class="@error('mail') is-invalid @enderror">
+            <input type="text" name="description" placeholder="Enter a description" id="description" class="form-control"
+                value="{{ old('description') }}" class="@error('description') is-invalid @enderror">
         </div>
-        @error('mail')
+        @error('description')
+            <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
+
+        <div class="form-group">
+            <label class="text-white" for="image">
+                image
+            </label>
+            <input type="text" name="image" placeholder="Enter a image" id="image" class="form-control"
+                value="{{ old('image') }}" class="@error('image') is-invalid @enderror">
+        </div>
+        @error('image')
             <div class="alert alert-danger">{{ $message }}</div>
         @enderror
 

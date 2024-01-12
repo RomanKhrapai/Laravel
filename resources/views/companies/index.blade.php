@@ -14,9 +14,7 @@
             <tr>
                 <th scope="col">id</th>
                 <th scope="col">name</th>
-                <th scope="col">foto url</th>
-                <th scope="col">mail</th>
-                <th scope="col">position</th>
+                <th scope="col">image</th>
                 <th scope="col">address</th>
                 <th scope="col">description</th>
                 <th scope="col">owner name</th>
@@ -36,14 +34,7 @@
                         <h5>{{ $company->name }}</h5>
                     </td>
                     <td>
-                        <h6>{{ $company->foto_url }}</h6>
-                    </td>
-                    <td>
-                        <h6>{{ $company->mail }}</h6>
-                    </td>
-
-                    <td>
-                        <h6>{{ $company->position }}</h6>
+                        <h6>{{ $company->image }}</h6>
                     </td>
                     <td>
                         <h6>{{ $company->address }}</h6>
@@ -52,7 +43,7 @@
                         <h6>{{ $company->description }}</h6>
                     </td>
                     <td>
-                        <h6>{{ $company['user']->name }}</h6>
+                        <h6>{{ $company['user']->name }} ({{ $company->user_id }})</h6>
                     </td>
                     <td>
                         <h6>{{ $company->updated_at }}</h6>

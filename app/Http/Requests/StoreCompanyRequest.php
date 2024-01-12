@@ -24,9 +24,7 @@ class StoreCompanyRequest extends FormRequest
         return [
 
             'name' => 'required|string|max:255',
-            'mail' => 'required|email|unique:users',
-            'foto_url' => 'nullable|url',
-            'position' => 'required|string|max:255',
+            'image' => 'nullable|string|max:255',
             'address' => 'required|string|max:255',
             'description' => 'required|string|max:5000',
             'user_id' => 'required|exists:users,id',

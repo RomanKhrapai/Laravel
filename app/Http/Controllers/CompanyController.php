@@ -38,7 +38,12 @@ class CompanyController extends Controller
      */
     public function store(StoreCompanyRequest $request)
     {
-        //
+
+        $data = $request->except('_token');
+
+        $company = Company::create($data);
+
+        return redirect()->route('companies.show', ['company' => $company])->with('success', ['id' => $company->id]);
     }
 
     /**
@@ -46,7 +51,7 @@ class CompanyController extends Controller
      */
     public function show(Company $company)
     {
-        //
+        return view('companies.show', ['company' => $company]);
     }
 
     /**
@@ -54,7 +59,8 @@ class CompanyController extends Controller
      */
     public function edit(Company $company)
     {
-        //
+        $users = User::all();
+        return view('companies.edit', ['company' => $company, 'users' => $users]);
     }
 
     /**
@@ -62,7 +68,11 @@ class CompanyController extends Controller
      */
     public function update(UpdateCompanyRequest $request, Company $company)
     {
-        //
+        $data = $request->except('_token');
+
+        $company->update($data);
+
+        return redirect()->route('companies.show', ['company' => $company]);
     }
 
     /**
@@ -70,6 +80,8 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
-        //
+        $company->delete();
+
+        return redirect()->route('companies.index')->with('success', 'User deleted successfully.');
     }
 }

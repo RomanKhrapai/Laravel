@@ -14,12 +14,20 @@ return new class extends Migration
         Schema::create('vacancies', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('company_id');
-            $table->unsignedBigInteger('employment_id');
+            $table->string('title');
+            $table->string('description');
+            $table->unsignedBigInteger('area_id')->nullable();
+            $table->unsignedBigInteger('type_id');
+            $table->unsignedBigInteger('nature_id');
+            $table->integer('salary');
+            $table->integer('max_salary')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
-            $table->foreign('employment_id')->references('id')->on('employments')->onDelete('cascade');
+            $table->foreign('area_id')->references('id')->on('areas')->onDelete('cascade');
+            $table->foreign('type_id')->references('id')->on('types')->onDelete('cascade');
+            $table->foreign('nature_id')->references('id')->on('natures')->onDelete('cascade');
         });
     }
 

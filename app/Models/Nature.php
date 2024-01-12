@@ -10,4 +10,9 @@ class Nature extends Model
     use HasFactory;
     protected $table = 'natures';
     protected $fillable = ['name'];
+
+    public function vacancies()
+    {
+        return $this->hasMany(Vacancy::class);
+    }
 }

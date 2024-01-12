@@ -47,6 +47,10 @@
                                     <li class="list-group-item item-action">
                                         <a href="{{ route('companies.index') }}" class="dropdown-item">Companies</a>
                                     </li>
+
+                                    <li class="list-group-item item-action">
+                                        <a href="{{ route('vacancies.index') }}" class="dropdown-item">Vacancies</a>
+                                    </li>
                                 </ul>
                             </li>
                             <li class="list-group-item list-group-item-action">

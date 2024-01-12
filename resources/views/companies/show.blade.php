@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="bg-light p-4 rounded">
-        <h1>{{ ucfirst($user->name) }}</h1>
+        <h1>Company {{ ucfirst($company->name) }}</h1>
         <div class="lead">
 
         </div>
@@ -21,7 +21,7 @@
                             <h5>ID</h5>
                         </td>
                         <td>
-                            <h6>{{ $user->id }}</h6>
+                            <h6>{{ $company->id }}</h6>
                         </td>
                     </tr>
                     <tr>
@@ -29,49 +29,64 @@
                             <h5>name</h5>
                         </td>
                         <td>
-                            <h6>{{ $user->name }}</h6>
+                            <h6>{{ $company->name }}</h6>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <h5>email</h5>
+                            <h5>address</h5>
                         </td>
                         <td>
-                            <h6>{{ $user->mail }}</h6>
+                            <h6>{{ $company->address }}</h6>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <h5>telephone</h5>
+                            <h5>description</h5>
                         </td>
                         <td>
-                            <h6>{{ $user->telephone }}</h6>
+                            <h6>{{ $company->description }}</h6>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <h5>role id (role)</h5>
+                            <h5>user id (user)</h5>
                         </td>
                         <td>
-                            <h6>{{ $user->role_id }} ({{ $user['role']->name }})</h6>
+                            <h6>{{ $company->user_id }} ({{ $company->user->name }})</h6>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <h5>foto url</h5>
+                            <h5>image</h5>
                         </td>
                         <td>
-                            <h6>{{ $user->foto_url }}</h6>
+                            <h6>{{ $company->image }}</h6>
                         </td>
                     </tr>
-
+                    <tr>
+                        <td>
+                            <h5>created at</h5>
+                        </td>
+                        <td>
+                            <h6>{{ $company->created_at }}</h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h5>updated at</h5>
+                        </td>
+                        <td>
+                            <h6>{{ $company->updated_at }}</h6>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
 
     </div>
     <div class="mt-4">
-        <a href="{{ route('users.edit', $user->id) }}" class="btn btn-info">Edit</a>
-        <a href="{{ route('users.index') }}" class="btn btn-info">Back</a>
+        <a href="{{ route('companies.edit', $company->id) }}" class="btn btn-info">Edit</a>
+        <a href="{{ route('companies.index') }}" class="btn btn-info">Back</a>
     </div>
 @endsection

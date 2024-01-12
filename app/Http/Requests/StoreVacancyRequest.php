@@ -11,7 +11,7 @@ class StoreVacancyRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,14 @@ class StoreVacancyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => 'required|string|max:255',
+            'max_salary' => 'nullable|integer|gt:salary',
+            'salary' => 'required|integer|gt:0',
+            'description' => 'required|string|max:5000',
+            'area_id' => 'required|exists:areas,id',
+            'nature_id' => 'required|exists:natures,id',
+            'type_id' => 'required|exists:types,id',
+            'company_id' => 'required|exists:companies,id'
         ];
     }
 }

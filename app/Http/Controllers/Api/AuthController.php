@@ -32,7 +32,7 @@ class AuthController extends Controller
         $validateUser = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed'
+            'password' => 'required|string|min:8'
         ]);
         if ($validateUser->fails()) {
             return response()->json([
@@ -55,10 +55,12 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+
         $validateUser = Validator::make($request->all(), [
             'email' => 'required|string|email|max:255',
             'password' => 'required|string|min:8'
         ]);
+
         if ($validateUser->fails()) {
             return response()->json([
                 'message' => 'Validation failed',
@@ -98,17 +100,20 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         $user = Auth::User();
+
+        $request->user()->currentAccessToken()->delete();
+
         // if (!$user) {
         //     return response()->json(['message' => 'Logged out']);
         // } else {
         //     $user->tokens()->where('name', 'token-name')->delete();
         // }
-        Auth::guard('web')->logout();
+        // Auth::guard('web')->logout();
         // Auth::guard('api')->tokens()->delete();
-        Auth::logout();
+        // Auth::logout();
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        // $request->session()->invalidate();
+        // $request->session()->regenerateToken();
 
         return response()->json(['message' => 'Logged out', 'user' => $user]);
     }

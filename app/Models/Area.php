@@ -12,4 +12,8 @@ class Area extends Model
     protected $table = 'areas';
     protected $fillable = ['name'];
     // protected $guarded = false;
+    public function vacancies()
+    {
+        return $this->hasMany(Vacancy::class);
+    }
 }

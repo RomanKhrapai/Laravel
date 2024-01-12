@@ -1,16 +1,15 @@
 @extends('layouts.admin')
 
 @section('title')
-    Form for updating users
+    Form for updating companies
 @endsection
 
 @section('content')
-    <h1 class="text-white">Form for updating users</h1>
-    {{-- {{ dd($user) }} --}}
+    <h1 class="text-white">Form for updating companies</h1>
     <span class="text-white">
-        ID: {{ $user->id }}
+        ID: {{ $company->id }}
     </span>
-    <form class="" action="{{ route('users.update', ['user' => $user->id]) }}" method="post"
+    <form class="" action="{{ route('companies.update', ['company' => $company->id]) }}" method="post"
         enctype="multipart/form-data">
         @csrf
         @method('PATCH')
@@ -20,63 +19,64 @@
                 name
             </label>
             <input type="text" name="name" placeholder="Enter a name" id="name" class="form-control"
-                value="{{ $user->name }}" class="@error('name') is-invalid @enderror">
+                value="{{ old('name', $company->name) }}" class="@error('name') is-invalid @enderror">
         </div>
         @error('name')
             <div class="alert alert-danger">{{ $message }}</div>
         @enderror
 
         <div class="form-group">
-            <label class="text-white" for="mail">
-                Email
+            <label class="text-white" for="description">
+                description
             </label>
-            <input type="text" name="mail" placeholder="Enter a email" id="mail" class="form-control"
-                value="{{ $user->mail }}" class="@error('mail') is-invalid @enderror">
+            <input type="text" name="description" placeholder="Enter a description" id="description" class="form-control"
+                value="{{ old('description', $company->description) }}" class="@error('description') is-invalid @enderror">
         </div>
-        @error('mail')
+        @error('description')
             <div class="alert alert-danger">{{ $message }}</div>
         @enderror
 
         <div class="form-group">
-            <label class="text-white" for="telephone">
-                telephone
+            <label class="text-white" for="image">
+                image
             </label>
-            <input type="text" name="telephone" placeholder="Enter a telephone" id="telephone" class="form-control"
-                value="{{ $user->telephone }}" class="@error('telephone') is-invalid @enderror">
+            <input type="text" name="image" placeholder="Enter a image" id="image" class="form-control"
+                value="{{ old('image', $company->image) }}" class="@error('image') is-invalid @enderror">
         </div>
-        @error('telephone')
+        @error('image')
+            <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
+
+        <div class="form-group">
+            <label class="text-white" for="address">
+                address
+            </label>
+            <input type="text" name="address" placeholder="Enter a address" id="address" class="form-control"
+                value="{{ old('address', $company->address) }}" class="@error('address') is-invalid @enderror">
+        </div>
+        @error('address')
             <div class="alert alert-danger">{{ $message }}</div>
         @enderror
 
         <div class=" form-group">
             <label class="text-white d-block">
-                Role:
+                Users:
                 <br>
                 <div class="form-control bg-white d-flex justify-content-around">
-                    @foreach ($roles as $role)
-                        <label class='form-check-label'><input value="{{ $role->id }}" type="radio"
-                                class="form-check-input block" name="role_id"
-                                {{ $role->id == $user->role_id ? 'checked' : '' }}>
-                            {{ $role->name }}
-                        </label>
-                    @endforeach
+                    <select class="js-example-basic-single" name="user_id">
+                        @foreach ($users as $user)
+                            <option value="{{ $user->id }}"
+                                {{ $user->id == old('user_id', $company->user_id) ? 'selected' : '' }}>
+                                {{ $user->id }} - {{ $user->name }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
 
             </label>
 
         </div>
-        @error('roles')
-            <div class="alert alert-danger">{{ $message }}</div>
-        @enderror
-
-        <div class="form-group">
-            <label class="text-white" for="password">
-                password
-            </label>
-            <input type="password" name="password" placeholder="Enter a password" id="password" class="form-control"
-                class="@error('password') is-invalid @enderror">
-        </div>
-        @error('password')
+        @error('user_id')
             <div class="alert alert-danger">{{ $message }}</div>
         @enderror
 
