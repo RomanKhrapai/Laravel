@@ -34,7 +34,8 @@ class DatabaseSeeder extends Seeder
             TypeSeeder::class,
             LanguagesSeeder::class,
             PermisionSeeder::class,
-            VacancySeeder::class
+            VacancySeeder::class,
+            PermissionRoleSeeder::class
         ]);
 
         User::factory(10)->create();

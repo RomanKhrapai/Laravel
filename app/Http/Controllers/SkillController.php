@@ -6,6 +6,7 @@ use App\Http\Requests\StoreSkillRequest;
 use App\Http\Requests\UpdateSkillRequest;
 use App\Models\Category;
 use App\Models\Skill;
+use App\Models\User;
 
 class SkillController extends Controller
 {
@@ -20,6 +21,8 @@ class SkillController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Skill::class);
+
         $skills = Skill::orderBy('name', 'ASC')->paginate(5);
         if ($skills->isEmpty()) {
             abort(404);
@@ -32,6 +35,8 @@ class SkillController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Skill::class);
+
         $categories = Category::get();
 
         return view('skills.create', compact('categories'));
@@ -42,6 +47,8 @@ class SkillController extends Controller
      */
     public function store(StoreSkillRequest $request)
     {
+        $this->authorize('create', Skill::class);
+
         $data = $request->except('_token');
 
         $skill = Skill::create($data);
@@ -54,7 +61,8 @@ class SkillController extends Controller
      */
     public function show(Skill $skill)
     {
-        // $user = User::findOrFail($id);
+        $this->authorize('view',User::class, Skill::class);
+
         return view('skills.show', compact('skill'));
     }
 
@@ -63,6 +71,7 @@ class SkillController extends Controller
      */
     public function edit(Skill $skill)
     {
+        $this->authorize('update',User::class, Skill::class);
 
         $categories = Category::all();
         return view('skills.edit', ['skill' => $skill, 'categories' => $categories]);
@@ -73,6 +82,7 @@ class SkillController extends Controller
      */
     public function update(UpdateSkillRequest $request, Skill $skill)
     {
+        $this->authorize('update',User::class, Skill::class);
 
         $data = $request->except('_token');
         $skill->update($data);
@@ -85,6 +95,7 @@ class SkillController extends Controller
      */
     public function destroy(Skill $skill)
     {
+        $this->authorize('delete',User::class, Skill::class);
 
         $skill->delete();
 

@@ -20,6 +20,8 @@ class CompanyController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Company::class);
+
         $companies = Company::paginate(5);
         return view('companies.index', ['companies' => $companies]);
     }
@@ -38,6 +40,7 @@ class CompanyController extends Controller
      */
     public function store(StoreCompanyRequest $request)
     {
+        $this->authorize('create', Company::class);
 
         $data = $request->except('_token');
 
@@ -51,6 +54,8 @@ class CompanyController extends Controller
      */
     public function show(Company $company)
     {
+        $this->authorize('view', User::class, Company::class);
+
         return view('companies.show', ['company' => $company]);
     }
 
@@ -59,6 +64,8 @@ class CompanyController extends Controller
      */
     public function edit(Company $company)
     {
+        $this->authorize('update', User::class, Company::class);
+
         $users = User::all();
         return view('companies.edit', ['company' => $company, 'users' => $users]);
     }
@@ -68,6 +75,8 @@ class CompanyController extends Controller
      */
     public function update(UpdateCompanyRequest $request, Company $company)
     {
+        $this->authorize('update', User::class, Company::class);
+
         $data = $request->except('_token');
 
         $company->update($data);
@@ -80,6 +89,8 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
+        $this->authorize('delete', User::class, Company::class);
+
         $company->delete();
 
         return redirect()->route('companies.index')->with('success', 'User deleted successfully.');

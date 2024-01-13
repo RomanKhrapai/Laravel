@@ -13,8 +13,6 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
-    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
-        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous"> --}}
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
@@ -43,42 +41,57 @@
                                             <a href="{{ route('users.index') }}" class="dropdown-item">Users</a>
                                         </li>
                                     @endcan
-
+                                    {{-- @can('view', App\Models\Company::class) --}}
                                     <li class="list-group-item item-action">
                                         <a href="{{ route('companies.index') }}" class="dropdown-item">Companies</a>
                                     </li>
-
+                                    {{-- @endcan --}}
+                                    {{-- @can('view', App\Models\Company::class) --}}
                                     <li class="list-group-item item-action">
                                         <a href="{{ route('vacancies.index') }}" class="dropdown-item">Vacancies</a>
                                     </li>
+                                    {{-- @endcan --}}
                                 </ul>
                             </li>
                             <li class="list-group-item list-group-item-action">
                                 <div data-bs-toggle="collapse" data-bs-target="#node2" aria-expanded="false"
                                     aria-controls="node2">Data options</div>
                                 <ul class="collapse" id="node2">
-                                    <li class="list-group-item item-action">
-                                        <a href="{{ route('areas.index') }}" class="dropdown-item">Areas</a>
-                                    </li>
-                                    <li class="list-group-item item-action">
-                                        <a href="{{ route('categories.index') }}" class="dropdown-item">Categories</a>
-                                    </li>
+                                    @can('viewAny', App\Models\Area::class)
+                                        <li class="list-group-item item-action">
+                                            <a href="{{ route('areas.index') }}" class="dropdown-item">Areas</a>
+                                        </li>
+                                    @endcan
+                                    @can('viewAny', App\Models\Category::class)
+                                        <li class="list-group-item item-action">
+                                            <a href="{{ route('categories.index') }}" class="dropdown-item">Categories</a>
+                                        </li>
+                                    @endcan
+                                    {{-- @can('viewAny', App\Models\Langu::class) --}}
                                     <li class="list-group-item item-action">
                                         <a href="{{ route('languages.index') }}" class="dropdown-item">Languages</a>
                                     </li>
-                                    <li class="list-group-item item-action">
-                                        <a href="{{ route('natures.index') }}" class="dropdown-item">Natures</a>
-                                    </li>
-                                    <li class="list-group-item item-action">
-                                        <a href="{{ route('types.index') }}" class="dropdown-item">Types</a>
-                                    </li>
-                                    <li class="list-group-item item-action">
-                                        <a href="{{ route('skills.index') }}" class="dropdown-item">Skills</a>
-                                    </li>
-                                    <li class="list-group-item item-action">
-                                        <a href="{{ route('roles.index') }}" class="dropdown-item">Roles</a>
-                                    </li>
-
+                                    {{-- @endcan --}}
+                                    @can('viewAny', App\Models\Nature::class)
+                                        <li class="list-group-item item-action">
+                                            <a href="{{ route('natures.index') }}" class="dropdown-item">Natures</a>
+                                        </li>
+                                    @endcan
+                                    @can('viewAny', App\Models\Type::class)
+                                        <li class="list-group-item item-action">
+                                            <a href="{{ route('types.index') }}" class="dropdown-item">Types</a>
+                                        </li>
+                                    @endcan
+                                    @can('viewAny', App\Models\Skill::class)
+                                        <li class="list-group-item item-action">
+                                            <a href="{{ route('skills.index') }}" class="dropdown-item">Skills</a>
+                                        </li>
+                                    @endcan
+                                    @can('viewAny', App\Models\Role::class)
+                                        <li class="list-group-item item-action">
+                                            <a href="{{ route('roles.index') }}" class="dropdown-item">Roles</a>
+                                        </li>
+                                    @endcan
                                 </ul>
                             </li>
                         </ul>

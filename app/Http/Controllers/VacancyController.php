@@ -9,6 +9,7 @@ use App\Models\Company;
 use App\Models\Nature;
 use App\Models\Type;
 use App\Models\Vacancy;
+use App\Models\User;
 
 class VacancyController extends Controller
 {
@@ -24,7 +25,10 @@ class VacancyController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Vacancy::class);
+
         $vacancies = Vacancy::paginate(5);
+
         return view('vacancies.index', ['vacancies' => $vacancies]);
     }
 
@@ -33,10 +37,13 @@ class VacancyController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Vacancy::class);
+
         $areas = Area::all();
         $natures = Nature::all();
         $types = Type::all();
         $companies = Company::all();
+
         return view('vacancies.create', [
             'areas' => $areas,
             'natures' => $natures,
@@ -50,6 +57,7 @@ class VacancyController extends Controller
      */
     public function store(StoreVacancyRequest $request)
     {
+        $this->authorize('create', Vacancy::class);
 
         $max_salary = $request->input('max_salary');
         $data = $request->except('_token', 'max_salary');
@@ -69,6 +77,7 @@ class VacancyController extends Controller
      */
     public function show(Vacancy $vacancy)
     {
+        $this->authorize('view', User::class, Vacancy::class);
         return view('vacancies.show', ['vacancy' => $vacancy]);
     }
 
@@ -77,6 +86,7 @@ class VacancyController extends Controller
      */
     public function edit(Vacancy $vacancy)
     {
+        $this->authorize('update', User::class, Vacancy::class);
         $areas = Area::all();
         $natures = Nature::all();
         $types = Type::all();
@@ -95,6 +105,7 @@ class VacancyController extends Controller
      */
     public function update(UpdateVacancyRequest $request, Vacancy $vacancy)
     {
+        $this->authorize('update', User::class, Vacancy::class);
         $data = $request->except('_token');
 
         $vacancy->update($data);
@@ -107,6 +118,7 @@ class VacancyController extends Controller
      */
     public function destroy(Vacancy $vacancy)
     {
+        $this->authorize('delete', User::class, Vacancy::class);
         $vacancy->delete();
 
         return redirect()->route('vacancy.index')->with('success', 'User deleted successfully.');

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreNatureRequest;
 use App\Http\Requests\UpdateNatureRequest;
 use App\Models\Nature;
+use App\Models\User;
+
 
 class NatureController extends Controller
 {
@@ -19,6 +21,8 @@ class NatureController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Nature::class);
+
         $natures = Nature::orderBy('name', 'ASC')->paginate(5);
         if ($natures->isEmpty()) {
             abort(404);
@@ -31,6 +35,8 @@ class NatureController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Nature::class);
+
         return view('options.create',  ['titleIndex' => 'natures', 'index' => 'nature']);
     }
 
@@ -39,6 +45,8 @@ class NatureController extends Controller
      */
     public function store(StoreNatureRequest $request)
     {
+        $this->authorize('create', Nature::class);
+
         $data = $request->except('_token');
         $nature = Nature::create($data);
         return redirect()->route('natures.show', ['nature' => $nature])->with('success', ['id' => $nature->id]);
@@ -49,6 +57,8 @@ class NatureController extends Controller
      */
     public function show(string $id)
     {
+        $this->authorize('view',User::class, Nature::class);
+
         $nature = Nature::findOrFail($id);
         return view('options.show', ['option' => $nature, 'titleIndex' => 'natures', 'index' => 'nature']);
     }
@@ -58,6 +68,8 @@ class NatureController extends Controller
      */
     public function edit(string $id)
     {
+        $this->authorize('update',User::class, Nature::class);
+
         $nature = Nature::findOrFail($id);
         return view('options.edit',  ['option' => $nature, 'titleIndex' => 'natures', 'index' => 'nature']);
     }
@@ -67,6 +79,8 @@ class NatureController extends Controller
      */
     public function update(UpdateNatureRequest $request, Nature $nature)
     {
+        $this->authorize('update',User::class, Nature::class);
+
         $data = $request->except('_token');
         $nature->update($data);
 
@@ -78,6 +92,8 @@ class NatureController extends Controller
      */
     public function destroy(string $id)
     {
+        $this->authorize('delete',User::class, Nature::class);
+
         $nature = Nature::findOrFail($id);
         $nature->delete();
         return redirect()->route('natures.index')->with('success', 'Nature deleted successfully.');

@@ -60,22 +60,20 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(User $user)
     {
         $this->authorize('view', User::class);
 
-        $user = User::findOrFail($id);
         return view('users.show', ['user' => $user]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(User $user)
     {
         $this->authorize('update', User::class);
 
-        $user = User::findOrFail($id);
         $roles = Role::all();
         return view('users.edit', ['user' => $user, 'roles' => $roles]);
     }
@@ -104,7 +102,6 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $this->authorize('delete', User::class);
-
 
         $user->delete();
 

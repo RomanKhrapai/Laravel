@@ -6,6 +6,8 @@ use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
 use App\Models\Role;
 use App\Models\Permission;
+use App\Models\User;
+
 
 class RoleController extends Controller
 {
@@ -20,6 +22,8 @@ class RoleController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Role::class);
+
         $roles = Role::orderBy('name', 'ASC')->paginate(5);
         if ($roles->isEmpty()) {
             abort(404);
@@ -32,6 +36,8 @@ class RoleController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Role::class);
+
         $permissions = Permission::get();
 
         return view('roles.create', compact('permissions'));
@@ -42,6 +48,7 @@ class RoleController extends Controller
      */
     public function store(StoreRoleRequest $request)
     {
+        $this->authorize('create', Role::class);
 
         $data = $request->except('_token', 'permissions');
         $role = Role::create($data);
@@ -54,18 +61,20 @@ class RoleController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Role $role)
     {
-        $role = Role::findOrFail($id);
+        $this->authorize('view', User::class, Role::class);
+
         return view('roles.show', ['role' => $role]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Role $role)
     {
-        $role = Role::findOrFail($id);
+        $this->authorize('update', User::class, Role::class);
+
         $permissions = Permission::all();
         return view('roles.edit', compact('role', 'permissions'));
     }
@@ -75,6 +84,8 @@ class RoleController extends Controller
      */
     public function update(UpdateRoleRequest $request, Role $role)
     {
+        $this->authorize('update', User::class, Role::class);
+
         $data = $request->except('_token', 'permissions');
         $role->update($data);
         $permissions = $request->input('permissions', []);
@@ -85,9 +96,9 @@ class RoleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Role $role)
     {
-        $role = Role::findOrFail($id);
+        $this->authorize('delete', User::class, Role::class);
 
         $role->permissions()->detach();
         $role->delete();

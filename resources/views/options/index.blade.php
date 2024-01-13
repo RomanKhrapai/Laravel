@@ -7,7 +7,9 @@
 @section('content')
     <div class="d-flex justify-content-between">
         <h1 class="text-white">All {{ $titleIndex }}</h1>
-        <a href="{{ route($titleIndex . '.create') }}" class="btn btn-primary">Create {{ $index }}</a>
+        @can('create', $options[0])
+            <a href="{{ route($titleIndex . '.create') }}" class="btn btn-primary">Create {{ $index }}</a>
+        @endcan
     </div>
 
     <table class="table table-bordered table-hover bg-white">
@@ -34,20 +36,20 @@
                                 <img src="{{ Vite::asset('resources/icons/view-show.svg') }}" alt="show" />
                             </button>
                         </a>
-                        {{-- @can('update', $area) --}}
-                        <a href="{{ route($titleIndex . '.edit', $option->id) }}">
-                            <button class="btn btn-warning">
-                                <img src="{{ Vite::asset('resources/icons/pencil2.svg') }}" alt="edit" />
+                        @can('update', $option)
+                            <a href="{{ route($titleIndex . '.edit', $option->id) }}">
+                                <button class="btn btn-warning">
+                                    <img src="{{ Vite::asset('resources/icons/pencil2.svg') }}" alt="edit" />
+                                </button>
+                            </a>
+                        @endcan
+                        @can('delete', $option)
+                            <button data-bs-toggle="modal" class="btn bg-secondary text-white"
+                                data-bs-target="#deleteareaModal_{{ $option->id }}"
+                                data-action="{{ route($titleIndex . '.destroy', $option->id) }}">
+                                <img src="{{ Vite::asset('resources/icons/bin.svg') }}" alt="delete" />
                             </button>
-                        </a>
-                        {{-- @endcan --}}
-                        {{-- @can('delete', $area) --}}
-                        <button data-bs-toggle="modal" class="btn bg-secondary text-white"
-                            data-bs-target="#deleteareaModal_{{ $option->id }}"
-                            data-action="{{ route($titleIndex . '.destroy', $option->id) }}">
-                            <img src="{{ Vite::asset('resources/icons/bin.svg') }}" alt="delete" />
-                        </button>
-                        {{-- @endcan --}}
+                        @endcan
                     </td>
                 </tr>
             </tbody>

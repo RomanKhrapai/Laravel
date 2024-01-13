@@ -5,7 +5,12 @@
 @endsection
 
 @section('content')
-    <h1 class="text-white">All skills</h1>
+    <div class="d-flex justify-content-between">
+        <h1 class="text-white">All skills</h1>
+        @can('create', App\Models\Skill::class)
+            <a href="{{ route('skills.create') }}" class="btn btn-primary">Create skills</a>
+        @endcan
+    </div>
     <table class="table table-bordered table-hover bg-white">
         <thead class="">
             <tr>
@@ -42,20 +47,20 @@
                                 <img src="{{ Vite::asset('resources/icons/view-show.svg') }}" alt="show" />
                             </button>
                         </a>
-                        {{-- @can('update', $skill) --}}
-                        <a href="{{ route('skills.edit', $skill->id) }}">
-                            <button class="btn btn-warning">
-                                <img src="{{ Vite::asset('resources/icons/pencil2.svg') }}" alt="edit" />
+                        @can('update', $skill)
+                            <a href="{{ route('skills.edit', $skill->id) }}">
+                                <button class="btn btn-warning">
+                                    <img src="{{ Vite::asset('resources/icons/pencil2.svg') }}" alt="edit" />
+                                </button>
+                            </a>
+                        @endcan
+                        @can('delete', $skill)
+                            <button data-bs-toggle="modal" class="btn bg-secondary text-white"
+                                data-bs-target="#deleteSkillModal_{{ $skill->id }}"
+                                data-action="{{ route('skills.destroy', $skill->id) }}">
+                                <img src="{{ Vite::asset('resources/icons/bin.svg') }}" alt="delete" />
                             </button>
-                        </a>
-                        {{-- @endcan --}}
-                        {{-- @can('delete', $skill) --}}
-                        <button data-bs-toggle="modal" class="btn bg-secondary text-white"
-                            data-bs-target="#deleteSkillModal_{{ $skill->id }}"
-                            data-action="{{ route('skills.destroy', $skill->id) }}">
-                            <img src="{{ Vite::asset('resources/icons/bin.svg') }}" alt="delete" />
-                        </button>
-                        {{-- @endcan --}}
+                        @endcan
                     </td>
                 </tr>
             </tbody>

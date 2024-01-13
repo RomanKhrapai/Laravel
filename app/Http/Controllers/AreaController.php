@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreAreaRequest;
 use App\Http\Requests\UpdateAreaRequest;
 use App\Models\Area;
+use App\Models\User;
 
 class AreaController extends Controller
 {
@@ -20,6 +21,7 @@ class AreaController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Area::class);
         $areas = Area::orderBy('name', 'ASC')->paginate(5);
         if ($areas->isEmpty()) {
             abort(404);
@@ -32,6 +34,8 @@ class AreaController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Area::class);
+
         return view('options.create',  ['titleIndex' => 'areas', 'index' => 'area']);
     }
 
@@ -40,6 +44,8 @@ class AreaController extends Controller
      */
     public function store(StoreAreaRequest $request)
     {
+        $this->authorize('create', Area::class);
+
         $data = $request->except('_token');
         $area = Area::create($data);
         return redirect()->route('areas.show', ['area' => $area])->with('success', ['id' => $area->id]);
@@ -48,18 +54,20 @@ class AreaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Area $area)
     {
-        $area = Area::findOrFail($id);
+        $this->authorize('view', User::class, Area::class);
+
         return view('options.show', ['option' => $area, 'titleIndex' => 'areas', 'index' => 'area']);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Area $area)
     {
-        $area = Area::findOrFail($id);
+        $this->authorize('update', User::class, Area::class);
+
         return view('options.edit',  ['option' => $area, 'titleIndex' => 'areas', 'index' => 'area']);
     }
 
@@ -68,6 +76,8 @@ class AreaController extends Controller
      */
     public function update(UpdateAreaRequest $request, Area $area)
     {
+        $this->authorize('update', User::class, Area::class);
+
         $data = $request->except('_token');
         $area->update($data);
 
@@ -77,9 +87,10 @@ class AreaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Area $area)
     {
-        $area = Area::findOrFail($id);
+        $this->authorize('delete', User::class, Area::class);
+
         $area->delete();
         return redirect()->route('areas.index')->with('success', 'Area deleted successfully.');
     }

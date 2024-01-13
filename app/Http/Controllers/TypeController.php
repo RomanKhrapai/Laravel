@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreTypeRequest;
 use App\Http\Requests\UpdateTypeRequest;
 use App\Models\Type;
+use App\Models\User;
 
 class TypeController extends Controller
 {
@@ -19,6 +20,7 @@ class TypeController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Type::class);
         $types = Type::orderBy('name', 'ASC')->paginate(5);
         if ($types->isEmpty()) {
             abort(404);
@@ -31,6 +33,7 @@ class TypeController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Type::class);
         return view('options.create',  ['titleIndex' => 'types', 'index' => 'type']);
     }
 
@@ -39,6 +42,7 @@ class TypeController extends Controller
      */
     public function store(StoreTypeRequest $request)
     {
+        $this->authorize('create', Type::class);
         $data = $request->except('_token');
         $type = Type::create($data);
         return redirect()->route('types.show', ['type' => $type])->with('success', ['id' => $type->id]);
@@ -47,18 +51,19 @@ class TypeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Type $type)
     {
-        $type = Type::findOrFail($id);
+        $this->authorize('view', User::class, Type::class);
+
         return view('options.show', ['option' => $type, 'titleIndex' => 'types', 'index' => 'type']);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Type $type)
     {
-        $type = Type::findOrFail($id);
+        $this->authorize('update', User::class, Type::class);
         return view('options.edit',  ['option' => $type, 'titleIndex' => 'types', 'index' => 'type']);
     }
 
@@ -67,6 +72,7 @@ class TypeController extends Controller
      */
     public function update(UpdateTypeRequest $request, Type $type)
     {
+        $this->authorize('update', User::class, Type::class);
         $data = $request->except('_token');
         $type->update($data);
 
@@ -76,9 +82,9 @@ class TypeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Type $type)
     {
-        $type = Type::findOrFail($id);
+        $this->authorize('delete', User::class, Type::class);
         $type->delete();
         return redirect()->route('types.index')->with('success', 'type deleted successfully.');
     }

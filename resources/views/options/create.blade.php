@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title')
+@section('title') 
     Form for creating {{ $titleIndex }}
 @endsection
 
