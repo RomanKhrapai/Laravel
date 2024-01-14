@@ -9,10 +9,10 @@ class Skill extends Model
 {
     use HasFactory;
     protected $table = 'skills';
-    protected $fillable = ['name', 'category_id'];
+    protected $fillable = ['name', 'profession_id'];
 
-    public function category()
+    public function profession()
     {
-        return $this->belongsTo(Category::class, 'category_id');
+        return $this->belongsTo(Profession::class, 'profession_id');
     }
 }

@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('professions', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->boolean('active')->default(false);
-            $table->timestamps();
-            $table->softDeletes();
+        Schema::create('candidate_type', function (Blueprint $table) {
+            $table->foreignId('candidate_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('type_id')->constrained()->cascadeOnDelete();
         });
     }
 
@@ -25,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('professions');
+        Schema::dropIfExists('candidate_type');
     }
 };

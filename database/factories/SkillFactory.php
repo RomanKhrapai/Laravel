@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Category;
+use App\Models\Profession;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Skill;
 
@@ -21,7 +21,7 @@ class SkillFactory extends Factory
     {
         return [
             'name' => fake()->word(),
-            'category_id' => Category::get()->random()->id
+            'profession_id' => Profession::get()->random()->id
         ];
     }
 }

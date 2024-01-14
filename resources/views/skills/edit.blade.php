@@ -22,18 +22,18 @@
 
 
         <div class="bg-white">
-            @foreach ($categories as $category)
+            @foreach ($professions as $profession)
                 <div class="btn row">
                     <label class='form-check-label'>
-                        <input value="{{ $category->id }}" type="radio" class="form-check-input block" name="category_id"
-                            {{ $category->id == $skill->category_id ? 'checked' : '' }}>
-                        {{ $category->name }}
+                        <input value="{{ $profession->id }}" type="radio" class="form-check-input block"
+                            name="profession_id" {{ $profession->id == $skill->profession_id ? 'checked' : '' }}>
+                        {{ $profession->name }}
                     </label>
                 </div>
             @endforeach
         </div>
 
-        @error('categories')
+        @error('professions')
             <div class="alert alert-danger">{{ $message }}</div>
         @enderror
 

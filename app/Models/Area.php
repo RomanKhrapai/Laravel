@@ -16,4 +16,8 @@ class Area extends Model
     {
         return $this->hasMany(Vacancy::class);
     }
+    public function candidate()
+    {
+        return $this->hasMany(Candidate::class);
+    }
 }

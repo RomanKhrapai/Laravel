@@ -13,14 +13,12 @@ return new class extends Migration
     {
         Schema::create('education', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('employment_id');
             $table->string('place');
             $table->string('profession');
             $table->unsignedBigInteger('degree_id');
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('employment_id')->references('id')->on('employments')->onDelete('cascade');
             $table->foreign('degree_id')->references('id')->on('degrees')->onDelete('cascade');
         });
     }

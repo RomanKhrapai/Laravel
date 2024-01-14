@@ -11,25 +11,25 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('vacancies', function (Blueprint $table) {
+        Schema::create('candidates', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('company_id');
+
+            $table->unsignedBigInteger('user_id');
             $table->string('title');
             $table->text('description');
             $table->unsignedBigInteger('area_id')->nullable();
             $table->unsignedBigInteger('type_id');
-            $table->unsignedBigInteger('profession_id');
             $table->unsignedBigInteger('nature_id');
-            $table->integer('salary');
-            $table->integer('max_salary')->nullable();
+            $table->unsignedBigInteger('profession_id');
+            $table->integer('salary')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('area_id')->references('id')->on('areas')->onDelete('cascade');
             $table->foreign('type_id')->references('id')->on('types')->onDelete('cascade');
-            $table->foreign('nature_id')->references('id')->on('natures')->onDelete('cascade');
             $table->foreign('profession_id')->references('id')->on('professions')->onDelete('cascade');
+            $table->foreign('nature_id')->references('id')->on('natures')->onDelete('cascade');
         });
     }
 
@@ -38,6 +38,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('vacancies');
+        Schema::dropIfExists('candidates');
     }
 };

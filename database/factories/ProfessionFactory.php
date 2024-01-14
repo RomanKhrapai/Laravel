@@ -2,15 +2,15 @@
 
 namespace Database\Factories;
 
-use App\Models\Category;
+use App\Models\Profession;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Category>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Profession>
  */
-class CategoryFactory extends Factory
+class ProfessionFactory extends Factory
 {
-    protected $model = Category::class;
+    protected $model = Profession::class;
     /**
      * Define the model's default state.
      *
@@ -19,7 +19,7 @@ class CategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->word(),
+            'name' => fake()->word(2),
         ];
     }
 }

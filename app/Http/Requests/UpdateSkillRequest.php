@@ -23,7 +23,7 @@ class UpdateSkillRequest extends FormRequest
     {
         return [
             'name' => 'required|max:50',
-            'category_id' => 'required|exists:categories,id',
+            'profession_id' => 'required|exists:professions,id',
         ];
     }
 }

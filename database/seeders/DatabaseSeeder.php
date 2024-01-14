@@ -6,7 +6,8 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Models\Area;
-use App\Models\Category;
+use App\Models\Candidate;
+use App\Models\Profession;
 use App\Models\Company;
 use App\Models\Employment;
 use App\Models\Experience;
@@ -34,6 +35,7 @@ class DatabaseSeeder extends Seeder
             TypeSeeder::class,
             LanguagesSeeder::class,
             PermisionSeeder::class,
+            ProfessionSeeder::class,
             VacancySeeder::class,
             PermissionRoleSeeder::class
         ]);
@@ -42,10 +44,9 @@ class DatabaseSeeder extends Seeder
         Company::factory(12)->create();
 
         Area::factory(6)->create();
-        Category::factory(3)->create();
-        Employment::factory(4)->create();
-        Experience::factory(3)->create();
+        Profession::factory(3)->create();
         Skill::factory(7)->create();
         Vacancy::factory(20)->create();
+        Candidate::factory(20)->create();
     }
 }

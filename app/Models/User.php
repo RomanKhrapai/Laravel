@@ -65,6 +65,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Company::class, 'id');
     }
+    public function candidate()
+    {
+        return $this->hasMany(Candidate::class);
+    }
 
     public function setImageAttribute($value)
     {
@@ -85,30 +89,3 @@ class User extends Authenticatable
         return null;
     }
 }
-
-// <?php
-
-// namespace App\Models;
-
-// use Illuminate\Contracts\Auth\Authenticatable;
-// use Illuminate\Auth\Authenticatable as AuthenticableTrait;
-// use Illuminate\Database\Eloquent\Factories\HasFactory;
-// use Illuminate\Database\Eloquent\Model;
-
-// class User extends Model implements Authenticatable
-// {
-//     use HasFactory;
-//     use AuthenticableTrait;
-
-//     protected $table = 'users';
-//     protected $guarded = false;
-
-//     public function role()
-//     {
-//         return $this->belongsTo(Role::class, 'role_id');
-//     }
-//     public function companies()
-//     {
-//         return $this->hasMany(Company::class, 'id');
-//     }
-// }

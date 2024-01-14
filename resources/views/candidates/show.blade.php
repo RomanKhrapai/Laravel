@@ -80,18 +80,6 @@
                     </tr>
                     <tr>
                         <td>
-                            <h5>profession (id)</h5>
-                        </td>
-                        <td>
-                            <h6>
-                                {{ $vacancy->profession->name }}
-                                ({{ $vacancy->profession_id }})
-                            </h6>
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
                             <h5>
                                 @if ($vacancy->area_id)
                                     area (id)

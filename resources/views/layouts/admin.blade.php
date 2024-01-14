@@ -62,9 +62,9 @@
                                             <a href="{{ route('areas.index') }}" class="dropdown-item">Areas</a>
                                         </li>
                                     @endcan
-                                    @can('viewAny', App\Models\Category::class)
+                                    @can('viewAny', App\Models\Profession::class)
                                         <li class="list-group-item item-action">
-                                            <a href="{{ route('categories.index') }}" class="dropdown-item">Categories</a>
+                                            <a href="{{ route('professions.index') }}" class="dropdown-item">Professions</a>
                                         </li>
                                     @endcan
                                     {{-- @can('viewAny', App\Models\Langu::class) --}}

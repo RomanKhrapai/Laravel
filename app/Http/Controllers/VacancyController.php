@@ -10,6 +10,7 @@ use App\Models\Nature;
 use App\Models\Type;
 use App\Models\Vacancy;
 use App\Models\User;
+use App\Models\Profession;
 
 class VacancyController extends Controller
 {
@@ -43,12 +44,14 @@ class VacancyController extends Controller
         $natures = Nature::all();
         $types = Type::all();
         $companies = Company::all();
+        $professions = Profession::all();
 
         return view('vacancies.create', [
             'areas' => $areas,
             'natures' => $natures,
             'types' => $types,
-            'companies' => $companies
+            'companies' => $companies,
+            'professions' => $professions
         ]);
     }
 
@@ -91,12 +94,15 @@ class VacancyController extends Controller
         $natures = Nature::all();
         $types = Type::all();
         $companies = Company::all();
+        $professions = Profession::all();
+
         return view('vacancies.edit', [
             'vacancy' => $vacancy,
             'areas' => $areas,
             'natures' => $natures,
             'types' => $types,
-            'companies' => $companies
+            'companies' => $companies,
+            'professions' => $professions
         ]);
     }
 

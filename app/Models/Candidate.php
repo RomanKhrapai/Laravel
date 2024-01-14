@@ -5,12 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Vacancy extends Model
+class Candidate extends Model
 {
     use HasFactory;
 
-    protected $table = 'vacancies';
+    protected $table = 'candidates';
     protected $guarded = false;
 
     public function area(): BelongsTo
@@ -18,9 +19,9 @@ class Vacancy extends Model
         return $this->belongsTo(Area::class);
     }
 
-    public function company(): BelongsTo
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(User::class);
     }
 
     public function nature(): BelongsTo
@@ -28,12 +29,8 @@ class Vacancy extends Model
         return $this->belongsTo(Nature::class);
     }
 
-    public function type(): BelongsTo
+    public function types(): belongsToMany
     {
-        return $this->belongsTo(Type::class);
-    }
-    public function profession(): BelongsTo
-    {
-        return $this->belongsTo(Profession::class);
+        return $this->belongsToMany(Type::class);
     }
 }

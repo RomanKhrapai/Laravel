@@ -21,6 +21,7 @@ class VacancySeeder extends Seeder
                 'description' => 'fake()->paragraph()',
                 'type_id' => 1,
                 'nature_id' => 1,
+                'profession_id' => 1,
                 'salary' => 1000,
                 'max_salary' => 2000
             ],

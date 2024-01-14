@@ -76,26 +76,6 @@
 
         <div class=" form-group">
             <label class="text-white d-block">
-                Profession:
-                <br>
-                <div class="form-control bg-white d-flex justify-content-around">
-                    <select class="js-example-basic-single" name="profession_id">
-                        @foreach ($professions as $profession)
-                            <option value="{{ $profession->id }}"
-                                {{ $profession->id == old('profession_id') ? 'selected' : '' }}>
-                                {{ $profession->id }} - {{ $profession->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-            </label>
-        </div>
-        @error('profession_id')
-            <div class="alert alert-danger">{{ $message }}</div>
-        @enderror
-
-        <div class=" form-group">
-            <label class="text-white d-block">
                 Area:
                 <br>
                 <div class="form-control bg-white d-flex justify-content-around">

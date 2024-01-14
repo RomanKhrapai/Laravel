@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->enum('category', ['user', 'company']);
+            $table->enum('profession', ['user', 'company']);
             $table->unsignedBigInteger('evaluated_user_id')->nullable();
             $table->unsignedBigInteger('evaluated_company_id')->nullable();
             $table->integer('vote');

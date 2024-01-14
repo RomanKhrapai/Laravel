@@ -16,7 +16,7 @@
             <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Name</th>
-                <th scope="col">category</th>
+                <th scope="col">profession</th>
                 <th scope="col">created_at</th>
                 <th scope="col">updated_at</th>
                 <th scope="col">Access buttons</th>
@@ -33,7 +33,7 @@
                         <h5>{{ $skill->name }}</h5>
                     </td>
                     <td>
-                        <h5>{{ $skill['category']->name }}</h5>
+                        <h5>{{ $skill['profession']->name }}</h5>
                     </td>
                     <td>
                         <h5>{{ $skill->created_at }}</h5>

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSkillRequest;
 use App\Http\Requests\UpdateSkillRequest;
-use App\Models\Category;
+use App\Models\Profession;
 use App\Models\Skill;
 use App\Models\User;
 
@@ -37,9 +37,9 @@ class SkillController extends Controller
     {
         $this->authorize('create', Skill::class);
 
-        $categories = Category::get();
+        $professions = Profession::get();
 
-        return view('skills.create', compact('categories'));
+        return view('skills.create', compact('professions'));
     }
 
     /**
@@ -61,7 +61,7 @@ class SkillController extends Controller
      */
     public function show(Skill $skill)
     {
-        $this->authorize('view',User::class, Skill::class);
+        $this->authorize('view', User::class, Skill::class);
 
         return view('skills.show', compact('skill'));
     }
@@ -71,10 +71,10 @@ class SkillController extends Controller
      */
     public function edit(Skill $skill)
     {
-        $this->authorize('update',User::class, Skill::class);
+        $this->authorize('update', User::class, Skill::class);
 
-        $categories = Category::all();
-        return view('skills.edit', ['skill' => $skill, 'categories' => $categories]);
+        $professions = Profession::all();
+        return view('skills.edit', ['skill' => $skill, 'professions' => $professions]);
     }
 
     /**
@@ -82,7 +82,7 @@ class SkillController extends Controller
      */
     public function update(UpdateSkillRequest $request, Skill $skill)
     {
-        $this->authorize('update',User::class, Skill::class);
+        $this->authorize('update', User::class, Skill::class);
 
         $data = $request->except('_token');
         $skill->update($data);
@@ -95,7 +95,7 @@ class SkillController extends Controller
      */
     public function destroy(Skill $skill)
     {
-        $this->authorize('delete',User::class, Skill::class);
+        $this->authorize('delete', User::class, Skill::class);
 
         $skill->delete();
 
