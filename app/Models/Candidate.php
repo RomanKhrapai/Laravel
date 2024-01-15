@@ -33,4 +33,8 @@ class Candidate extends Model
     {
         return $this->belongsToMany(Type::class);
     }
+    public function skills()
+    {
+        return $this->belongsToMany(Skill::class);
+    }
 }

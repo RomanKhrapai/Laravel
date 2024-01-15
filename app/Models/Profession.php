@@ -11,12 +11,12 @@ class Profession extends Model
     protected $table = 'professions';
     protected $fillable = ['name'];
 
-    public function skill()
+    public function skills()
     {
         return $this->hasMany(Skill::class, 'id');
     }
-    public function profession()
+    public function vacancies()
     {
-        return $this->hasMany(Profession::class);
+        return $this->hasMany(Vacancy::class);
     }
 }

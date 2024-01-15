@@ -15,4 +15,12 @@ class Skill extends Model
     {
         return $this->belongsTo(Profession::class, 'profession_id');
     }
+    public function vacancies()
+    {
+        return $this->belongsToMany(Vacancy::class);
+    }
+    public function candidates()
+    {
+        return $this->belongsToMany(Candidate::class);
+    }
 }

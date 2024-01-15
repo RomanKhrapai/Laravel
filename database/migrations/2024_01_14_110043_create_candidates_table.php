@@ -21,6 +21,7 @@ return new class extends Migration
             $table->unsignedBigInteger('type_id');
             $table->unsignedBigInteger('nature_id');
             $table->unsignedBigInteger('profession_id');
+            $table->integer('experience_months')->nullable();
             $table->integer('salary')->nullable();
             $table->timestamps();
             $table->softDeletes();

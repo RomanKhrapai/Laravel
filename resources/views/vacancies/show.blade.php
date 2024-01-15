@@ -92,6 +92,18 @@
                     </tr>
                     <tr>
                         <td>
+                            <h5>skills (id)</h5>
+                        </td>
+                        <td>
+                            <ol class="mb-0">
+                                @foreach ($vacancy->skills as $skill)
+                                    <li>{{ $skill->name }} ({{ $skill->id }})</li>
+                                @endforeach
+                            </ol>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
                             <h5>
                                 @if ($vacancy->area_id)
                                     area (id)
@@ -102,16 +114,13 @@
                         </td>
                         <td>
                             <h6>
-                                <h6>
-                                    @if ($vacancy->area_id)
-                                        {{ $vacancy->area->name }}
-                                        ({{ $vacancy->area_id }})
-                                    @else
-                                        All areas
-                                    @endif
-                                </h6>
+                                @if ($vacancy->area_id)
+                                    {{ $vacancy->area->name }}
+                                    ({{ $vacancy->area_id }})
+                                @else
+                                    All areas
+                                @endif
                             </h6>
-
                         </td>
                     </tr>
                     <tr>
@@ -120,12 +129,9 @@
                         </td>
                         <td>
                             <h6>
-                                <h6>
-                                    {{ $vacancy->nature->name }}
-                                    ({{ $vacancy->nature_id }})
-                                </h6>
+                                {{ $vacancy->nature->name }}
+                                ({{ $vacancy->nature_id }})
                             </h6>
-
                         </td>
                     </tr>
                     <tr>
@@ -134,15 +140,11 @@
                         </td>
                         <td>
                             <h6>
-                                <h6>
-                                    {{ $vacancy->type->name }}
-                                    ({{ $vacancy->type_id }})
-                                </h6>
+                                {{ $vacancy->type->name }}
+                                ({{ $vacancy->type_id }})
                             </h6>
-
                         </td>
                     </tr>
-
 
                 </tbody>
             </table>

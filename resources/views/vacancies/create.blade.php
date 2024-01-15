@@ -79,7 +79,8 @@
                 Profession:
                 <br>
                 <div class="form-control bg-white d-flex justify-content-around">
-                    <select class="js-example-basic-single" name="profession_id">
+                    <select class="js-example-basic-single" name="profession_id" data-url='{{ url(route('api.skills')) }}'
+                        data-select_skills>
                         @foreach ($professions as $profession)
                             <option value="{{ $profession->id }}"
                                 {{ $profession->id == old('profession_id') ? 'selected' : '' }}>
@@ -91,6 +92,25 @@
             </label>
         </div>
         @error('profession_id')
+            <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
+
+        <div class="bg-white" id='skills'>
+            @foreach ($skills as $skill)
+                @if (
+                    $skill->profession_id == old('profession_id') ||
+                        (empty(old('profession_id')) && $skill->profession_id === $professions[0]->id))
+                    <div class="btn row">
+                        <label class='form-check-label'> <input value="{{ $skill->id }}" type="checkbox"
+                                class="form-check-input block" name="skills[]"
+                                {{ in_array($skill->id, old('skills', [])) ? 'checked' : '' }}>
+                            {{ $skill->name }}
+                        </label>
+                    </div>
+                @endif
+            @endforeach
+        </div>
+        @error('skills')
             <div class="alert alert-danger">{{ $message }}</div>
         @enderror
 
@@ -137,7 +157,7 @@
                 Type:
                 <br>
                 <div class="form-control bg-white d-flex justify-content-around">
-                    <select class="js-example-basic-single" name="type_id">
+                    <select class="js-example-basic-single" name="type_id" id="exampleDropdown">
                         @foreach ($types as $type)
                             <option value="{{ $type->id }}" {{ $type->id == old('type_id') ? 'selected' : '' }}>
                                 {{ $type->id }} - {{ $type->name }}
@@ -150,6 +170,10 @@
         @error('type_id')
             <div class="alert alert-danger">{{ $message }}</div>
         @enderror
+
+        <div id="dynamicData">
+            <!-- Тут буде відображатися динамічний вміст -->
+        </div>
 
         <button type="submit" class="btn btn-success">Submit</button>
     </form>

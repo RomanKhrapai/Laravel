@@ -11,6 +11,7 @@ use App\Models\Type;
 use App\Models\Vacancy;
 use App\Models\User;
 use App\Models\Profession;
+use App\Models\Skill;
 
 class VacancyController extends Controller
 {
@@ -45,13 +46,15 @@ class VacancyController extends Controller
         $types = Type::all();
         $companies = Company::all();
         $professions = Profession::all();
+        $skills = Skill::all();
 
         return view('vacancies.create', [
             'areas' => $areas,
             'natures' => $natures,
             'types' => $types,
             'companies' => $companies,
-            'professions' => $professions
+            'professions' => $professions,
+            'skills' => $skills,
         ]);
     }
 

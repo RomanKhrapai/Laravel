@@ -17,6 +17,7 @@
                 <th scope="col">description</th>
                 <th scope="col">company</th>
                 <th scope="col">profesion</th>
+                <th scope="col">count skills</th>
                 <th scope="col">area</th>
                 <th scope="col">nature</th>
                 <th scope="col">type</th>
@@ -50,6 +51,12 @@
                         <h6>
                             {{ $vacancy->profession->name }}
                             ({{ $vacancy->profession_id }})
+                        </h6>
+                    </td>
+                    <td>
+                        <h6>
+
+                            {{ $vacancy->skills->count() }}
                         </h6>
                     </td>
                     <td>

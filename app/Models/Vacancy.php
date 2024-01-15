@@ -36,4 +36,9 @@ class Vacancy extends Model
     {
         return $this->belongsTo(Profession::class);
     }
+
+    public function skills()
+    {
+        return $this->belongsToMany(Skill::class);
+    }
 }

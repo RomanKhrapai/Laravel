@@ -9,10 +9,11 @@ use App\Models\Area;
 use App\Models\Candidate;
 use App\Models\Profession;
 use App\Models\Company;
-use App\Models\Employment;
-use App\Models\Experience;
+use App\Models\SkillVacancy;
+use App\Models\CandidateSkill;
 use App\Models\Skill;
 use App\Models\Vacancy;
+
 use GuzzleHttp\Promise\Create;
 use Illuminate\Database\Seeder;
 
@@ -45,8 +46,10 @@ class DatabaseSeeder extends Seeder
 
         Area::factory(6)->create();
         Profession::factory(3)->create();
-        Skill::factory(7)->create();
+        Skill::factory(20)->create();
         Vacancy::factory(20)->create();
         Candidate::factory(20)->create();
+        SkillVacancy::factory(20)->create();
+        CandidateSkill::factory(20)->create();
     }
 }

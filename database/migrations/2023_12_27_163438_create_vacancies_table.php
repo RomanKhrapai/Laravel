@@ -16,11 +16,13 @@ return new class extends Migration
             $table->unsignedBigInteger('company_id');
             $table->string('title');
             $table->text('description');
+
             $table->unsignedBigInteger('area_id')->nullable();
             $table->unsignedBigInteger('type_id');
             $table->unsignedBigInteger('profession_id');
             $table->unsignedBigInteger('nature_id');
             $table->integer('salary');
+            $table->integer('experience_months')->nullable();
             $table->integer('max_salary')->nullable();
             $table->timestamps();
             $table->softDeletes();
