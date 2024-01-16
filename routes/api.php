@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ApiSkillController;
+use App\Http\Controllers\ImageAvatarUploadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,3 +26,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::get('/skills', [ApiSkillController::class, 'byProfesion'])->name('api.skills');
+Route::post('upload', [ImageAvatarUploadController::class, 'upload'])->name('api.uploadAvatar');

@@ -29,7 +29,8 @@ class StoreVacancyRequest extends FormRequest
             'area_id' => 'required|exists:areas,id',
             'nature_id' => 'required|exists:natures,id',
             'type_id' => 'required|exists:types,id',
-            'company_id' => 'required|exists:companies,id'
+            'company_id' => 'required|exists:companies,id',
+            'profession_id' => 'required|exists:professions,id',
         ];
     }
 }

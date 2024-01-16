@@ -41,16 +41,21 @@
                                             <a href="{{ route('users.index') }}" class="dropdown-item">Users</a>
                                         </li>
                                     @endcan
-                                    {{-- @can('view', App\Models\Company::class) --}}
-                                    <li class="list-group-item item-action">
-                                        <a href="{{ route('companies.index') }}" class="dropdown-item">Companies</a>
-                                    </li>
-                                    {{-- @endcan --}}
-                                    {{-- @can('view', App\Models\Company::class) --}}
-                                    <li class="list-group-item item-action">
-                                        <a href="{{ route('vacancies.index') }}" class="dropdown-item">Vacancies</a>
-                                    </li>
-                                    {{-- @endcan --}}
+                                    @can('viewAny', App\Models\Company::class)
+                                        <li class="list-group-item item-action">
+                                            <a href="{{ route('companies.index') }}" class="dropdown-item">Companies</a>
+                                        </li>
+                                    @endcan
+                                    @can('viewAny', App\Models\Vacancy::class)
+                                        <li class="list-group-item item-action">
+                                            <a href="{{ route('vacancies.index') }}" class="dropdown-item">Vacancies</a>
+                                        </li>
+                                    @endcan
+                                    @can('viewAny', App\Models\Candidate::class)
+                                        <li class="list-group-item item-action">
+                                            <a href="{{ route('candidates.index') }}" class="dropdown-item">Candidates</a>
+                                        </li>
+                                    @endcan
                                 </ul>
                             </li>
                             <li class="list-group-item list-group-item-action">

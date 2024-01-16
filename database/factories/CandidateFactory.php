@@ -26,7 +26,6 @@ class CandidateFactory extends Factory
             'title' => fake()->word(),
             'description' => fake()->paragraph(),
             'area_id' => Area::get()->random()->id,
-            'type_id' => Type::get()->random()->id,
             'nature_id' => Nature::get()->random()->id,
             'profession_id' => Profession::get()->random()->id,
             'salary' => fake()->numberBetween(1000, 50000)

@@ -85,6 +85,14 @@ class PermisionSeeder extends Seeder
             ['name' => 'profession.delete', 'description' => ''],
             ['name' => 'profession.restore', 'description' => ''],
             ['name' => 'profession.forceDelete', 'description' => ''],
+
+            ['name' => 'candidate.viewAny', 'description' => ''],
+            ['name' => 'candidate.view', 'description' => ''],
+            ['name' => 'candidate.create', 'description' => ''],
+            ['name' => 'candidate.update', 'description' => ''],
+            ['name' => 'candidate.delete', 'description' => ''],
+            ['name' => 'candidate.restore', 'description' => ''],
+            ['name' => 'candidate.forceDelete', 'description' => ''],
         ]);
     }
 }

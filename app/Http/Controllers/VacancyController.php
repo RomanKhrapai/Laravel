@@ -66,13 +66,15 @@ class VacancyController extends Controller
         $this->authorize('create', Vacancy::class);
 
         $max_salary = $request->input('max_salary');
-        $data = $request->except('_token', 'max_salary');
+        $skills = $request->input('skills');
+        $data = $request->except('_token', 'max_salary', 'skills');
 
-        if (!empty($password)) {
+        if (!empty($max_salary)) {
             $data['max_salary'] = $max_salary;
         }
 
         $vacancy = Vacancy::create($data);
+        $vacancy->skills()->sync($skills);
 
         return redirect()->route('vacancies.show', ['vacancy' => $vacancy])
             ->with('success', ['id' => $vacancy->id]);
@@ -98,6 +100,7 @@ class VacancyController extends Controller
         $types = Type::all();
         $companies = Company::all();
         $professions = Profession::all();
+        $skills = Skill::all();
 
         return view('vacancies.edit', [
             'vacancy' => $vacancy,
@@ -105,7 +108,8 @@ class VacancyController extends Controller
             'natures' => $natures,
             'types' => $types,
             'companies' => $companies,
-            'professions' => $professions
+            'professions' => $professions,
+            'skills' => $skills,
         ]);
     }
 
@@ -114,12 +118,19 @@ class VacancyController extends Controller
      */
     public function update(UpdateVacancyRequest $request, Vacancy $vacancy)
     {
-        $this->authorize('update', User::class, Vacancy::class);
-        $data = $request->except('_token');
+        $max_salary = $request->input('max_salary');
+        $skills = $request->input('skills');
+        $data = $request->except('_token', 'max_salary', 'skills');
+
+        if (!empty($max_salary)) {
+            $data['max_salary'] = $max_salary;
+        }
 
         $vacancy->update($data);
+        $vacancy->skills()->sync($skills);
 
-        return redirect()->route('vacancies.show', ['vacancy' => $vacancy]);
+        return redirect()->route('vacancies.show', ['vacancy' => $vacancy])
+            ->with('success', ['id' => $vacancy->id]);
     }
 
     /**
@@ -128,8 +139,9 @@ class VacancyController extends Controller
     public function destroy(Vacancy $vacancy)
     {
         $this->authorize('delete', User::class, Vacancy::class);
+        $vacancy->skills()->detach();
         $vacancy->delete();
 
-        return redirect()->route('vacancy.index')->with('success', 'User deleted successfully.');
+        return redirect()->route('vacancies.index')->with('success', 'User deleted successfully.');
     }
 }

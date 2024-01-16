@@ -7,9 +7,26 @@
 @section('content')
     <h1 class="text-white">Form for creating users</h1>
 
+
+
     <form action="{{ route('users.store') }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('POST')
+
+        <div>
+            <label class="custom-label form__input">Image:
+                <div id="fileInputshow">
+                    <img loading="lazy" src="" height="320" width="479">
+                </div>
+                <input type="hidden" name="MAX_FILE_SIZE" value="300000" />
+                <input id="fileInput" type="file" name="img" accept=" image/jpeg" class=" custom-file-input "
+                    data-url='{{ url(route('api.uploadAvatar')) }}'>
+                <input type="hidden" name="image" id="input-image" />
+            </label>
+        </div>
+
+        <div id=image-error></div>
+
 
         <div class="form-group">
             <label class="text-white" for="name">
@@ -23,13 +40,13 @@
         @enderror
 
         <div class="form-group">
-            <label class="text-white" for="mail">
+            <label class="text-white" for="email">
                 Email
             </label>
-            <input type="text" name="mail" placeholder="Enter a email" id="mail" class="form-control"
-                value="{{ old('mail') }}" class="@error('mail') is-invalid @enderror">
+            <input type="text" name="email" placeholder="Enter a email" id="email" class="form-control"
+                value="{{ old('email') }}" class="@error('email') is-invalid @enderror">
         </div>
-        @error('mail')
+        @error('email')
             <div class="alert alert-danger">{{ $message }}</div>
         @enderror
 
@@ -91,3 +108,4 @@
         <button type="submit" class="btn btn-success">Submit</button>
     </form>
 @endsection
+@dump($errors)

@@ -48,10 +48,10 @@ class UserController extends Controller
         $this->authorize('create', User::class);
 
         $password = $request->input('password');
-        $data = $request->except('_token', 'password', 'password_confirmation');
+        $data = $request->except('_token', 'password', 'password_confirmation', 'MAX_FILE_SIZE');
 
         $data['password'] = Hash::make($password);
-
+        dd($data);
         $user = User::create($data);
 
         return redirect()->route('users.show', ['user' => $user])->with('success', ['id' => $user->id]);

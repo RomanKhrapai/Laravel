@@ -1,13 +1,13 @@
 @extends('layouts.admin')
 
 @section('title')
-    Form for creating vacancies
+    Form for creating candidates
 @endsection
 
 @section('content')
-    <h1 class="text-white">Form for creating vacancies</h1>
+    <h1 class="text-white">Form for creating candidates</h1>
 
-    <form action="{{ route('vacancies.store') }}" method="post" enctype="multipart/form-data">
+    <form action="{{ route('candidates.store') }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('POST')
 
@@ -57,13 +57,13 @@
 
         <div class=" form-group">
             <label class="text-white d-block">
-                Company:
+                User:
                 <br>
                 <div class="form-control bg-white d-flex justify-content-around">
-                    <select class="js-example-basic-single" name="company_id">
-                        @foreach ($companies as $company)
-                            <option value="{{ $company->id }}" {{ $company->id == old('company_id') ? 'selected' : '' }}>
-                                {{ $company->id }} - {{ $company->name }}
+                    <select class="js-example-basic-single" name="user_id">
+                        @foreach ($users as $user)
+                            <option value="{{ $user->id }}" {{ $user->id == old('user_id') ? 'selected' : '' }}>
+                                {{ $user->id }} - {{ $user->name }}
                             </option>
                         @endforeach
                     </select>
@@ -71,6 +71,49 @@
             </label>
         </div>
         @error('company_id')
+            <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
+
+        <div class=" form-group">
+            <label class="text-white d-block">
+                Profession:
+                <br>
+                <div class="form-control bg-white d-flex justify-content-around">
+                    <select class="js-example-basic-single" name="profession_id" data-url='{{ url(route('api.skills')) }}'
+                        data-select_skills>
+                        @foreach ($professions as $profession)
+                            <option value="{{ $profession->id }}"
+                                {{ $profession->id == old('profession_id') ? 'selected' : '' }}>
+                                {{ $profession->id }} - {{ $profession->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            </label>
+        </div>
+        @error('profession_id')
+            <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
+
+        <div class=" form-group">
+            <span class="text-white d-block">Skills:</span>
+            <div class="bg-white" id='skills'>
+                @foreach ($skills as $skill)
+                    @if (
+                        $skill->profession_id == old('profession_id') ||
+                            (empty(old('profession_id')) && $skill->profession_id === $professions[0]->id))
+                        <div class="btn row">
+                            <label class='form-check-label'> <input value="{{ $skill->id }}" type="checkbox"
+                                    class="form-check-input block" name="skills[]"
+                                    {{ in_array($skill->id, old('skills', [])) ? 'checked' : '' }}>
+                                {{ $skill->name }}
+                            </label>
+                        </div>
+                    @endif
+                @endforeach
+            </div>
+        </div>
+        @error('skills')
             <div class="alert alert-danger">{{ $message }}</div>
         @enderror
 
@@ -113,23 +156,26 @@
         @enderror
 
         <div class=" form-group">
-            <label class="text-white d-block">
-                Type:
-                <br>
-                <div class="form-control bg-white d-flex justify-content-around">
-                    <select class="js-example-basic-single" name="type_id">
-                        @foreach ($types as $type)
-                            <option value="{{ $type->id }}" {{ $type->id == old('type_id') ? 'selected' : '' }}>
-                                {{ $type->id }} - {{ $type->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-            </label>
+            <span class="text-white d-block">Types:</span>
+            <div class="bg-white">
+                @foreach ($types as $type)
+                    <div class="btn row">
+                        <label class='form-check-label'> <input value="{{ $type->id }}" type="checkbox"
+                                class="form-check-input block" name="types[]"
+                                {{ in_array($type->id, old('types', [])) ? 'checked' : '' }}>
+                            {{ $type->name }}
+                        </label>
+                    </div>
+                @endforeach
+            </div>
         </div>
         @error('type_id')
             <div class="alert alert-danger">{{ $message }}</div>
         @enderror
+
+        <div id="dynamicData">
+            <!-- Тут буде відображатися динамічний вміст -->
+        </div>
 
         <button type="submit" class="btn btn-success">Submit</button>
     </form>

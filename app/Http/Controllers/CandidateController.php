@@ -5,15 +5,32 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCandidateRequest;
 use App\Http\Requests\UpdateCandidateRequest;
 use App\Models\Candidate;
+use App\Models\Area;
+use App\Models\Company;
+use App\Models\Nature;
+use App\Models\Type;
+use App\Models\User;
+use App\Models\Profession;
+use App\Models\Skill;
 
 class CandidateController extends Controller
 {
+    public function __construct(
+        protected Candidate $Candidate
+    ) {
+        // $this->middleware('auth');
+        // $this->middleware('admin');
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $this->authorize('viewAny', Candidate::class);
+
+        $candidates = Candidate::paginate(5);
+
+        return view('candidates.index', ['candidates' => $candidates]);
     }
 
     /**
@@ -21,7 +38,23 @@ class CandidateController extends Controller
      */
     public function create()
     {
-        //
+        $this->authorize('create', Candidate::class);
+
+        $areas = Area::all();
+        $natures = Nature::all();
+        $types = Type::all();
+        $users = User::all();
+        $professions = Profession::all();
+        $skills = Skill::all();
+
+        return view('candidates.create', [
+            'areas' => $areas,
+            'natures' => $natures,
+            'types' => $types,
+            'users' => $users,
+            'professions' => $professions,
+            'skills' => $skills,
+        ]);
     }
 
     /**
@@ -29,7 +62,22 @@ class CandidateController extends Controller
      */
     public function store(StoreCandidateRequest $request)
     {
-        //
+        $this->authorize('create', Candidate::class);
+
+        $max_salary = $request->input('max_salary');
+        $skills = $request->input('skills');
+        $types = $request->input('types');
+        $data = $request->except('_token', 'max_salary', 'skills', 'types');
+
+        if (!empty($max_salary)) {
+            $data['max_salary'] = $max_salary;
+        }
+
+        $candidate = Candidate::create($data);
+        $candidate->skills()->sync($skills);
+        $candidate->types()->sync($types);
+        return redirect()->route('candidates.show', ['candidate' => $candidate])
+            ->with('success', ['id' => $candidate->id]);
     }
 
     /**
@@ -37,7 +85,8 @@ class CandidateController extends Controller
      */
     public function show(Candidate $candidate)
     {
-        //
+        $this->authorize('view', User::class, Candidate::class);
+        return view('candidates.show', ['candidate' => $candidate]);
     }
 
     /**
@@ -45,7 +94,23 @@ class CandidateController extends Controller
      */
     public function edit(Candidate $candidate)
     {
-        //
+        $this->authorize('update', User::class, candidate::class);
+        $areas = Area::all();
+        $natures = Nature::all();
+        $types = Type::all();
+        $users = User::all();
+        $professions = Profession::all();
+        $skills = Skill::all();
+
+        return view('candidates.edit', [
+            'candidate' => $candidate,
+            'areas' => $areas,
+            'natures' => $natures,
+            'types' => $types,
+            'users' => $users,
+            'professions' => $professions,
+            'skills' => $skills,
+        ]);
     }
 
     /**
@@ -53,7 +118,24 @@ class CandidateController extends Controller
      */
     public function update(UpdateCandidateRequest $request, Candidate $candidate)
     {
-        //
+        $this->authorize('update', User::class, candidate::class);
+
+        $max_salary = $request->input('max_salary');
+        $skills = $request->input('skills');
+        $types = $request->input('types');
+        $data = $request->except('_token', 'max_salary', 'skills', 'types');
+
+
+        if (!empty($max_salary)) {
+            $data['max_salary'] = $max_salary;
+        }
+
+        $candidate->update($data);
+        $candidate->skills()->sync($skills);
+        $candidate->types()->sync($types);
+
+        return redirect()->route('candidates.show', ['candidate' => $candidate])
+            ->with('success', ['id' => $candidate->id]);
     }
 
     /**
@@ -61,6 +143,11 @@ class CandidateController extends Controller
      */
     public function destroy(Candidate $candidate)
     {
-        //
+        $this->authorize('delete', User::class, Candidate::class);
+        $candidate->types()->detach();
+        $candidate->skills()->detach();
+        $candidate->delete();
+
+        return redirect()->route('candidates.index')->with('success', 'User deleted successfully.');
     }
 }

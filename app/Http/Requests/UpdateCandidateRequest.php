@@ -11,7 +11,7 @@ class UpdateCandidateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,14 @@ class UpdateCandidateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => 'required|string|max:255',
+            'max_salary' => 'nullable|integer|gt:salary',
+            'salary' => 'required|integer|gt:0',
+            'description' => 'required|string|max:5000',
+            'area_id' => 'required|exists:areas,id',
+            'nature_id' => 'required|exists:natures,id',
+            'user_id' => 'required|exists:companies,id',
+            'profession_id' => 'required|exists:professions,id',
         ];
     }
 }

@@ -37,4 +37,8 @@ class Candidate extends Model
     {
         return $this->belongsToMany(Skill::class);
     }
+    public function profession(): BelongsTo
+    {
+        return $this->belongsTo(Profession::class);
+    }
 }

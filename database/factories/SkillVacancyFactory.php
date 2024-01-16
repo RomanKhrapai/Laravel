@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Skill;
 use App\Models\Vacancy;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\SkillVacancy;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
@@ -18,10 +19,28 @@ class SkillVacancyFactory extends Factory
      */
     public function definition(): array
     {
-        return [
-            'vacancy_id' =>  Vacancy::get()->random()->id,
-            'skill_id' =>  Skill::get()->random()->id,
+        $vacancy = Vacancy::get()->random();
+        $professionId = $vacancy->profession_id;
 
+        $skill = Skill::where('profession_id', $professionId)->inRandomOrder()->first();
+
+        $uniqueCheck = SkillVacancy::where('vacancy_id', $vacancy->id)
+            ->where('skill_id', $skill->id)
+            ->count();
+
+        while ($uniqueCheck > 0) {
+            $vacancy = Vacancy::get()->random();
+            $professionId = $vacancy->profession_id;
+            $skill = Skill::where('profession_id', $professionId)->inRandomOrder()->first();
+
+            $uniqueCheck = SkillVacancy::where('vacancy_id', $vacancy->id)
+                ->where('skill_id', $skill->id)
+                ->count();
+        }
+
+        return [
+            'vacancy_id' => $vacancy->id,
+            'skill_id' => $skill->id,
         ];
     }
 }

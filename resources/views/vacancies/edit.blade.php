@@ -83,9 +83,11 @@
                 Profession:
                 <br>
                 <div class="form-control bg-white d-flex justify-content-around">
-                    <select class="js-example-basic-single" name="profession_id">
+                    <select class="js-example-basic-single" name="profession_id" data-url='{{ url(route('api.skills')) }}'
+                        data-select_skills>
                         @foreach ($professions as $profession)
-                            <option value="{{ $profession->id }}" {{ $profession->id == old('profession_id', $vacancy->profession_id) ? 'selected' : '' }}>
+                            <option value="{{ $profession->id }}"
+                                {{ $profession->id == old('profession_id', $vacancy->profession_id) ? 'selected' : '' }}>
                                 {{ $profession->id }} - {{ $profession->name }}
                             </option>
                         @endforeach
@@ -94,6 +96,23 @@
             </label>
         </div>
         @error('profession_id')
+            <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
+
+        <div class="bg-white" id='skills'>
+            @foreach ($skills as $skill)
+                @if ($skill->profession_id == old('profession_id', $vacancy->profession_id))
+                    <div class="btn row">
+                        <label class='form-check-label'> <input value="{{ $skill->id }}" type="checkbox"
+                                class="form-check-input block" name="skills[]"
+                                @if ((empty(old('skills')) && $vacancy->skills->contains($skill->id)) || in_array($skill->id, old('skills', []))) @checked(true) @endif>
+                            {{ $skill->name }}
+                        </label>
+                    </div>
+                @endif
+            @endforeach
+        </div>
+        @error('skills')
             <div class="alert alert-danger">{{ $message }}</div>
         @enderror
 

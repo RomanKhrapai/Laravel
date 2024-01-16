@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreCandidateRequest extends FormRequest
+class ImageAvatarUploadRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,14 +22,7 @@ class StoreCandidateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|max:255',
-            'max_salary' => 'nullable|integer|gt:salary',
-            'salary' => 'required|integer|gt:0',
-            'description' => 'required|string|max:5000',
-            'area_id' => 'required|exists:areas,id',
-            'nature_id' => 'required|exists:natures,id',
-            'user_id' => 'required|exists:companies,id',
-            'profession_id' => 'required|exists:professions,id',
+            'file' => 'required|mimes:jpeg,jpg|max:2048',
         ];
     }
 }

@@ -46,10 +46,50 @@ class DatabaseSeeder extends Seeder
 
         Area::factory(6)->create();
         Profession::factory(3)->create();
-        Skill::factory(20)->create();
+        Skill::factory(60)->create();
         Vacancy::factory(20)->create();
         Candidate::factory(20)->create();
-        SkillVacancy::factory(20)->create();
-        CandidateSkill::factory(20)->create();
+
+
+        SkillVacancy::factory(1)->create();
+        CandidateSkill::factory(1)->create();
+        SkillVacancy::factory(1)->create();
+        CandidateSkill::factory(1)->create();
+        SkillVacancy::factory(1)->create();
+        CandidateSkill::factory(1)->create();
+        SkillVacancy::factory(1)->create();
+        CandidateSkill::factory(1)->create();
+        SkillVacancy::factory(1)->create();
+        CandidateSkill::factory(1)->create();
+        SkillVacancy::factory(1)->create();
+        CandidateSkill::factory(1)->create();
+        SkillVacancy::factory(1)->create();
+        CandidateSkill::factory(1)->create();
+        SkillVacancy::factory(1)->create();
+        CandidateSkill::factory(1)->create();
+        SkillVacancy::factory(1)->create();
+        CandidateSkill::factory(1)->create();
+        SkillVacancy::factory(1)->create();
+        CandidateSkill::factory(1)->create();
+        SkillVacancy::factory(1)->create();
+        CandidateSkill::factory(1)->create();
+        SkillVacancy::factory(1)->create();
+        CandidateSkill::factory(1)->create();
+        SkillVacancy::factory(1)->create();
+        CandidateSkill::factory(1)->create();
+        SkillVacancy::factory(1)->create();
+        CandidateSkill::factory(1)->create();
+        SkillVacancy::factory(1)->create();
+        CandidateSkill::factory(1)->create();
+        SkillVacancy::factory(1)->create();
+        CandidateSkill::factory(1)->create();
+        SkillVacancy::factory(1)->create();
+        CandidateSkill::factory(1)->create();
+        SkillVacancy::factory(1)->create();
+        CandidateSkill::factory(1)->create();
+        SkillVacancy::factory(1)->create();
+        CandidateSkill::factory(1)->create();
+        SkillVacancy::factory(1)->create();
+        CandidateSkill::factory(1)->create();
     }
 }
