@@ -6,7 +6,6 @@
 
 @section('content')
     <h1 class="text-white">Form for updating users</h1>
-    {{-- {{ dd($user) }} --}}
     <span class="text-white">
         ID: {{ $user->id }}
     </span>
@@ -14,6 +13,24 @@
         enctype="multipart/form-data">
         @csrf
         @method('PATCH')
+
+        <div>
+            <label class="custom-label form__input">Image:
+                <div id="fileInputshow">
+                    <img loading="lazy" src="{{ $user->image }}" height="320" width="479">
+                </div>
+                <input id="fileInput" type="file" name="img" accept=" image/jpeg" class=" custom-file-input "
+                    data-url='{{ url(route('api.uploadAvatar')) }}'>
+                <button id="remove-image">remove image</button>
+                <input type="hidden" name="image" id="input-image" value="{{ old('image'), '' }}" />
+            </label>
+        </div>
+
+        <div id=image-error>
+            @error('image')
+                <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
+        </div>
 
         <div class="form-group">
             <label class="text-white" for="name">
@@ -83,4 +100,5 @@
 
         <button type="submit" class="btn btn-success">Submit</button>
     </form>
+    <a href="{{ URL::previous() }}" class="btn btn-info">Back</a>
 @endsection

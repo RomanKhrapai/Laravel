@@ -8,6 +8,9 @@ use App\Models\User;
 use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -46,12 +49,24 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
         $this->authorize('create', User::class);
-
+        $imageUrl = $request->input('image');
         $password = $request->input('password');
-        $data = $request->except('_token', 'password', 'password_confirmation', 'MAX_FILE_SIZE');
+
+        $data = $request->except('_token', 'password', 'password_confirmation', 'img', "image");
+
+        if ($imageUrl && !File::exists(storage_path('app/public/' . $imageUrl))) {
+            throw ValidationException::withMessages([
+                'image' => 'Problem file.',
+            ]);
+        } elseif ($imageUrl) {
+            $uniqueName = Str::uuid()->toString();
+            $extension = pathinfo($imageUrl, PATHINFO_EXTENSION);
+            $newPath = 'images/users/avatars/' . $uniqueName . '.' . $extension;
+            Storage::disk('public')->move($imageUrl, $newPath);
+            $data['image'] = $newPath;
+        }
 
         $data['password'] = Hash::make($password);
-        dd($data);
         $user = User::create($data);
 
         return redirect()->route('users.show', ['user' => $user])->with('success', ['id' => $user->id]);
@@ -85,8 +100,34 @@ class UserController extends Controller
     {
         $this->authorize('update', User::class);
 
+        $imageUrl = $request->input('image');
         $password = $request->input('password');
-        $data = $request->except('_token', 'password');
+
+        $data = $request->except('_token', 'password', 'password_confirmation', 'img', "image");
+
+        if ($imageUrl && !File::exists(storage_path('app/public/' . $imageUrl))) {
+            throw ValidationException::withMessages([
+                'image' => 'Problem file.',
+            ]);
+        } elseif ($imageUrl && $imageUrl !== $user->image) {
+            $uniqueName = Str::uuid()->toString();
+            $extension = pathinfo($imageUrl, PATHINFO_EXTENSION);
+            $newPath = 'images/users/avatars/' . $uniqueName . '.' . $extension;
+            Storage::disk('public')->move($imageUrl, $newPath);
+            $data['image'] = $newPath;
+
+            $newUrl = str_replace("/storage/", "", $user->image);
+            if (isset($user->image) && Storage::exists('public/' . $newUrl)) {
+                Storage::delete('public/' .  $newUrl);
+            }
+        } else {
+            $data['image'] = $imageUrl;
+
+            $newUrl = str_replace("/storage/", "", $user->image);
+            if (!$imageUrl && isset($user->image) && Storage::exists('public/' . $newUrl)) {
+                Storage::delete('public/' . $newUrl);
+            }
+        }
 
         if (!empty($password)) {
             $data['password'] = Hash::make($password);

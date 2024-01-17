@@ -29,11 +29,11 @@ class UpdateUserRequest extends FormRequest
                 'required', 'string', 'email', 'max:255',
                 Rule::unique('users')->ignore($this->user),
             ],
-            'foto_url' => 'nullable|url',
+            'image' => 'nullable|string|max:255',
             'telephone' => [
                 'required',
                 'string',
-                'regex:/^\+?\d{1,3}\s\(\d{1,4}\)\s\d{1,6}-\d{1,8}$/',
+                'regex:/^\+?[0-9\s-]+$/',
             ],
             'password' => 'nullable|string|min:6',
             'role_id' => 'required|exists:roles,id',

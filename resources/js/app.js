@@ -3,21 +3,48 @@ import "./bootstrap";
 document.addEventListener("DOMContentLoaded", function () {
     const selectElement = document.querySelector("[data-select_skills]");
     const fileInput = document.getElementById("fileInput");
+    const inputImage = document.getElementById("input-image");
+    const removeImage = document.getElementById("remove-image");
+
+    if (removeImage) {
+        removeImage.addEventListener("click", deleteImageData);
+    }
+
+    if (inputImage) {
+        const fileInputshow = document.getElementById("fileInputshow");
+        if (inputImage.value) {
+            fileInputshow.innerHTML = `<img loading="lazy" src="/storage/${inputImage.value}" height="320" width="479"></img> `;
+        }
+    }
 
     if (selectElement) {
         selectElement.addEventListener("change", skillsAjax);
     }
     if (fileInput) {
+        fileInput.addEventListener("change", customUpLoader);
     }
-    fileInput.addEventListener("change", customUpLoader);
 });
 
-function customUpLoader(e) {
-    const url = e.target.dataset.url;
-
+function deleteImageData(e) {
+    e.preventDefault();
     const inputImage = document.getElementById("input-image");
     const fileInputshow = document.getElementById("fileInputshow");
     const errorElem = document.getElementById("image-error");
+
+    errorElem.innerHTML = "";
+    fileInputshow.innerHTML = `<img loading="lazy" src="" height="320" width="479"></img> `;
+    inputImage.value = "";
+}
+
+function customUpLoader(e) {
+    const url = e.target.dataset.url;
+    const inputImage = document.getElementById("input-image");
+    const fileInputshow = document.getElementById("fileInputshow");
+    const errorElem = document.getElementById("image-error");
+
+    const csrfToken = document.head.querySelector(
+        'meta[name="csrf-token"]'
+    ).content;
 
     e.target.classList.remove("is-invalid");
     errorElem.innerHTML = "";
@@ -31,15 +58,20 @@ function customUpLoader(e) {
             this.value = "";
             formData.append("size", 2000000);
         }
-
         axios
-            .post(url, formData)
+            .post(url, formData, {
+                headers: {
+                    "X-CSRF-TOKEN": csrfToken,
+                },
+            })
             .then(function (response) {
+                console.log(response.data.url);
                 inputImage.value = response.data.url;
-                fileInputshow.innerHTML = `<img loading="lazy" src="/storage/temp/${response.data.url}" height="320" width="479"></img> `;
+                fileInputshow.innerHTML = `<img loading="lazy" src="/storage/${response.data.url}" height="320" width="479"></img> `;
             })
             .catch(function (error) {
                 e.target.classList.add("is-invalid");
+                fileInputshow.innerHTML = `<img loading="lazy" src="" height="320" width="479"></img> `;
                 errorElem.innerHTML = `<div id=image-error class="alert alert-danger">${error.response.data.message}</div>`;
             });
     }
@@ -47,16 +79,21 @@ function customUpLoader(e) {
 
 function skillsAjax(e) {
     const baseUrl = e.target.dataset.url;
+    console.log(e.target.value);
     const params = new URLSearchParams({
-        value: e.target.dataset.value,
+        value: e.target.value,
     }).toString();
+
+    const csrfToken = document.head.querySelector(
+        'meta[name="csrf-token"]'
+    ).content;
 
     axios
         .get(`${baseUrl}?${params}`, {
             headers: {
                 "Content-Type": "application/json",
+                "X-CSRF-TOKEN": csrfToken,
             },
-            // withCredentials: true, // Розкоментуйте, якщо потрібно включити обробку кукі або інших автентифікаційних даних
         })
         .then((response) => {
             const container = document.getElementById("skills");

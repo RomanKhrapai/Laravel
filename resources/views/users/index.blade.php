@@ -38,10 +38,10 @@
                         <h6>{{ $user->email }}</h6>
                     </td>
                     <td>
-                        <h6>{{ $user->foto_url }}</h6>
+                        <h6>{{ $user->image ?? 'null' }}</h6>
                     </td>
                     <td>
-                        <h6>{{ $user->telephone }}</h6>
+                        <h6>{{ $user->telephone ?? 'null' }}</h6>
                     </td>
                     <td>
                         @if (isset($user['role']))

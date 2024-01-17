@@ -24,7 +24,7 @@ class StoreUserRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
-            'foto_url' => 'nullable|url',
+            'image' => 'nullable|string|max:255',
             'telephone' => [
                 'required',
                 'string',
