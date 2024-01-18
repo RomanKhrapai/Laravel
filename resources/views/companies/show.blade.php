@@ -9,6 +9,9 @@
 
         <div class="container mt-4">
 
+            @empty(!$company->image)
+                <img loading="lazy" src="{{ Storage::url($company->image) }}" height="60" width="47"></img>
+            @endempty
 
             <table class="table table-striped">
                 <thead>

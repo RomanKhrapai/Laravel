@@ -6,6 +6,10 @@ use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\Company;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Str;
 
 class CompanyController extends Controller
 {
@@ -41,8 +45,20 @@ class CompanyController extends Controller
     public function store(StoreCompanyRequest $request)
     {
         $this->authorize('create', Company::class);
+        $imageUrl = $request->input('image');
+        $data = $request->except('_token', 'img', "image");
 
-        $data = $request->except('_token');
+        if ($imageUrl && !File::exists(storage_path('app/public/' . $imageUrl))) {
+            throw ValidationException::withMessages([
+                'image' => 'Problem file.',
+            ]);
+        } elseif ($imageUrl) {
+            $uniqueName = Str::uuid()->toString();
+            $extension = pathinfo($imageUrl, PATHINFO_EXTENSION);
+            $newPath = 'images/companies/avatars/' . $uniqueName . '.' . $extension;
+            Storage::disk('public')->move($imageUrl, $newPath);
+            $data['image'] = $newPath;
+        }
 
         $company = Company::create($data);
 
@@ -76,8 +92,33 @@ class CompanyController extends Controller
     public function update(UpdateCompanyRequest $request, Company $company)
     {
         $this->authorize('update', User::class, Company::class);
+        $imageUrl = $request->input('image');
 
-        $data = $request->except('_token');
+        $data = $request->except('_token', 'img', "image");
+
+        if ($imageUrl && !File::exists(storage_path('app/public/' . $imageUrl))) {
+            throw ValidationException::withMessages([
+                'image' => 'Problem file.',
+            ]);
+        } elseif ($imageUrl && $imageUrl !== $company->image) {
+            $uniqueName = Str::uuid()->toString();
+            $extension = pathinfo($imageUrl, PATHINFO_EXTENSION);
+            $newPath = 'images/companies/avatars/' . $uniqueName . '.' . $extension;
+            Storage::disk('public')->move($imageUrl, $newPath);
+            $data['image'] = $newPath;
+
+            // $newUrl = str_replace("/storage/", "", $company->image);
+            if (isset($company->image) && Storage::exists('public/' . $company->image)) {
+                Storage::delete('public/' .  $company->image);
+            }
+        } else {
+            $data['image'] = $imageUrl;
+
+            // $newUrl = str_replace("/storage/", "", $company->image);
+            if (!$imageUrl && isset($company->image) && Storage::exists('public/' . $company->image)) {
+                Storage::delete('public/' . $company->image);
+            }
+        }
 
         $company->update($data);
 

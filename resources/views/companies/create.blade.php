@@ -11,6 +11,23 @@
         @csrf
         @method('POST')
 
+        <div>
+            <label class="custom-label form__input">Image:
+                <div id="fileInputshow">
+                    <img loading="lazy" src="" height="320" width="479">
+                </div>
+                <input id="fileInput" type="file" name="img" accept=" image/jpeg" class=" custom-file-input "
+                    data-url='{{ url(route('api.uploadAvatar')) }}'>
+                <input type="hidden" name="image" id="input-image" value="{{ old('image') }}" />
+            </label>
+        </div>
+
+        <div id=image-error>
+            @error('image')
+                <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
+        </div>
+
         <div class="form-group">
             <label class="text-white" for="name">
                 name

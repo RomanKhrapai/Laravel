@@ -8,7 +8,6 @@
          </div>
 
          <div class="container mt-4">
-
              @empty(!$user->image)
                  <img loading="lazy" src="{{ $user->image }}" height="60" width="47"></img>
              @endempty

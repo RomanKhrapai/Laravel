@@ -82,7 +82,7 @@
             </label>
 
         </div>
-        @error('roles')
+        @error('role_id')
             <div class="alert alert-danger">{{ $message }}</div>
         @enderror
 
