@@ -61,7 +61,7 @@ class SkillController extends Controller
      */
     public function show(Skill $skill)
     {
-        $this->authorize('view', User::class, Skill::class);
+        $this->authorize('view', [Skill::class, $skill]);
 
         return view('skills.show', compact('skill'));
     }
@@ -71,7 +71,7 @@ class SkillController extends Controller
      */
     public function edit(Skill $skill)
     {
-        $this->authorize('update', User::class, Skill::class);
+        $this->authorize('update', [Skill::class, $skill]);
 
         $professions = Profession::all();
         return view('skills.edit', ['skill' => $skill, 'professions' => $professions]);
@@ -82,7 +82,7 @@ class SkillController extends Controller
      */
     public function update(UpdateSkillRequest $request, Skill $skill)
     {
-        $this->authorize('update', User::class, Skill::class);
+        $this->authorize('update', [Skill::class, $skill]);
 
         $data = $request->except('_token');
         $skill->update($data);
@@ -95,7 +95,7 @@ class SkillController extends Controller
      */
     public function destroy(Skill $skill)
     {
-        $this->authorize('delete', User::class, Skill::class);
+        $this->authorize('delete', [Skill::class, $skill]);
 
         $skill->delete();
 

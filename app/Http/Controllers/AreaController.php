@@ -56,7 +56,7 @@ class AreaController extends Controller
      */
     public function show(Area $area)
     {
-        $this->authorize('view', User::class, Area::class);
+        $this->authorize('view', [Area::class, $area]);
 
         return view('options.show', ['option' => $area, 'titleIndex' => 'areas', 'index' => 'area']);
     }
@@ -66,7 +66,7 @@ class AreaController extends Controller
      */
     public function edit(Area $area)
     {
-        $this->authorize('update', User::class, Area::class);
+        $this->authorize('update', [Area::class, $area]);
 
         return view('options.edit',  ['option' => $area, 'titleIndex' => 'areas', 'index' => 'area']);
     }
@@ -76,7 +76,7 @@ class AreaController extends Controller
      */
     public function update(UpdateAreaRequest $request, Area $area)
     {
-        $this->authorize('update', User::class, Area::class);
+        $this->authorize('update', [Area::class, $area]);
 
         $data = $request->except('_token');
         $area->update($data);
@@ -89,7 +89,7 @@ class AreaController extends Controller
      */
     public function destroy(Area $area)
     {
-        $this->authorize('delete', User::class, Area::class);
+        $this->authorize('delete', [Area::class, $area]);
 
         $area->delete();
         return redirect()->route('areas.index')->with('success', 'Area deleted successfully.');

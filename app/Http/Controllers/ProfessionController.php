@@ -12,8 +12,7 @@ class ProfessionController extends Controller
     public function __construct(
         protected Profession $profession
     ) {
-        // $this->middleware('auth');
-        // $this->middleware('admin');
+        $this->authorizeResource(Profession::class, 'profession');
     }
     /**
      * Display a listing of the resource.
@@ -48,18 +47,16 @@ class ProfessionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Profession $profession)
     {
-        $profession = Profession::findOrFail($id);
         return view('options.show', ['option' => $profession, 'titleIndex' => 'professions', 'index' => 'professions']);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Profession $profession)
     {
-        $profession = Profession::findOrFail($id);
         return view('options.edit',  ['option' => $profession, 'titleIndex' => 'professions', 'index' => 'profession']);
     }
 
@@ -77,9 +74,8 @@ class ProfessionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Profession $profession)
     {
-        $profession = Profession::findOrFail($id);
         $profession->delete();
         return redirect()->route('professions.index')->with('success', 'profession deleted successfully.');
     }

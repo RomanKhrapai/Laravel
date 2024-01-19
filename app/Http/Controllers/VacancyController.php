@@ -85,7 +85,7 @@ class VacancyController extends Controller
      */
     public function show(Vacancy $vacancy)
     {
-        $this->authorize('view', User::class, Vacancy::class);
+        $this->authorize('view', [Vacancy::class, $vacancy]);
         return view('vacancies.show', ['vacancy' => $vacancy]);
     }
 
@@ -94,7 +94,7 @@ class VacancyController extends Controller
      */
     public function edit(Vacancy $vacancy)
     {
-        $this->authorize('update', User::class, Vacancy::class);
+        $this->authorize('update', [Vacancy::class, $vacancy]);
         $areas = Area::all();
         $natures = Nature::all();
         $types = Type::all();
@@ -118,6 +118,7 @@ class VacancyController extends Controller
      */
     public function update(UpdateVacancyRequest $request, Vacancy $vacancy)
     {
+        $this->authorize('update', [Vacancy::class, $vacancy]);
         $max_salary = $request->input('max_salary');
         $skills = $request->input('skills');
         $data = $request->except('_token', 'max_salary', 'skills');
@@ -138,7 +139,7 @@ class VacancyController extends Controller
      */
     public function destroy(Vacancy $vacancy)
     {
-        $this->authorize('delete', User::class, Vacancy::class);
+        $this->authorize('delete', [Vacancy::class, $vacancy]);
         $vacancy->skills()->detach();
         $vacancy->delete();
 

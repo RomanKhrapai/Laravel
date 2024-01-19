@@ -70,7 +70,7 @@ class CompanyController extends Controller
      */
     public function show(Company $company)
     {
-        $this->authorize('view', User::class, Company::class);
+        $this->authorize('view', [Company::class, $company]);
 
         return view('companies.show', ['company' => $company]);
     }
@@ -80,7 +80,7 @@ class CompanyController extends Controller
      */
     public function edit(Company $company)
     {
-        $this->authorize('update', User::class, Company::class);
+        $this->authorize('update', [Company::class, $company]);
 
         $users = User::all();
         return view('companies.edit', ['company' => $company, 'users' => $users]);
@@ -91,7 +91,7 @@ class CompanyController extends Controller
      */
     public function update(UpdateCompanyRequest $request, Company $company)
     {
-        $this->authorize('update', User::class, Company::class);
+        $this->authorize('update', [Company::class, $company]);
         $imageUrl = $request->input('image');
 
         $data = $request->except('_token', 'img', "image");
@@ -130,7 +130,7 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
-        $this->authorize('delete', User::class, Company::class);
+        $this->authorize('delete', [Company::class, $company]);
 
         $company->delete();
 

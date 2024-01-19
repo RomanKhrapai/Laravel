@@ -15,12 +15,6 @@ use Illuminate\Support\Str;
 class UserController extends Controller
 {
 
-    public function __construct(
-        protected User $user
-    ) {
-        // $this->middleware('auth');
-        // $this->middleware('admin');
-    }
     /**
      * Display a listing of the resource.
      */

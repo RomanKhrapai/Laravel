@@ -14,15 +14,15 @@ class RoleController extends Controller
     public function __construct(
         protected Role $role
     ) {
-        // $this->middleware('auth');
-        // $this->middleware('admin');
+
+        $this->authorizeResource(Role::class, 'role');
     }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $this->authorize('viewAny', Role::class);
+
 
         $roles = Role::orderBy('name', 'ASC')->paginate(5);
         if ($roles->isEmpty()) {
@@ -36,8 +36,6 @@ class RoleController extends Controller
      */
     public function create()
     {
-        $this->authorize('create', Role::class);
-
         $permissions = Permission::get();
 
         return view('roles.create', compact('permissions'));
@@ -48,8 +46,6 @@ class RoleController extends Controller
      */
     public function store(StoreRoleRequest $request)
     {
-        $this->authorize('create', Role::class);
-
         $data = $request->except('_token', 'permissions');
         $role = Role::create($data);
         $permissions = $request->input('permissions', []);
@@ -63,8 +59,6 @@ class RoleController extends Controller
      */
     public function show(Role $role)
     {
-        $this->authorize('view', User::class, Role::class);
-
         return view('roles.show', ['role' => $role]);
     }
 
@@ -73,8 +67,6 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-        $this->authorize('update', User::class, Role::class);
-
         $permissions = Permission::all();
         return view('roles.edit', compact('role', 'permissions'));
     }
@@ -84,8 +76,6 @@ class RoleController extends Controller
      */
     public function update(UpdateRoleRequest $request, Role $role)
     {
-        $this->authorize('update', User::class, Role::class);
-
         $data = $request->except('_token', 'permissions');
         $role->update($data);
         $permissions = $request->input('permissions', []);
@@ -98,8 +88,6 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
-        $this->authorize('delete', User::class, Role::class);
-
         $role->permissions()->detach();
         $role->delete();
 

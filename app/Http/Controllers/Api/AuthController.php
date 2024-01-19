@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Validation\Rule;
+use App\Models\Role;
 
 class AuthController extends Controller
 {
@@ -32,8 +34,10 @@ class AuthController extends Controller
         $validateUser = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
+            'role_id' => ['required', 'integer', Rule::in([2, 3])],
             'password' => 'required|string|min:8'
         ]);
+
         if ($validateUser->fails()) {
             return response()->json([
                 'message' => 'Validation failed',
@@ -41,8 +45,10 @@ class AuthController extends Controller
             ], 422);
         }
 
+
         $user = User::create([
             'name' => $request->name,
+            "role_id" => $request->role_id,
             'email' => $request->email,
             'password' => Hash::make($request->password)
         ]);

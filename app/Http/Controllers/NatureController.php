@@ -55,22 +55,20 @@ class NatureController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Nature $nature)
     {
-        $this->authorize('view',User::class, Nature::class);
+        $this->authorize('view', [Nature::class, $nature]);
 
-        $nature = Nature::findOrFail($id);
         return view('options.show', ['option' => $nature, 'titleIndex' => 'natures', 'index' => 'nature']);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Nature $nature)
     {
-        $this->authorize('update',User::class, Nature::class);
+        $this->authorize('update', [Nature::class, $nature]);
 
-        $nature = Nature::findOrFail($id);
         return view('options.edit',  ['option' => $nature, 'titleIndex' => 'natures', 'index' => 'nature']);
     }
 
@@ -79,7 +77,7 @@ class NatureController extends Controller
      */
     public function update(UpdateNatureRequest $request, Nature $nature)
     {
-        $this->authorize('update',User::class, Nature::class);
+        $this->authorize('update', [Nature::class, $nature]);
 
         $data = $request->except('_token');
         $nature->update($data);
@@ -90,11 +88,10 @@ class NatureController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Nature $nature)
     {
-        $this->authorize('delete',User::class, Nature::class);
+        $this->authorize('delete', [Nature::class, $nature]);
 
-        $nature = Nature::findOrFail($id);
         $nature->delete();
         return redirect()->route('natures.index')->with('success', 'Nature deleted successfully.');
     }

@@ -85,7 +85,7 @@ class CandidateController extends Controller
      */
     public function show(Candidate $candidate)
     {
-        $this->authorize('view', User::class, Candidate::class);
+        $this->authorize('view', [Candidate::class, $candidate]);
         return view('candidates.show', ['candidate' => $candidate]);
     }
 
@@ -94,7 +94,7 @@ class CandidateController extends Controller
      */
     public function edit(Candidate $candidate)
     {
-        $this->authorize('update', User::class, candidate::class);
+        $this->authorize('update', [Candidate::class, $candidate]);
         $areas = Area::all();
         $natures = Nature::all();
         $types = Type::all();
@@ -118,7 +118,7 @@ class CandidateController extends Controller
      */
     public function update(UpdateCandidateRequest $request, Candidate $candidate)
     {
-        $this->authorize('update', User::class, candidate::class);
+        $this->authorize('update', [Candidate::class, $candidate]);
 
         $max_salary = $request->input('max_salary');
         $skills = $request->input('skills');
@@ -143,7 +143,7 @@ class CandidateController extends Controller
      */
     public function destroy(Candidate $candidate)
     {
-        $this->authorize('delete', User::class, Candidate::class);
+        $this->authorize('delete', [Candidate::class, $candidate]);
         $candidate->types()->detach();
         $candidate->skills()->detach();
         $candidate->delete();

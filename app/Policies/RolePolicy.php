@@ -37,7 +37,11 @@ class RolePolicy
      */
     public function update(User $user, Role $role): bool
     {
-        return $user->role->permissions->contains('name', 'role.update');
+
+
+        return $user->role->permissions->contains('name', 'role.update')
+            && $role->id !== 2
+            && $role->id !== 3;;
     }
 
     /**
@@ -45,7 +49,9 @@ class RolePolicy
      */
     public function delete(User $user, Role $role): bool
     {
-        return $user->role->permissions->contains('name', 'role.delete');
+        return $user->role->permissions->contains('name', 'role.delete')
+            && $role->id !== 2
+            && $role->id !== 3;
     }
 
     /**

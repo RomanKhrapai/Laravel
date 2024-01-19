@@ -53,7 +53,7 @@ class TypeController extends Controller
      */
     public function show(Type $type)
     {
-        $this->authorize('view', User::class, Type::class);
+        $this->authorize('view', [Type::class, $type]);
 
         return view('options.show', ['option' => $type, 'titleIndex' => 'types', 'index' => 'type']);
     }
@@ -63,7 +63,7 @@ class TypeController extends Controller
      */
     public function edit(Type $type)
     {
-        $this->authorize('update', User::class, Type::class);
+        $this->authorize('update', [Type::class, $type]);
         return view('options.edit',  ['option' => $type, 'titleIndex' => 'types', 'index' => 'type']);
     }
 
@@ -72,7 +72,7 @@ class TypeController extends Controller
      */
     public function update(UpdateTypeRequest $request, Type $type)
     {
-        $this->authorize('update', User::class, Type::class);
+        $this->authorize('update', [Type::class, $type]);
         $data = $request->except('_token');
         $type->update($data);
 
@@ -84,7 +84,7 @@ class TypeController extends Controller
      */
     public function destroy(Type $type)
     {
-        $this->authorize('delete', User::class, Type::class);
+        $this->authorize('delete', [Type::class, $type]);
         $type->delete();
         return redirect()->route('types.index')->with('success', 'type deleted successfully.');
     }
