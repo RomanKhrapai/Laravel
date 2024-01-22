@@ -42,10 +42,6 @@ function customUpLoader(e) {
     const fileInputshow = document.getElementById("fileInputshow");
     const errorElem = document.getElementById("image-error");
 
-    const csrfToken = document.head.querySelector(
-        'meta[name="csrf-token"]'
-    ).content;
-
     e.target.classList.remove("is-invalid");
     errorElem.innerHTML = "";
 
@@ -59,11 +55,7 @@ function customUpLoader(e) {
             formData.append("size", 2000000);
         }
         axios
-            .post(url, formData, {
-                headers: {
-                    "X-CSRF-TOKEN": csrfToken,
-                },
-            })
+            .post(url, formData, {})
             .then(function (response) {
                 console.log(response.data.url);
                 inputImage.value = response.data.url;
@@ -79,20 +71,14 @@ function customUpLoader(e) {
 
 function skillsAjax(e) {
     const baseUrl = e.target.dataset.url;
-    console.log(e.target.value);
     const params = new URLSearchParams({
         value: e.target.value,
     }).toString();
 
-    const csrfToken = document.head.querySelector(
-        'meta[name="csrf-token"]'
-    ).content;
-
     axios
         .get(`${baseUrl}?${params}`, {
             headers: {
-                "Content-Type": "application/json",
-                "X-CSRF-TOKEN": csrfToken,
+                Accept: "application/json",
             },
         })
         .then((response) => {

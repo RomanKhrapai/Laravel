@@ -1,10 +1,14 @@
 <?php
 
+use App\Http\Controllers\Api\ApiAreaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ApiSkillController;
 use App\Http\Controllers\Api\ImageAvatarUploadController;
+use App\Http\Controllers\Api\ApiFormParametersController;
+use App\Http\Controllers\Api\ApiProfessionController;
+use App\Http\Controllers\Api\ApiUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,14 +23,16 @@ use App\Http\Controllers\Api\ImageAvatarUploadController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/parameters', [ApiFormParametersController::class, 'index']);
+    Route::get('/profession/search', [ApiProfessionController::class, 'search']);
+    Route::get('/area/search', [ApiAreaController::class, 'search']);
+    Route::get('/user', [ApiUserController::class, 'index']);
 });
 
-Route::middleware(['web'])->group(function () {
+Route::middleware(['web', 'auth:sanctum'])->group(function () {
     Route::get('/skills', [ApiSkillController::class, 'byProfesion'])->name('api.skills');
     Route::post('upload', [ImageAvatarUploadController::class, 'upload'])->name('api.uploadAvatar');
 });

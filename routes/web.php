@@ -25,19 +25,20 @@ use App\Http\Controllers\CandidateController;
 |
 */
 
+Route::middleware(['auth'])->group(function () {
+    Route::resource('users', UserController::class);
+    Route::resource('roles', RoleController::class);
+    Route::resource('areas', AreaController::class);
+    Route::resource('professions', ProfessionController::class);
+    Route::resource('languages', LanguageController::class);
+    Route::resource('types', TypeController::class);
+    Route::resource('natures', NatureController::class);
+    Route::resource('skills', SkillController::class);
+    Route::resource('vacancies', VacancyController::class);
+    Route::resource('candidates', CandidateController::class);
+    Route::resource('companies', CompanyController::class);
 
-Route::resource('users', UserController::class)->middleware('auth');
-Route::resource('roles', RoleController::class)->middleware('auth');
-Route::resource('areas', AreaController::class)->middleware('auth');
-Route::resource('professions', ProfessionController::class)->middleware('auth');
-Route::resource('languages', LanguageController::class)->middleware('auth');
-Route::resource('types', TypeController::class)->middleware('auth');
-Route::resource('natures', NatureController::class)->middleware('auth');
-Route::resource('skills', SkillController::class)->middleware('auth');
-Route::resource('vacancies', VacancyController::class)->middleware('auth');
-Route::resource('candidates', CandidateController::class)->middleware('auth');
-Route::resource('companies', CompanyController::class)->middleware('auth');
-
-Auth::routes();
-
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('auth');
+    Route::get('/', function () {
+        return view('home');
+    })->name('home');
+});

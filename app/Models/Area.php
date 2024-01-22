@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,5 +20,9 @@ class Area extends Model
     public function candidate()
     {
         return $this->hasMany(Candidate::class);
+    }
+    public function scopeByName(Builder $query, $name)
+    {
+        $query->where('name', 'like', "%{$name}%");
     }
 }

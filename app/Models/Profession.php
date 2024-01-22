@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,5 +19,10 @@ class Profession extends Model
     public function vacancies()
     {
         return $this->hasMany(Vacancy::class);
+    }
+    
+    public function scopeByName(Builder $query, $name)
+    {
+        $query->where('name', 'like', "%{$name}%");
     }
 }
