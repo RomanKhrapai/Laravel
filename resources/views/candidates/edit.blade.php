@@ -84,8 +84,8 @@
                 Profession:
                 <br>
                 <div class="form-control bg-white d-flex justify-content-around">
-                    <select class="js-example-basic-single" name="profession_id" data-url='{{ url(route('api.skills')) }}'
-                        data-select_skills>
+                    <select class="js-example-basic-single" name="profession_id"
+                        data-url='{{ url(route('api.skillByProfesion')) }}' data-select_skills>
                         @foreach ($professions as $profession)
                             <option value="{{ $profession->id }}"
                                 {{ $profession->id == old('profession_id', $candidate->profession_id) ? 'selected' : '' }}>

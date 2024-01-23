@@ -72,7 +72,7 @@ function customUpLoader(e) {
 function skillsAjax(e) {
     const baseUrl = e.target.dataset.url;
     const params = new URLSearchParams({
-        value: e.target.value,
+        id: e.target.value,
     }).toString();
 
     axios
