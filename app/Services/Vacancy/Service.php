@@ -15,7 +15,6 @@ use FFI\Exception;
 class Service
 {
 
-
     public function store($data)
     {
         try {
@@ -54,6 +53,7 @@ class Service
             DB::rollBack();
             return $exception->getMessage();
         }
+        return $vacancy;
     }
 
     public function update()

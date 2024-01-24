@@ -5,23 +5,26 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ImageAvatarUploadRequest;
+use App\Services\ImageService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class ImageAvatarUploadController extends Controller
 {
+
+    public $service;
+
+    public function __construct(ImageService $service)
+    {
+        $this->service = $service;
+    }
+
     public function upload(ImageAvatarUploadRequest $request)
     {
-        $userId = Auth::id();
         $file = $request->file('file');
 
-        $fileName =  $userId . '.jpg';
+        $data = $this->service->StoreTempImage($file);
 
-        $file->move(storage_path('app/public/temp'), $fileName);
-        return response()->json([
-            'message' => 'successful',
-            'url' => 'temp/' . $fileName,
-            'id' => $userId
-        ]);
+        return response()->json($data);
     }
 }

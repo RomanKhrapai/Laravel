@@ -9,7 +9,6 @@ use App\Http\Controllers\Api\ImageAvatarUploadController;
 use App\Http\Controllers\Api\ApiFormParametersController;
 use App\Http\Controllers\Api\ApiProfessionController;
 use App\Http\Controllers\Api\ApiUserController;
-use App\Http\Controllers\Api\Vacancy\ShowController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,23 +25,32 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
+    Route::post('/uploadavatar', [ImageAvatarUploadController::class, 'upload'])->name('api.uploadAvatar');
+
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/parameters', [ApiFormParametersController::class, 'index']);
     Route::get('/profession/search', [ApiProfessionController::class, 'search']);
     Route::get('/area/search', [ApiAreaController::class, 'search']);
     Route::get('/user', [ApiUserController::class, 'index']);
-    // Route::resource('vacancies', VacancyController::class);
 
-    Route::post('/vac', 'App\Http\Controllers\Api\Vacancy\StoreController');
+    // Route::post('/vac', 'App\Http\Controllers\Api\Vacancy\StoreController');
 
     Route::group(['namespace' => 'App\Http\Controllers\Api\Vacancy'], function () {
         Route::get('/vacancies/{vacancy}', 'ShowController');
         Route::post('/vacancies', 'StoreController');
         Route::patch('/vacancies/{vacancy}', 'UpdateController');
     });
+
+    Route::group(['namespace' => 'App\Http\Controllers\Api\Company'], function () {
+        Route::get('/companies', 'IndexController');
+        Route::get('/companies/{company}', 'ShowController');
+        Route::post('/companies', 'StoreController');
+        Route::patch('/companies/{company}', 'UpdateController');
+    });
 });
+// Route::post('/upload', [ImageAvatarUploadController::class, 'upload'])->name('api.uploadAvatar');
 
 Route::middleware(['web', 'auth:sanctum'])->group(function () {
+    Route::post('/upload', [ImageAvatarUploadController::class, 'upload'])->name('api.uploadAvatar');
     Route::get('/skillByProfesion', [ApiSkillController::class, 'byProfesion'])->name('api.skillByProfesion');
-    Route::post('upload', [ImageAvatarUploadController::class, 'upload'])->name('api.uploadAvatar');
 });

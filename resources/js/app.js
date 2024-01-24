@@ -46,7 +46,7 @@ function customUpLoader(e) {
     errorElem.innerHTML = "";
 
     if (this.files.length > 0) {
-        var formData = new FormData();
+        const formData = new FormData();
 
         if (this.files[0].size < 2000000) {
             formData.append("file", this.files[0]);
