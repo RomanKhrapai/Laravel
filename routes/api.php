@@ -9,6 +9,8 @@ use App\Http\Controllers\Api\ImageAvatarUploadController;
 use App\Http\Controllers\Api\ApiFormParametersController;
 use App\Http\Controllers\Api\ApiProfessionController;
 use App\Http\Controllers\Api\ApiUserController;
+use App\Http\Controllers\Api\Files\UploadApiImageController;
+use App\Http\Controllers\Api\Files\UploadImageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,7 +27,7 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::post('/uploadavatar', [ImageAvatarUploadController::class, 'upload'])->name('api.uploadAvatar');
+    Route::post('/uploadavatar', [UploadApiImageController::class, 'upload'])->name('api.uploadAvatar');
 
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/parameters', [ApiFormParametersController::class, 'index']);
@@ -46,11 +48,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/companies/{company}', 'ShowController');
         Route::post('/companies', 'StoreController');
         Route::patch('/companies/{company}', 'UpdateController');
+        Route::delete('/companies/{company}', 'DeleteController');
     });
 });
 // Route::post('/upload', [ImageAvatarUploadController::class, 'upload'])->name('api.uploadAvatar');
 
 Route::middleware(['web', 'auth:sanctum'])->group(function () {
-    Route::post('/upload', [ImageAvatarUploadController::class, 'upload'])->name('api.uploadAvatar');
+    Route::post('/upload', [UploadImageController::class, 'upload'])->name('api.uploadAvatar');
     Route::get('/skillByProfesion', [ApiSkillController::class, 'byProfesion'])->name('api.skillByProfesion');
 });

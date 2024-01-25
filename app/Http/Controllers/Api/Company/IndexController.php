@@ -22,7 +22,7 @@ class IndexController extends BaseController
         if ($user->role_id === 2) {
             $data['user_id'] = $user->id;
         }
-        // dd($data, $user->role_id === 3);
+
         $filter = app()->make(CompanyFilter::class, ['queryParams' => array_filter($data)]);
 
         $companies = Company::filter($filter)->paginate($perPage, ['*'], 'page', $page);

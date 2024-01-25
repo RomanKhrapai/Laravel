@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Requests\Company;
+namespace App\Http\Requests\Files;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 
-class StoreRequest extends FormRequest
+class UploadImageRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,19 +25,7 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'address' => 'required|string|max:255',
-            'image' => 'nullable|string|max:255',
-            'description' => 'required|string|max:5000',
-
-            // 'user_id' => 'required|exists:user,id',
+            'file' => 'nullable|mimes:jpeg,jpg|max:2048',
         ];
-    }
-
-    protected function failedValidation(Validator $validator)
-    {
-        throw new HttpResponseException(
-            response()->json(['errors' => $validator->errors()], JsonResponse::HTTP_UNPROCESSABLE_ENTITY)
-        );
     }
 }

@@ -35,7 +35,6 @@ class CompanyFilter extends AbstractFilter
 
     public function userId(Builder $builder, $value)
     {
-        // dd($value);
         $builder->where('user_id', $value);
     }
 }

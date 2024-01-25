@@ -8,8 +8,6 @@
     <h1 class="text-white">
         Form for creating users</h1>
 
-
-
     <form action="{{ route('users.store') }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('POST')
@@ -29,6 +27,7 @@
             @error('image')
                 <div class="alert alert-danger">{{ $message }}</div>
             @enderror
+
         </div>
 
 

@@ -1,10 +1,13 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Files;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\JsonResponse;
 
-class ImageAvatarUploadRequest extends FormRequest
+class UploadApiImageRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,5 +27,12 @@ class ImageAvatarUploadRequest extends FormRequest
         return [
             'file' => 'nullable|mimes:jpeg,jpg|max:2048',
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(
+            response()->json(['errors' => $validator->errors()], JsonResponse::HTTP_UNPROCESSABLE_ENTITY)
+        );
     }
 }

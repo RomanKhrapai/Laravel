@@ -21,7 +21,7 @@ class VacancyResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'profession' => $this->profession->name,
-            'conpany' => $this->company->name,
+            'company' => ['id' => $this->company->id, 'name' => $this->company->name, 'image' => $this->company->image],
             'salary' => $this->salary,
             'max_salary' => $this->max_salary,
             'area' => $this->area->name ?? null,

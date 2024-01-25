@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Files;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ImageAvatarUploadRequest;
+use App\Http\Requests\Files\UploadApiImageRequest;
 use App\Services\ImageService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
-class ImageAvatarUploadController extends Controller
+class UploadApiImageController extends Controller
 {
 
     public $service;
@@ -19,7 +19,7 @@ class ImageAvatarUploadController extends Controller
         $this->service = $service;
     }
 
-    public function upload(ImageAvatarUploadRequest $request)
+    public function upload(UploadApiImageRequest $request)
     {
         $file = $request->file('file');
 

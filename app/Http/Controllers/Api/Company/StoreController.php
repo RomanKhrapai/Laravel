@@ -6,8 +6,6 @@ use App\Http\Controllers\Api\Company\BaseController;
 use App\Http\Requests\Company\StoreRequest;
 use App\Http\Resources\CompanyResource;
 use App\Models\Company;
-use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 
 class StoreController extends BaseController
 {
@@ -16,8 +14,8 @@ class StoreController extends BaseController
     {
         $data = $request->validated();
 
-        $vacancy = $this->service->store($data);
+        $company = $this->service->store($data);
 
-        return $vacancy instanceof Company ? new CompanyResource($vacancy) : $vacancy;
+        return $company instanceof Company ? new CompanyResource($company) : $company;
     }
 }

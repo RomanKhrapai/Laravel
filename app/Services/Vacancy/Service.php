@@ -3,7 +3,6 @@
 namespace App\Services\Vacancy;
 
 use App\Models\Vacancy;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Profession;
 use App\Models\Area;
