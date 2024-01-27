@@ -38,9 +38,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Route::post('/vac', 'App\Http\Controllers\Api\Vacancy\StoreController');
 
     Route::group(['namespace' => 'App\Http\Controllers\Api\Vacancy'], function () {
+        Route::get('/vacancies', 'IndexController');
         Route::get('/vacancies/{vacancy}', 'ShowController');
         Route::post('/vacancies', 'StoreController');
         Route::patch('/vacancies/{vacancy}', 'UpdateController');
+        Route::delete('/vacancies/{vacancy}', 'DeleteController');
     });
 
     Route::group(['namespace' => 'App\Http\Controllers\Api\Company'], function () {
@@ -49,6 +51,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/companies', 'StoreController');
         Route::patch('/companies/{company}', 'UpdateController');
         Route::delete('/companies/{company}', 'DeleteController');
+    });
+    Route::group(['namespace' => 'App\Http\Controllers\Api\Candidate'], function () {
+        Route::get('/candidates', 'IndexController');
+        Route::get('/candidates/{candidate}', 'ShowController');
+        Route::post('/candidates', 'StoreController');
+        Route::patch('/candidates/{candidate}', 'UpdateController');
+        Route::delete('/candidates/{candidate}', 'DeleteController');
     });
 });
 // Route::post('/upload', [ImageAvatarUploadController::class, 'upload'])->name('api.uploadAvatar');

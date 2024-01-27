@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 
-class VacancyResource extends JsonResource
+class CandidateResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -23,18 +23,21 @@ class VacancyResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'profession' => $this->profession->name,
-            'company' => [
-                'id' => $this->company->id, 'name' => $this->company->name,
-                'image' => optional(Storage::url($this->company->image), function ($url) {
-                    return $this->company->image ? URL::asset($url) : null;
+            'user' => [
+                'id' => $this->user->id,
+                'phone' => $this->user->telephone ?? null,
+                'email' => $this->user->email,
+                'name' => $this->user->name,
+                'image' => optional(Storage::url($this->user->image), function ($url) {
+                    return $this->user->image ? URL::asset($url) : null;
                 }),
             ],
-            'isOwner' => $this->company->user->id === Auth::user()->id,
+            'isOwner' => $this->user->id === Auth::user()->id,
             'salary' => $this->salary,
             'max_salary' => $this->max_salary,
             'area' => $this->area->name ?? null,
             'nature' => $this->nature->name,
-            'type' => $this->type->name,
+            'types' => $this->types->pluck('name')->toArray(),
             'skills' => $this->skills->pluck('name')->toArray(),
         ];
     }
