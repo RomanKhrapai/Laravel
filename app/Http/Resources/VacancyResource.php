@@ -32,6 +32,7 @@ class VacancyResource extends JsonResource
             'isOwner' => $this->company->user->id === Auth::user()->id,
             'salary' => $this->salary,
             'max_salary' => $this->max_salary,
+            'experience_months' => $this->experience_months,
             'area' => $this->area->name ?? null,
             'nature' => $this->nature->name,
             'type' => $this->type->name,

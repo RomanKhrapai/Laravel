@@ -16,8 +16,8 @@ class StoreController extends BaseController
     {
         $data = $request->validated();
 
-        $vacancy = $this->service->store($data);
+        $candidate = $this->service->store($data);
 
-        return $vacancy instanceof Candidate ? new CandidateResource($vacancy) : $vacancy;
+        return $candidate instanceof Candidate ? new CandidateResource($candidate) : $candidate;
     }
 }
