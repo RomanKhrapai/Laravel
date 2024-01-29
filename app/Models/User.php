@@ -70,6 +70,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Candidate::class);
     }
+    public function rewievs()
+    {
+        return $this->hasMany(Review::class);
+    }
+    public function receivedReviews(): HasMany
+    {
+        return $this->hasMany(Review::class, 'evaluated_user_id', 'id');
+    }
 
     public function setImageAttribute($value)
     {

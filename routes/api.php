@@ -59,6 +59,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::patch('/candidates/{candidate}', 'UpdateController');
         Route::delete('/candidates/{candidate}', 'DeleteController');
     });
+    Route::group(['namespace' => 'App\Http\Controllers\Api\Review'], function () {
+        Route::get('/reviews', 'IndexController');
+        // Route::get('/reviews/{reviews}', 'ShowController');
+        Route::post('/reviews', 'StoreController');
+        // Route::patch('/reviews/{reviews}', 'UpdateController');
+        Route::delete('/reviews/{reviews}', 'DeleteController');
+    });
 });
 // Route::post('/upload', [ImageAvatarUploadController::class, 'upload'])->name('api.uploadAvatar');
 

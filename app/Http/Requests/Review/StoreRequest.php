@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Vacancy;
+namespace App\Http\Requests\Review;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
@@ -25,23 +25,16 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|max:255',
-            'max_salary' => 'nullable|integer|gt:salary',
-            'salary' => 'required|integer|gt:0',
-            'description' => 'required|string|max:5000',
-            'nature_id' => 'required|exists:natures,id',
-            'type_id' => 'required|exists:types,id',
-            'company_id' => 'required|exists:companies,id',
+            'review' => 'nullable|string|max:5000|required_without:vote',
+            'vote' => 'nullable|integer|gt:0|max:10|required_without_all:review,parent_id',
+            'parent_id' => 'nullable|exists:reviews,id',
 
-            'area.id' => 'nullable|exists:areas,id',
-            'area.name' => 'required|string|max:255',
+            'company_id' => 'nullable|exists:companies,id',
 
-            'profession.id' => 'nullable|exists:professions,id',
-            'profession.name' => 'required|string|max:255',
+            'evaluated_company_id' => 'nullable|exists:companies,id|required_without:evaluated_user_id',
+            'evaluated_user_id' => 'nullable|exists:users,id|required_without:evaluated_company_id',
 
-            'skills' => '',
-            'skills.*.name' => 'required|string|max:255',
-            'skills.*.id' => 'nullable|exists:skills,id',
+
         ];
     }
 
