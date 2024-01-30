@@ -13,6 +13,7 @@ use App\Http\Controllers\SkillController;
 use App\Http\Controllers\VacancyController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CandidateController;
+use App\Http\Controllers\Auth\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,11 @@ use App\Http\Controllers\CandidateController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+//      http://127.0.0.1:8080/auth/callback
+
+Route::get('/auth/redirect', [LoginController::class, 'redirectGoogle'])->name('authGoogle');
+Route::get('/auth/callback', [LoginController::class, 'callbackGoogle']);
+
 
 Route::middleware(['auth'])->group(function () {
     Route::resource('users', UserController::class);

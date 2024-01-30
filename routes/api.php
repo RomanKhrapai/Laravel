@@ -63,8 +63,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/reviews', 'IndexController');
         // Route::get('/reviews/{reviews}', 'ShowController');
         Route::post('/reviews', 'StoreController');
-        // Route::patch('/reviews/{reviews}', 'UpdateController');
-        Route::delete('/reviews/{reviews}', 'DeleteController');
+        Route::patch('/reviews/{review}', 'UpdateController');
+        Route::delete('/reviews/{review}', 'DeleteController');
     });
 });
 // Route::post('/upload', [ImageAvatarUploadController::class, 'upload'])->name('api.uploadAvatar');

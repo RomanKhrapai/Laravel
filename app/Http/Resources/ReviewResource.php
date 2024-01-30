@@ -22,27 +22,36 @@ class ReviewResource extends JsonResource
             'review' => $this->review,
             'vote' => $this->vote,
             'owner' => [
-                'id' => $this->user_id ? $this->user->id : $this->company->id,
-                'name' => $this->user_id ? $this->user->name : $this->company->name,
-                'image' => $this->user_id ? optional(Storage::url($this->user->image), function ($url) {
-                    return $this->user->image ? URL::asset($url) : null;
-                }) : optional(Storage::url($this->company->image), function ($url) {
-                    return $this->company->image ? URL::asset($url) : null;
-                }),
+                'id' =>   $this->company->id ?? $this->user->id,
+                'name' =>  $this->company->name ?? $this->user->name,
+                'image' => $this->company_id ?
+                    optional(Storage::url($this->company->image), function ($url) {
+                        return $this->company->image ? URL::asset($url) : null;
+                    })
+                    :
+                    optional(Storage::url($this->user->image), function ($url) {
+                        return $this->user->image ? URL::asset($url) : null;
+                    }),
             ],
-            'children' =>  $this->reviews ? $this->reviews->map(function ($review) {
+            'children' =>  $this->replies ? $this->replies->map(function ($review) {
                 return [
                     'id' => $review->id,
-                    'title' => $review->review,
-                    'vote' => $this->vote,
+                    'review' => $review->review,
+                    'isOwner' => $review->user_id === Auth::user()->id,
+                    'company_id' => $review->company_id,
+                    'created_at' => $review->created_at->format('d.m.Y'),
+                    'updated_at' => $review->updated_at->format('d.m.Y'),
                     'owner' => [
-                        'id' => $this->user_id ? $this->user_id : $this->company_id,
-                        'name' => $this->user_id ? $this->user->name : $this->company->name,
-                        'image' => $this->user_id ? optional(Storage::url($this->user->image), function ($url) {
-                            return $this->user->image ? URL::asset($url) : null;
-                        }) : optional(Storage::url($this->company->image), function ($url) {
-                            return $this->company->image ? URL::asset($url) : null;
-                        }),
+                        'id' =>  $review->company_id ?? $review->user_id,
+                        'name' =>  $review->company->name ?? $review->user->name,
+                        'image' => $review->company_id ?
+                            optional(Storage::url($review->company->image))->value(function ($url) {
+                                return $this->company->image ? URL::asset($url) : null;
+                            })
+
+                            :  optional(Storage::url($review->user->image))->value(function ($url) {
+                                return $this->user->image ? URL::asset($url) : null;
+                            }),
                     ],
                 ];
             })->toArray() : [],

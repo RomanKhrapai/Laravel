@@ -23,7 +23,7 @@ class IndexController extends BaseController
 
         $filter = app()->make(ReviewFilter::class, ['queryParams' => array_filter($data)]);
 
-        $revievs = Review::filter($filter)->paginate($perPage, ['*'], 'page', $page);
+        $revievs = Review::filter($filter)->whereNull('parent_id')->paginate($perPage, ['*'], 'page', $page);
 
         return  ReviewResource::collection($revievs);
     }

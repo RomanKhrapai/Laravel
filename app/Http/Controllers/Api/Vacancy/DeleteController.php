@@ -10,6 +10,7 @@ class DeleteController extends BaseController
 {
     public function __invoke(Vacancy $vacancy)
     {
+
         $user_id = Auth::user()->id;
         if ($user_id === $vacancy->company->user_id) {
             $vacancy->delete();
