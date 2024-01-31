@@ -30,6 +30,13 @@ use App\Http\Controllers\Auth\LoginController;
 Route::get('/auth/redirect', [LoginController::class, 'redirectGoogle'])->name('authGoogle');
 Route::get('/auth/callback', [LoginController::class, 'callbackGoogle']);
 
+Route::get('/domain', function () {
+
+    $cookie = cookie('cookie_name', 'cookie_value', 60, '/', 'localhost:5174');
+
+    return  redirect()->away('http://localhost:5174/candidates')
+        ->withHeaders(['Set-Cookie' => $cookie]);
+});
 
 Route::middleware(['auth'])->group(function () {
     Route::resource('users', UserController::class);

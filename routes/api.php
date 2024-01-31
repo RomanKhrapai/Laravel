@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\ApiProfessionController;
 use App\Http\Controllers\Api\ApiUserController;
 use App\Http\Controllers\Api\Files\UploadApiImageController;
 use App\Http\Controllers\Api\Files\UploadImageController;
+use App\Http\Controllers\Auth\UpdateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,14 +27,17 @@ use App\Http\Controllers\Api\Files\UploadImageController;
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
+Route::get('/parameters', [ApiFormParametersController::class, 'index']);
+Route::get('/profession/search', [ApiProfessionController::class, 'search']);
+Route::get('/area/search', [ApiAreaController::class, 'search']);
+
+
+
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/uploadavatar', [UploadApiImageController::class, 'upload'])->name('api.uploadAvatar');
-
     Route::post('/logout', [AuthController::class, 'logout']);
-    Route::get('/parameters', [ApiFormParametersController::class, 'index']);
-    Route::get('/profession/search', [ApiProfessionController::class, 'search']);
-    Route::get('/area/search', [ApiAreaController::class, 'search']);
     Route::get('/user', [ApiUserController::class, 'index']);
+    Route::post('/update/password', [UpdateController::class, 'password']);
 
     // Route::post('/vac', 'App\Http\Controllers\Api\Vacancy\StoreController');
 
