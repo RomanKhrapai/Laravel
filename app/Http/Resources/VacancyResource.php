@@ -29,7 +29,7 @@ class VacancyResource extends JsonResource
                     return $this->company->image ? URL::asset($url) : null;
                 }),
             ],
-            'isOwner' => $this->company->user->id === Auth::user()->id,
+            'isOwner' => Auth::check() && $this->company->user_id === Auth::user()->id,
             'salary' => $this->salary,
             'max_salary' => $this->max_salary,
             'experience_months' => $this->experience_months,

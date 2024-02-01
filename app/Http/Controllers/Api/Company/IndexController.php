@@ -19,7 +19,7 @@ class IndexController extends BaseController
 
         $user = Auth::user();
 
-        if ($user->role_id === 2) {
+        if ($user && $user->role_id === 2) {
             $data['user_id'] = $user->id;
         }
 

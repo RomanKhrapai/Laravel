@@ -55,7 +55,7 @@ class ReviewResource extends JsonResource
                     ],
                 ];
             })->toArray() : [],
-            'isOwner' => $this->user_id === Auth::user()->id,
+            'isOwner' => Auth::check() && $this->user_id === Auth::user()->id,
             'company_id' => $this->company_id,
             'created_at' => $this->created_at->format('d.m.Y'),
             'updated_at' => $this->updated_at->format('d.m.Y')

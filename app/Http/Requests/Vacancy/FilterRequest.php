@@ -26,20 +26,12 @@ class FilterRequest extends FormRequest
     {
         return [
             'title' => 'nullable|string|max:50',
-            'address' => '',
+            'area_id' => 'nullable|exists:areas,id',
+            'profession_id' => 'nullable|exists:professions,id',
             'page'  => 'nullable|integer|gt:0|max:100',
             'per_page'  => 'nullable|integer|gt:1|max:100',
         ];
     }
-    // 'title' => 'required|string|max:255',
-    // 'max_salary' => 'nullable|integer|gt:salary',
-    // 'salary' => 'required|integer|gt:0',
-    // 'description' => 'required|string|max:5000',
-    // 'area_id' => 'required|exists:areas,id',
-    // 'nature_id' => 'required|exists:natures,id',
-    // 'type_id' => 'required|exists:types,id',
-    // 'company_id' => 'required|exists:companies,id',
-    // 'profession_id' => 'required|exists:professions,id',
 
     protected function failedValidation(Validator $validator)
     {

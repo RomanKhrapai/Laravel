@@ -52,18 +52,20 @@ class LoginController extends Controller
     public function callbackGoogle(Request $request)
     {
         $googleUser = Socialite::driver('google')->user();
+        dd($googleUser);
         $user = User::where('email', '=', $googleUser->email)->first();
+
         if (!$user) {
             $user = User::create([
                 'name' => $googleUser->name,
                 'email' => $googleUser->email,
                 'password' => Hash::make('')
             ]);
-
+            // Auth::login($user);
             $token = $user->createToken('API Token')->plainTextToken;
 
             return  redirect()->away('http://localhost:5174?new=true&token=' . $token);
-        } elseif ($user->role_id === 2 || $user->role_id === 3 || !$user->role_id) {
+        } elseif ($user->role_id == 2 || $user->role_id == 3 || !$user->role_id) {
             Auth::login($user);
             $userAgent = $request->header('User-Agent');
             $user->tokens()

@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 class VacancyFilter extends AbstractFilter
 {
 
-    public const NAME = 'name';
+    public const TITLE = 'title';
     public const PROFESSION_ID = 'profession_id';
     public const AREA_ID = 'area_id';
     public const USER_ID = 'user_id';
@@ -18,16 +18,16 @@ class VacancyFilter extends AbstractFilter
     protected function getCallbacks(): array
     {
         return [
-            self::NAME => [$this, 'name'],
+            self::TITLE => [$this, 'title'],
             self::PROFESSION_ID => [$this, 'professionId'],
             self::AREA_ID => [$this, 'areaId'],
             self::USER_ID => [$this, 'userId'],
         ];
     }
 
-    public function name(Builder $builder, $value)
+    public function title(Builder $builder, $value)
     {
-        $builder->where('name', 'like', "%{$value}%");
+        $builder->where('title', 'like', "%{$value}%");
     }
 
     public function professionId(Builder $builder, $value)

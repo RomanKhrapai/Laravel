@@ -14,6 +14,7 @@ use App\Http\Controllers\VacancyController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,7 +52,14 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('candidates', CandidateController::class);
     Route::resource('companies', CompanyController::class);
 
-    Route::get('/', function () {
-        return view('home');
-    })->name('home');
+    // Route::get('/', function () {
+    //     $user = auth()->user();
+
+    //     if ($user && in_array($user->role_id, [2, 3, null])) {
+    //         return redirect()->route('your.other.route.name');
+    //     }
+    //     return view('home');
+    // })->name('home');
+
+    Route::get('/', HomeController::class)->name('home');
 });

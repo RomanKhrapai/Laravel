@@ -18,7 +18,7 @@ class ApiUserController extends Controller
         });
 
         return response()->json([
-            'user' => $user->only(['role_id', 'name', 'email', 'image']),
+            'user' => $user->only(['id', 'role_id', 'name', 'email', 'image']),
             'companies' =>  $selectedCompanies,
             'test' => $user,
             'companiestest' => $companies,

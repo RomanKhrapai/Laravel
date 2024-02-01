@@ -32,7 +32,7 @@ class CandidateResource extends JsonResource
                     return $this->user->image ? URL::asset($url) : null;
                 }),
             ],
-            'isOwner' => $this->user->id === Auth::user()->id,
+            'isOwner' => Auth::check() && $this->user->id === Auth::user()->id,
             'salary' => $this->salary,
             'experience_months' => $this->experience_months,
             'area' => $this->area->name ?? null,
