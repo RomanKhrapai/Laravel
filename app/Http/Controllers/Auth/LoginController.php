@@ -52,7 +52,6 @@ class LoginController extends Controller
     public function callbackGoogle(Request $request)
     {
         $googleUser = Socialite::driver('google')->user();
-        dd($googleUser);
         $user = User::where('email', '=', $googleUser->email)->first();
 
         if (!$user) {

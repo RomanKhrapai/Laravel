@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\UpdatePasswordRequest;
 use App\Http\Requests\Auth\UpdateUserRequest;
 use App\Http\Resources\UserResource;
+use App\Jobs\SendChangePasswordMail;
+use App\Mail\ChangePasswordMail;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Laravel\Socialite\Facades\Socialite;
@@ -18,6 +20,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 
 class UpdateController extends Controller
 {
@@ -76,6 +79,9 @@ class UpdateController extends Controller
                 ->delete();
 
             $token = $user->createToken($userAgent)->plainTextToken;
+
+            // Mail::to($user->email)->send(new ChangePasswordMail(Auth::user()));
+            SendChangePasswordMail::dispatch($user);
 
             return response()->json(['access_token' => $token,]);
         } else return response()->json(['message' => 'User not found',], 404);

@@ -79,6 +79,15 @@ class User extends Authenticatable
         return $this->hasMany(Review::class, 'evaluated_user_id', 'id');
     }
 
+    public function senderMessages(): HasMany
+    {
+        return $this->hasMany(Message::class, 'sender_id', 'id');
+    }
+    public function receiverMessages(): HasMany
+    {
+        return $this->hasMany(Message::class, 'receiver_id', 'id');
+    }
+
     public function setImageAttribute($value)
     {
         if ($value instanceof UploadedFile) {

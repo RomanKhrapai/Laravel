@@ -12,7 +12,6 @@ class ApiUserController extends Controller
 
         $user = $request->user();
         $companies = $user->companies;
-        // dd($user->id, $companies);
         $selectedCompanies = $companies->map(function ($company) {
             return $company->only(['id', 'name']);
         });

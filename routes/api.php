@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\ApiUserController;
 use App\Http\Controllers\Api\Files\UploadApiImageController;
 use App\Http\Controllers\Api\Files\UploadImageController;
 use App\Http\Controllers\Auth\UpdateController;
+use App\Models\Chat;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,7 +52,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::patch('/update/password/{user}', [UpdateController::class, 'password']);
     Route::patch('/update/user/{user}', [UpdateController::class, 'user']);
 
+
+
+
     Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
+        Route::get('/chat/{user_id}', 'Chat\IndexController');
+        Route::post('/chat/send', 'Chat\SendController');
+
         Route::post('/vacancies', 'Vacancy\StoreController');
         Route::patch('/vacancies/{vacancy}', 'Vacancy\UpdateController');
         Route::delete('/vacancies/{vacancy}', 'Vacancy\DeleteController');
