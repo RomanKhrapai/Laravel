@@ -29,9 +29,9 @@ class Company extends Model
     {
         return $this->hasMany(Vacancy::class);
     }
-    public function messages()
+    public function chats()
     {
-        return $this->hasMany(Message::class);
+        return $this->hasMany(Chat::class);
     }
     public function rewievs()
     {

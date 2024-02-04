@@ -56,8 +56,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 
     Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
-        Route::get('/chat/{user_id}', 'Chat\IndexController');
-        Route::post('/chat/send', 'Chat\SendController');
+        Route::get('/chats', 'Chat\IndexController');
+        Route::post('/chats', 'Chat\CreateController');
+        Route::get('/messages', 'Chat\MessageController');
+        Route::get('/chats/{chat}', 'Chat\ShowController');
+        Route::post('/chats/{chat}', 'Chat\SendController');
 
         Route::post('/vacancies', 'Vacancy\StoreController');
         Route::patch('/vacancies/{vacancy}', 'Vacancy\UpdateController');

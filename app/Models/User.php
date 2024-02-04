@@ -79,13 +79,19 @@ class User extends Authenticatable
         return $this->hasMany(Review::class, 'evaluated_user_id', 'id');
     }
 
-    public function senderMessages(): HasMany
+    public function messages(): HasMany
     {
         return $this->hasMany(Message::class, 'sender_id', 'id');
     }
-    public function receiverMessages(): HasMany
+
+    public function chats(): HasMany
     {
-        return $this->hasMany(Message::class, 'receiver_id', 'id');
+        return $this->hasMany(Chat::class, 'user_id', 'id');
+    }
+
+    public function companiesChats()
+    {
+        return $this->hasManyThrough(Chat::class, Company::class);
     }
 
     public function setImageAttribute($value)

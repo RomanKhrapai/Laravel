@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Api\Chat;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Chat\ChatResource;
+use App\Http\Resources\Chat\MessageResource;
+use App\Models\Chat;
 use App\Repositories\Interfaces\ChatRepositoryInterface;
 
 
-class IndexController extends Controller
+class ShowController extends Controller
 {
     /**
      * @var repository
@@ -24,10 +25,9 @@ class IndexController extends Controller
         $this->repository = $repository;
     }
 
-    public function __invoke()
+    public function __invoke(Chat $chat)
     {
-        $chats = $this->repository->chatsList();
-        // dd($chats);
-        return ChatResource::collection($chats);
+        $messages = $this->repository->list($chat->id);
+        return MessageResource::collection($messages);
     }
 }

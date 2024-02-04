@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Chat;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 
-class ChatResource extends JsonResource
+class MessagesResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,6 +17,7 @@ class ChatResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'isOwner' => $this->sender_id === Auth::user()->id,
             'sender_id' => $this->sender_id,
             'sender' => $this->sender->name,
             'company_id' => $this->company_id,

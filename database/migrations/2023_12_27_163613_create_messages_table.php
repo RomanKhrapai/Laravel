@@ -14,20 +14,13 @@ return new class extends Migration
         Schema::create('messages', function (Blueprint $table) {
 
             $table->id();
-
-            $table->foreignId('company_id')->nullable()->constrained('companies')->cascadeOnUpdate()
+            $table->foreignId('chat_id')->constrained('chats')->cascadeOnUpdate()
                 ->cascadeOnDelete();
-            $table->index('company_id', 'company_idx');
-
             $table->foreignId('sender_id')->constrained('users')->cascadeOnUpdate()
                 ->cascadeOnDelete();
             $table->index('sender_id', 'sender_idx');
-
-            $table->foreignId('receiver_id')->constrained('users')->cascadeOnUpdate()
-                ->cascadeOnDelete();
-            $table->index('receiver_id', 'receiver_idx');
-
-            $table->text('message');
+            $table->boolean('read')->default(true);
+            $table->text('content');
             $table->timestamps();
         });
     }

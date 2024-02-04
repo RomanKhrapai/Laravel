@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Api\Chat;
 use App\Events\MessageSent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Message\MessageRequest;
+use App\Http\Resources\Chat\MessageResource;
 use App\Http\Resources\ChatResource;
+use App\Models\Chat;
 use App\Repositories\Interfaces\ChatRepositoryInterface;
 
-class ChatController extends Controller
+class SendController extends Controller
 {
     /**
      * @var repository
@@ -25,12 +27,12 @@ class ChatController extends Controller
         $this->repository = $repository;
     }
 
-    public function __invoke(MessageRequest $request)
+    public function __invoke(MessageRequest $request, Chat $chat)
     {
-        $message = $this->repository->send($request->validated());
-        //репозиторій виклик, який повертає модель повідомлення
-        broadcast(new MessageSent($message));
-        // повертаю ресурс
-        return new ChatResource($message);
+        $message = $this->repository->send($request->validated(), $chat);
+
+        // broadcast(new MessageSent($message));
+
+        return new MessageResource($message);
     }
 }
