@@ -16,22 +16,24 @@ class ChatRepository implements ChatRepositoryInterface
     {
         $user = Auth::user();
         if ($user->role_id === 3) {
-            return User::find($user->id)->chats()
-                ->with(['lastMessage' => function ($query) {
-                    $query->select('id', 'chat_id', 'read', 'created_at')
-                        ->latest()
-                        ->first();
-                }])
-                ->get();
+            $userChats = User::find($user->id)->chats;
+
+            foreach ($userChats as $chat) {
+                $chat->load(['messages' => function ($query) {
+                    $query->latest()->first();
+                }]);
+            }
+            return $userChats;
         }
 
-        return User::find($user->id)->companiesChats()
-            ->with(['lastMessage' => function ($query) {
-                $query->select('id', 'chat_id', 'read', 'created_at')
-                    ->latest()
-                    ->first();
-            }])
-            ->get();
+        $userChats = User::find($user->id)->companiesChats;
+
+        foreach ($userChats as $chat) {
+            $chat->load(['messages' => function ($query) {
+                $query->latest()->first();
+            }]);
+        }
+        return $userChats;
     }
 
 
@@ -47,7 +49,6 @@ class ChatRepository implements ChatRepositoryInterface
 
             return $chat;
         } catch (QueryException $e) {
-            // Обробка помилки бази даних
             if ($e->errorInfo[1] == 1062) {
                 $existingChat = Chat::where('company_id', $data['company_id'])
                     ->where('user_id', $data['user_id'])
@@ -61,6 +62,13 @@ class ChatRepository implements ChatRepositoryInterface
 
     public function list($chat_id)
     {
+        $user_id = Auth::user()->id;
+
+        Message::where('chat_id', $chat_id)
+            ->where('sender_id', '!=', $user_id)
+            ->where('read', true)
+            ->update(['read' => false]);
+
         return  Message::where('chat_id', $chat_id)
             ->orderBy('created_at', 'desc')
             ->get();
@@ -68,7 +76,14 @@ class ChatRepository implements ChatRepositoryInterface
 
     public function send($data, $chat)
     {
-        $data['sender_id'] = Auth::user()->id;
+        $user_id = Auth::user()->id;
+
+        Message::where('chat_id', $chat->id)
+            ->where('sender_id', '!=', $user_id)
+            ->where('read', true)
+            ->update(['read' => false]);
+
+        $data['sender_id'] = $user_id;
         $data['chat_id'] = $chat->id;
         $data['read'] = true;
 

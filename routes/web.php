@@ -31,13 +31,13 @@ use App\Http\Controllers\HomeController;
 Route::get('/auth/redirect', [LoginController::class, 'redirectGoogle'])->name('authGoogle');
 Route::get('/auth/callback', [LoginController::class, 'callbackGoogle']);
 
-Route::get('/domain', function () {
+// Route::get('/domain', function () {
 
-    $cookie = cookie('cookie_name', 'cookie_value', 60, '/', 'localhost:5174');
+//     $cookie = cookie('cookie_name', 'cookie_value', 60, '/', 'localhost:5174');
 
-    return  redirect()->away('http://localhost:5174/candidates')
-        ->withHeaders(['Set-Cookie' => $cookie]);
-});
+//     return  redirect()->away('http://localhost:5174/candidates')
+//         ->withHeaders(['Set-Cookie' => $cookie]);
+// });
 
 Route::middleware(['auth'])->group(function () {
     Route::resource('users', UserController::class);
@@ -51,15 +51,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('vacancies', VacancyController::class);
     Route::resource('candidates', CandidateController::class);
     Route::resource('companies', CompanyController::class);
-
-    // Route::get('/', function () {
-    //     $user = auth()->user();
-
-    //     if ($user && in_array($user->role_id, [2, 3, null])) {
-    //         return redirect()->route('your.other.route.name');
-    //     }
-    //     return view('home');
-    // })->name('home');
 
     Route::get('/', HomeController::class)->name('home');
 });

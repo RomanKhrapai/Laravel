@@ -27,7 +27,6 @@ class IndexController extends Controller
     public function __invoke()
     {
         $chats = $this->repository->chatsList();
-        // dd($chats);
         return ChatResource::collection($chats);
     }
 }

@@ -17,7 +17,7 @@
                     <img loading="lazy" src="" height="320" width="479">
                 </div>
                 <input id="fileInput" type="file" name="img" accept=" image/jpeg" class=" custom-file-input "
-                    data-url='{{ url(route('api.uploadAvatar')) }}'>
+                    data-url='{{ url(route('api.upload')) }}'>
                 <input type="hidden" name="image" id="input-image" value="{{ old('image') }}" />
             </label>
         </div>

@@ -17,10 +17,10 @@
         <div>
             <label class="custom-label form__input">Image:
                 <div id="fileInputshow">
-                    <img loading="lazy" src="{{ $user->image }}" height="320" width="479">
+                    <img loading="lazy" src="{{ Storage::url($user->image) }}" height="320" width="479">
                 </div>
                 <input id="fileInput" type="file" name="img" accept=" image/jpeg" class=" custom-file-input "
-                    data-url='{{ url(route('api.uploadAvatar')) }}'>
+                    data-url='{{ url(route('api.upload')) }}'>
                 <button id="remove-image">remove image</button>
                 <input type="hidden" name="image" id="input-image" value="{{ old('image'), '' }}" />
             </label>

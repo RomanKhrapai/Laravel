@@ -94,22 +94,22 @@ class User extends Authenticatable
         return $this->hasManyThrough(Chat::class, Company::class);
     }
 
-    public function setImageAttribute($value)
-    {
-        if ($value instanceof UploadedFile) {
-            $filename = date('d-m-Y') . '_' . $value->getClientOriginalName();
-            Storage::put("users/{$filename}", file_get_contents($value));
-            $this->attributes['image'] = "users/{$filename}";
-        } else {
-            $this->attributes['image'] = $value;
-        }
-    }
+    // public function setImageAttribute($value)
+    // {
+    //     if ($value instanceof UploadedFile) {
+    //         $filename = date('d-m-Y') . '_' . $value->getClientOriginalName();
+    //         Storage::put("users/{$filename}", file_get_contents($value));
+    //         $this->attributes['image'] = "users/{$filename}";
+    //     } else {
+    //         $this->attributes['image'] = $value;
+    //     }
+    // }
 
-    public function getImageAttribute($value)
-    {
-        if ($value) {
-            return Storage::url($value);
-        }
-        return null;
-    }
+    // public function getImageAttribute($value)
+    // {
+    //     if ($value) {
+    //         return Storage::url($value);
+    //     }
+    //     return null;
+    // }
 }

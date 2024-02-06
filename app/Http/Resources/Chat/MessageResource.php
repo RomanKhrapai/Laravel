@@ -19,7 +19,8 @@ class MessageResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'isOwner' => $this->sender_id === Auth::user()->id,
+            'chatId' => $this->chat_id,
+            'isOwner' => Auth::check() ? $this->sender_id === Auth::user()->id : false,
             'content' => $this->content,
             'read' =>  $this->read,
             'date' => $this->created_at->format('d.m.Y H:i'),

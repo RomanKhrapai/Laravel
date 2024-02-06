@@ -27,7 +27,7 @@ class CompanyResource extends JsonResource
             }),
             'address' => $this->address,
             'owner' => $this->user->name,
-            'isOwner' => Auth::check() && $this->user->id === Auth::user()->id,
+            'isOwner' => Auth::check() && $this->user_id === Auth::user()->id,
             'created_at' => $this->created_at ?? null,
             'updated_at' => $this->updated_at ?? null,
             'vacancies' => $this->vacancies->map(function ($vacancy) {

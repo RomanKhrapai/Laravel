@@ -17,20 +17,22 @@ class ChatResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $roleId = Auth::user()->role_id;
+
         return [
             'id' => $this->id,
             'companyId' => $this->company_id,
             'userId' =>  $this->user_id,
-            'yoyrName' => $this->user->role_id !== 2 ? $this->user->name : $this->company->name,
-            'yoyrImage' => $this->user->role_id !== 2 ?
+            'yourName' => $roleId == 3 ? $this->user->name : $this->company->name,
+            'yourImage' => $roleId == 3 ?
                 optional(Storage::url($this->user->image), function ($url) {
                     return $this->user->image ? URL::asset($url) : null;
                 }) :
                 optional(Storage::url($this->company->image), function ($url) {
                     return $this->company->image ? URL::asset($url) : null;
                 }),
-            'interlocutorName' => $this->user->role_id == 2 ? $this->user->name : $this->company->name,
-            'interlocutorImage' => $this->user->role_id == 2 ?
+            'interlocutorName' => $roleId == 2 ? $this->user->name : $this->company->name,
+            'interlocutorImage' => $roleId == 2 ?
                 optional(Storage::url($this->user->image), function ($url) {
                     return $this->user->image ? URL::asset($url) : null;
                 }) :

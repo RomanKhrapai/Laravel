@@ -9,7 +9,7 @@
 
          <div class="container mt-4">
              @empty(!$user->image)
-                 <img loading="lazy" src="{{ $user->image }}" height="60" width="47"></img>
+                 <img loading="lazy" src="{{ Storage::url($user->image) }}" height="60" width="47"></img>
              @endempty
 
              <table class="table table-striped">

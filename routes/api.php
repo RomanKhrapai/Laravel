@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\Files\UploadApiImageController;
 use App\Http\Controllers\Api\Files\UploadImageController;
 use App\Http\Controllers\Auth\UpdateController;
 use App\Models\Chat;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,19 +29,24 @@ use App\Models\Chat;
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
+Route::middleware(['AuthMod'])->group(function () {
+    Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
+
+        Route::get('/vacancies', 'Vacancy\IndexController');
+        Route::get('/vacancies/{vacancy}', 'Vacancy\ShowController');
+
+        Route::get('/companies', 'Company\IndexController');
+        Route::get('/companies/{company}', 'Company\ShowController');
+
+        Route::get('/reviews', 'Review\IndexController');
+    });
+});
+
 Route::get('/parameters', [ApiFormParametersController::class, 'index']);
 Route::get('/profession/search', [ApiProfessionController::class, 'search']);
 Route::get('/area/search', [ApiAreaController::class, 'search']);
 
-Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
-    Route::get('/vacancies', 'Vacancy\IndexController');
-    Route::get('/vacancies/{vacancy}', 'Vacancy\ShowController');
 
-    Route::get('/companies', 'Company\IndexController');
-    Route::get('/companies/{company}', 'Company\ShowController');
-
-    Route::get('/reviews', 'Review\IndexController');
-});
 
 
 
@@ -83,6 +89,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 Route::middleware(['web', 'auth:sanctum'])->group(function () {
-    Route::post('/upload', [UploadImageController::class, 'upload'])->name('api.uploadAvatar');
+    Route::post('/upload', [UploadImageController::class, 'upload'])->name('api.upload');
     Route::get('/skillByProfesion', [ApiSkillController::class, 'byProfesion'])->name('api.skillByProfesion');
 });
