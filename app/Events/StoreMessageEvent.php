@@ -36,7 +36,8 @@ class StoreMessageEvent implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('send_message_' . $this->userId);
+        return new Channel('send_message_' . $this->userId);
+        // return new PrivateChannel('send_message_' . $this->userId);
     }
 
     /**

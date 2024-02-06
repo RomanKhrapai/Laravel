@@ -44,7 +44,6 @@ Broadcast::channel('send_message_{id}', function ($user, $id) {
     Log::info("message3 " . $id);
     Log::info("message4 " . Auth::guard('sanctum')->user());
     Log::info("message5 " . Auth::user());
+    return true;
     return $user->id === $id;
-});
-Route::middleware(['AuthMod'])->group(function () {
 });

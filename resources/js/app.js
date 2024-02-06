@@ -79,8 +79,7 @@ function skillsAjax(e) {
         .get(`${baseUrl}?${params}`, {
             headers: {
                 Accept: "application/json",
-                Authorization:
-                    "Bearer 7|ch0UG8HObGq0ghHNkQFlh5QyelzZOuiDspdIaJes69c8ff8d",
+
             },
         })
         .then((response) => {
