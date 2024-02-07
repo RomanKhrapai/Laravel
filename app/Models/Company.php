@@ -33,13 +33,13 @@ class Company extends Model
     {
         return $this->hasMany(Chat::class);
     }
-    public function rewievs()
+    public function reviews()
     {
         return $this->hasMany(Review::class);
     }
     public function receivedReviews(): HasMany
     {
-        return $this->hasMany(Review::class, 'evaluated_user_id', 'id');
+        return $this->hasMany(Review::class, 'evaluated_company_id', 'id');
     }
 
     public function scopeByName(Builder $query, $name)

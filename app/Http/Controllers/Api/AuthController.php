@@ -14,13 +14,13 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Notifications\RegisteredUserNotification;
 use App\Notifications\WelcomeEmailNotification;
-use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Rule;
 use App\Models\Role;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -106,21 +106,14 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         $user = Auth::User();
+        if ($user) {
+            $request->user()->currentAccessToken()->delete();
+            Auth::logout();
 
-        $request->user()->currentAccessToken()->delete();
+            $request->session()->invalidate();
 
-        // if (!$user) {
-        //     return response()->json(['message' => 'Logged out']);
-        // } else {
-        //     $user->tokens()->where('name', 'token-name')->delete();
-        // }
-        // Auth::guard('web')->logout();
-        // Auth::guard('api')->tokens()->delete();
-        // Auth::logout();
-
-        // $request->session()->invalidate();
-        // $request->session()->regenerateToken();
-
-        return response()->json(['message' => 'Logged out', 'user' => $user]);
+            $request->session()->remove('_token');
+        }
+        return response()->json(['message' => 'Logged out']);
     }
 }

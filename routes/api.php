@@ -30,6 +30,8 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware(['AuthMod'])->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
+
     Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
 
         Route::get('/vacancies', 'Vacancy\IndexController');
@@ -52,7 +54,6 @@ Route::get('/area/search', [ApiAreaController::class, 'search']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/uploadavatar', [UploadApiImageController::class, 'upload'])->name('api.uploadAvatar');
-    Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/user', [ApiUserController::class, 'index']);
 
     Route::patch('/update/password/{user}', [UpdateController::class, 'password']);

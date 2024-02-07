@@ -7,15 +7,20 @@ use App\Http\Filters\CompanyFilter;
 use App\Http\Requests\Company\FilterRequest;
 use App\Models\Company;
 use App\Http\Resources\CompanyResource;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class IndexController extends BaseController
 {
     public function __invoke(FilterRequest $request)
     {
         $data = $request->validated();
+        Log::info(json_encode($data['is_desc']));
         $page = $data['page'] ?? 1;
         $perPage = $data['per_page'] ?? 10;
+        $sortfild = $data['sort'] ?? 'created_at';
+        $sortDirection =  $data['is_desc'] ?? 'asc';
 
         $user = Auth::user();
 
@@ -25,8 +30,14 @@ class IndexController extends BaseController
 
         $filter = app()->make(CompanyFilter::class, ['queryParams' => array_filter($data)]);
 
-        $companies = Company::filter($filter)->paginate($perPage, ['*'], 'page', $page);
+        $companies = Company::withAvg('receivedReviews', 'vote')
+            ->filter($filter)
+            ->orderBy($sortfild, $sortDirection)
+            ->paginate($perPage, ['*'], 'page', $page);
 
+
+
+        // return json_encode($companies);
         return  CompanyResource::collection($companies);
     }
 }

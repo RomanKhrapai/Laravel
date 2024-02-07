@@ -21,6 +21,7 @@ class CompanyResource extends JsonResource
 
             'id' => $this->id,
             'name' => $this->name,
+            'avgVote' => $this->received_reviews_avg_vote,
             'description' => $this->description,
             'image' => optional(Storage::url($this->image), function ($url) {
                 return $this->image ? URL::asset($url) : null;
