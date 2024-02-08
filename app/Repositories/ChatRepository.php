@@ -87,6 +87,8 @@ class ChatRepository implements ChatRepositoryInterface
         $data['chat_id'] = $chat->id;
         $data['read'] = true;
 
+        $data['content'] = strip_tags($data['content'], '<a>');
+
         $message = new Message;
         $message->fill($data)->save();
 

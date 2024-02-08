@@ -59,9 +59,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::patch('/update/password/{user}', [UpdateController::class, 'password']);
     Route::patch('/update/user/{user}', [UpdateController::class, 'user']);
 
-
-
-
     Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
         Route::get('/chats', 'Chat\IndexController');
         Route::post('/chats', 'Chat\CreateController');
@@ -86,6 +83,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/reviews', 'Review\StoreController');
         Route::patch('/reviews/{review}', 'Review\UpdateController');
         Route::delete('/reviews/{review}', 'Review\DeleteController');
+
+        Route::get('/reports/feedback', 'Report\FeedbackController');
+        // Route::get('/reports/vacancy', 'Report\VacancyController');
+
     });
 });
 

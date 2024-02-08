@@ -16,7 +16,6 @@ class IndexController extends BaseController
     public function __invoke(FilterRequest $request)
     {
         $data = $request->validated();
-        Log::info(json_encode($data['is_desc']));
         $page = $data['page'] ?? 1;
         $perPage = $data['per_page'] ?? 10;
         $sortfild = $data['sort'] ?? 'created_at';
@@ -35,9 +34,6 @@ class IndexController extends BaseController
             ->orderBy($sortfild, $sortDirection)
             ->paginate($perPage, ['*'], 'page', $page);
 
-
-
-        // return json_encode($companies);
         return  CompanyResource::collection($companies);
     }
 }

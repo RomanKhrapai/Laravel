@@ -4,41 +4,37 @@ namespace App\Events;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class NewMessage implements ShouldBroadcastNow
+class SendPdfError implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $message;
-
+    public $userId;
+    public $error;
     /**
      * Create a new event instance.
-     *
-     * @return void
      */
-    public function __construct($message)
+    public function __construct($error, $userId)
     {
-        $this->message = $message->toArray();
+        $this->userId = $userId;
+        $this->error = $error;
     }
 
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return \Illuminate\Broadcasting\Channel|array
+     * @return array<int, \Illuminate\Broadcasting\Channel>
      */
     public function broadcastOn()
     {
-        return ['chat'];
+        return  new Channel('users_' . $this->userId);
     }
 
     public function broadcastAs()
     {
-        return 'new-message';
+        return 'send-error';
     }
 }
