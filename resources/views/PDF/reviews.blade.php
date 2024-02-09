@@ -5,6 +5,11 @@
     <title>Generate PDF</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        body {
+            font-family: 'DejaVu Sans', sans-serif;
+        }
+    </style>
 </head>
 
 <body>
@@ -28,8 +33,8 @@
             </tr>
         @endforeach
     </table>
-    @foreach ($companies as $company)
-        <h1>{{ $company->name }}</h1>
+    @foreach ($companies as $i => $company)
+        <h3>{{ $i + 1 }}. Company {{ $company->name }} reviews </h3>
         <table class="table table-bordered">
             <tr>
                 <th>ID</th>
@@ -43,7 +48,7 @@
                 <tr>
                     <td>{{ $review->id }}</td>
                     <td>{{ $review->vote }}</td>
-                    <td>{{ $review->review }}</td>
+                    <td>{!! $review->review !!}</td>
                     <td>{{ $review->created_at }}</td>
                 </tr>
             @endforeach

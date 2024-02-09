@@ -40,7 +40,7 @@ class StoreRequest extends FormRequest
             'skills' => '',
             'skills.*.name' => 'required|string|max:255',
             'skills.*.id' => 'nullable|exists:skills,id',
-            'experience_months' => "nullable|integer|gt:0"
+            'experience_months' => "nullable|integer|gt:-1"
         ];
     }
 

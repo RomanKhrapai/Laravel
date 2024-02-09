@@ -4,18 +4,13 @@ namespace App\Jobs;
 
 use App\Events\SendPdf;
 use App\Events\SendPdfError;
-use App\Models\Company;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Barryvdh\DomPDF\Facade\Pdf;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Broadcast;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\URL;
+use App\Services\PdfGenerationService;
+
 
 class GeneratePDFReport implements ShouldQueue
 {
@@ -40,48 +35,14 @@ class GeneratePDFReport implements ShouldQueue
      */
     public function handle(): void
     {
+        $pdfService = new PdfGenerationService();
+        $dateFile = $pdfService->SavePdf($this->userId, $this->baseURL);
 
-
-
-        $currentDate = Carbon::now();
-        $previousDate = Carbon::now()->subMonth();
-
-        $companies = Company::withAvg('receivedReviews', 'vote')
-            ->withCount('receivedReviews')
-            ->with('receivedReviews')
-            ->where('user_id', $this->userId)
-            ->whereHas('receivedReviews', function ($query) use ($previousDate, $currentDate) {
-                $query->whereBetween('created_at', [$previousDate, $currentDate]);
-            })
-            ->get();
-
-        $data = [
-            'title' => 'Report Rating and reviews for the last month',
-            'date' => $currentDate,
-            "previousDate" =>  $previousDate,
-            'companies' => $companies,
-        ];
-
-        $filePath = 'public/pdf/';
-        $fileName = 'reviews-' . $this->userId . '.pdf';
-
-        $pdf = Pdf::loadView('PDF.reviews', $data);
-        $file = Storage::put($filePath . $fileName, $pdf->output());
-
-
-        if ($file) {
-            $fullFileDir = Storage::path($filePath);
-            chmod($fullFileDir, 0777);
-
-            $fullFilePath = Storage::path($filePath . $fileName);
-            chmod($fullFilePath, 0777);
-
-            $fileUrl    = Storage::url($filePath . $fileName);
-            $fullFileUrl  = $this->baseURL . $fileUrl;
-
-            broadcast(new SendPdf($fullFileUrl, $this->userId));
+        if (empty($dateFile['error']) && isset($dateFile['file'])) {
+            broadcast(new SendPdf($dateFile['file'], $this->userId));
             return;
         }
+
         broadcast(new SendPdfError("Error generate file", $this->userId));
     }
 }

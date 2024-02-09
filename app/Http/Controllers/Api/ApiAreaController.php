@@ -21,4 +21,11 @@ class ApiAreaController extends Controller
 
         return response()->json($areas);
     }
+
+    public function byId(Area $area)
+    {
+        return response()->json(
+            ['id' => $area->id, 'name' => $area->name,]
+        );
+    }
 }

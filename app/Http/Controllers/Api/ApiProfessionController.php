@@ -21,4 +21,10 @@ class ApiProfessionController extends Controller
 
         return response()->json($professions);
     }
+    public function byId(Profession $profession)
+    {
+        return response()->json(
+            ['id' => $profession->id, 'name' => $profession->name,]
+        );
+    }
 }

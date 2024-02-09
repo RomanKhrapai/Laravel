@@ -45,8 +45,10 @@ Route::middleware(['AuthMod'])->group(function () {
 });
 
 Route::get('/parameters', [ApiFormParametersController::class, 'index']);
-Route::get('/profession/search', [ApiProfessionController::class, 'search']);
-Route::get('/area/search', [ApiAreaController::class, 'search']);
+Route::get('/professions/search', [ApiProfessionController::class, 'search']);
+Route::get('/profession/{profession}', [ApiProfessionController::class, 'byId']);
+Route::get('/area/{area}', [ApiAreaController::class, 'byId']);
+Route::get('/areas/search', [ApiAreaController::class, 'search']);
 
 
 
