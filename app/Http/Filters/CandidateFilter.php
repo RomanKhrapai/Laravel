@@ -14,6 +14,9 @@ class CandidateFilter extends AbstractFilter
     public const PROFESSION_ID = 'profession_id';
     public const AREA_ID = 'area_id';
     public const USER_ID = 'user_id';
+    public const SALARY = 'salary';
+    public const EXPERIENCE_MONTHS = 'experience_months';
+    public const TYPE_ID = 'type_id';
 
     protected function getCallbacks(): array
     {
@@ -22,7 +25,24 @@ class CandidateFilter extends AbstractFilter
             self::PROFESSION_ID => [$this, 'professionId'],
             self::AREA_ID => [$this, 'areaId'],
             self::USER_ID => [$this, 'userId'],
+            self::SALARY  => [$this, 'salary'],
+            self::EXPERIENCE_MONTHS => [$this, 'experienceMonths'],
+            self::TYPE_ID => [$this, 'typeId'],
         ];
+    }
+    public function salary(Builder $builder, $value)
+    {
+        $builder->where('salary', '<=', $value);
+    }
+    public function experienceMonths(Builder $builder, $value)
+    {
+        $builder->where('experience_months', '>=', $value);
+    }
+    public function typeId(Builder $builder, $value)
+    {
+        $builder->join('candidate_type', 'candidates.id', '=', 'candidate_type.candidate_id')
+            ->where('candidate_type.type_id', $value)
+            ->select('candidates.*');
     }
 
     public function title(Builder $builder, $value)

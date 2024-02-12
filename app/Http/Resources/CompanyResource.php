@@ -32,7 +32,7 @@ class CompanyResource extends JsonResource
             'created_at' => $this->created_at ?? null,
             'updated_at' => $this->updated_at ?? null,
             'vacancies' => $this->vacancies->map(function ($vacancy) {
-                return ['id' => $vacancy->id, 'title' => $vacancy->title];
+                return ['id' => $vacancy->id, 'title' => $vacancy->title, 'isClosed' => $vacancy->closed];
             })->toArray(),
         ];
     }

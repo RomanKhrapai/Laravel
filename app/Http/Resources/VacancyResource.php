@@ -20,6 +20,7 @@ class VacancyResource extends JsonResource
         return [
 
             'id' => $this->id,
+            'isClosed' => $this->closed,
             'title' => $this->title,
             'description' => $this->description,
             'profession' => $this->profession->name,

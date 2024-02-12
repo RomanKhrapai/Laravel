@@ -63,7 +63,7 @@ class LoginController extends Controller
             // Auth::login($user);
             $token = $user->createToken('API Token')->plainTextToken;
 
-            return  redirect()->away('http://localhost:5174?new=true&token=' . $token);
+            return  redirect()->away(env('APP_FRONT_URL') . '?new=true&token=' . $token);
         } elseif ($user->role_id == 2 || $user->role_id == 3 || !$user->role_id) {
             Auth::login($user);
             $userAgent = $request->header('User-Agent');
@@ -73,7 +73,7 @@ class LoginController extends Controller
 
             $token = $user->createToken($userAgent)->plainTextToken;
 
-            return  redirect()->away('http://localhost:5174?token=' . $token);
+            return  redirect()->away(env('APP_FRONT_URL') . '?token=' . $token);
         }
         Auth::login($user);
         return redirect()->route('home');

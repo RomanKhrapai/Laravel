@@ -55,7 +55,47 @@ class Service
         return $vacancy;
     }
 
-    public function update()
+    public function update($vacancy, $data)
     {
+        try {
+            DB::beginTransaction();
+            $skills = isset($data['skills']) ? $data['skills'] : false;
+            $profession = isset($data['profession']) ? $data['profession'] : false;
+            $area = isset($data['area']) ? $data['area'] : false;
+
+            unset($data['skills'], $data['profession'], $data['area']);
+
+            if ($profession) {
+                $profession = empty($profession['id']) ?
+                    Profession::create($profession) :
+                    Profession::find($profession['id']);
+                $data['profession_id'] = $profession->id;
+            }
+            if ($area) {
+                $area = empty($area['id']) ?
+                    Area::create($area) :
+                    Area::find($area['id']);
+                $data['area_id'] = $area->id;
+            }
+
+            if ($skills) {
+                $skillIds = [];
+                foreach ($skills as $key => $skill) {
+
+                    $skill =  empty($skill['id']) ?
+                        Skill::create(['name' => $skill['name'], 'profession_id' => $profession->id]) :
+                        Skill::find($skill['id']);
+                    $skillIds[] = $skill->id;
+                }
+                $vacancy->skills()->sync($skillIds);
+            }
+
+            $vacancy->update($data);
+            DB::commit();
+        } catch (Exception $exception) {
+            DB::rollBack();
+            return $exception->getMessage();
+        }
+        return $vacancy;
     }
 }

@@ -44,6 +44,11 @@ class Candidate extends Model
     {
         return $this->belongsTo(Profession::class);
     }
+
+    // public function receivedReviews()
+    // {
+    //     return $this->hasMany(Review::class, 'evaluated_user_id', 'user_id');
+    // }
     public function scopeByName(Builder $query, $name)
     {
         $query->where('name', 'like', "%{$name}%");

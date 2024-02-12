@@ -62,12 +62,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::patch('/update/user/{user}', [UpdateController::class, 'user']);
 
     Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
+        Route::get('/authdata', 'User\AuthDataController');
+
         Route::get('/chats', 'Chat\IndexController');
         Route::post('/chats', 'Chat\CreateController');
         Route::get('/messages', 'Chat\MessageController');
         Route::get('/chats/{chat}', 'Chat\ShowController');
         Route::post('/chats/{chat}', 'Chat\SendController');
 
+        Route::get('/vacancies/offers/{vacancy}', 'Vacancy\OffersController');
         Route::post('/vacancies', 'Vacancy\StoreController');
         Route::patch('/vacancies/{vacancy}', 'Vacancy\UpdateController');
         Route::delete('/vacancies/{vacancy}', 'Vacancy\DeleteController');
@@ -78,6 +81,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
         Route::get('/candidates', 'Candidate\IndexController');
         Route::get('/candidates/{candidate}', 'Candidate\ShowController');
+        Route::get('/candidates/offers/{candidate}', 'Candidate\OffersController');
         Route::post('/candidates', 'Candidate\StoreController');
         Route::patch('/candidates/{candidate}', 'Candidate\UpdateController');
         Route::delete('/candidates/{candidate}', 'Candidate\DeleteController');

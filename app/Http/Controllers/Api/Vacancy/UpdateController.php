@@ -3,14 +3,22 @@
 namespace App\Http\Controllers\Api\Vacancy;
 
 use App\Http\Controllers\Api\Vacancy\BaseController;
-use App\Models\Area;
-use Illuminate\Http\Request;
+use App\Http\Requests\Vacancy\UpdateRequest;
+use App\Http\Resources\VacancyResource;
+use App\Models\Vacancy;
+use Illuminate\Support\Facades\Auth;
 
 class UpdateController extends BaseController
 {
-    public function __invoke(Request $request)
+    public function __invoke(UpdateRequest $request, Vacancy $vacancy)
     {
+        if ($vacancy->company->user_id !== Auth::user()->id) {
+            return response()->json(['error' => 'Unauthenticated.'], 401);
+        }
 
-        return response()->json('$areas');
+        $data = $request->validated();
+        $vacancy = $this->service->update($vacancy, $data);
+
+        return $vacancy instanceof Vacancy ? new VacancyResource($vacancy) : $vacancy;
     }
 }

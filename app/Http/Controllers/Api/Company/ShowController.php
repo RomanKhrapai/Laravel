@@ -10,6 +10,8 @@ class ShowController extends BaseController
 {
     public function __invoke(Company $company)
     {
-        return new CompanyResource($company->withAvg('receivedReviews', 'vote')->first());
+        return new CompanyResource($company
+            ->withAvg('receivedReviews', 'vote')
+            ->find($company->id));
     }
 }

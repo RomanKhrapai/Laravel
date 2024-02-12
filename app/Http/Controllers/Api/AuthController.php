@@ -83,6 +83,7 @@ class AuthController extends Controller
         $user = User::where('email', $request['email'])->firstOrFail();
 
         Auth::login($user);
+
         $userAgent = $request->header('User-Agent');
         $user->tokens()
             ->where('name', $userAgent)

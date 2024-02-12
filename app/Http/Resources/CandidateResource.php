@@ -23,6 +23,7 @@ class CandidateResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'profession' => $this->profession->name,
+            'avgVote' => $this->received_reviews_avg_vote,
             'user' => [
                 'id' => $this->user->id,
                 'phone' => $this->user->telephone ?? null,

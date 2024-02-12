@@ -10,17 +10,11 @@ class ApiUserController extends Controller
     public function index(Request $request)
     {
 
-        $user = $request->user();
-        $companies = $user->companies;
-        $selectedCompanies = $companies->map(function ($company) {
-            return $company->only(['id', 'name']);
-        });
+        $user = $request->user()->only(['id', 'role_id', 'name', 'email', 'image']);
+
 
         return response()->json([
-            'user' => $user->only(['id', 'role_id', 'name', 'email', 'image']),
-            'companies' =>  $selectedCompanies,
-            'test' => $user,
-            'companiestest' => $companies,
+            'user' => $user,
         ]);
     }
 }

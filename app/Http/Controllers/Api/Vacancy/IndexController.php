@@ -8,6 +8,7 @@ use App\Http\Requests\Vacancy\FilterRequest;
 use App\Models\Vacancy;
 use App\Http\Resources\VacancyResource;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class IndexController extends BaseController
 {
@@ -23,12 +24,13 @@ class IndexController extends BaseController
 
         if (isset($user) && $user->role_id === 2) {
             $data['user_id'] = $user->id;
+        } else {
+            $data['closed'] = true;
         }
 
         $filter = app()->make(VacancyFilter::class, ['queryParams' => array_filter($data)]);
 
         $vacancies = Vacancy::filter($filter)->paginate($perPage, ['*'], 'page', $page);
-
         return  VacancyResource::collection($vacancies);
     }
 }

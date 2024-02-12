@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 
-class StoreRequest extends FormRequest
+class UpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,22 +25,23 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|max:255',
+            'title' => 'sometimes|required|string|max:255',
+            'closed' => 'nullable|boolean',
             'max_salary' => 'nullable|integer|gt:salary',
-            'salary' => 'required|integer|gt:0',
-            'description' => 'required|string|max:5000',
-            'nature_id' => 'required|exists:natures,id',
-            'type_id' => 'required|exists:types,id',
-            'company_id' => 'required|exists:companies,id',
+            'salary' => 'sometimes|required|integer|gt:0',
+            'description' => 'sometimes|required|string|max:5000',
+            'nature_id' => 'sometimes|required|exists:natures,id',
+            'type_id' => 'sometimes|required|exists:types,id',
+            'company_id' => 'sometimes|required|exists:companies,id',
             "experience_months" => 'nullable|integer|min:0',
 
-            'area.id' => 'nullable|exists:areas,id',
-            'area.name' => 'required|string|max:255',
+            'area.id' => 'sometimes|nullable|exists:areas,id',
+            'area.name' => 'required_if:area.id,null|string|max:255',
 
-            'profession.id' => 'nullable|exists:professions,id',
-            'profession.name' => 'required|string|max:255',
+            'profession.id' => 'sometimes|nullable|exists:professions,id',
+            'profession.name' => 'required_if:profession.id,null|string|max:255',
 
-            'skills' => '',
+            'skills' => 'sometimes|array',
             'skills.*.name' => 'required|string|max:255',
             'skills.*.id' => 'nullable|exists:skills,id',
         ];

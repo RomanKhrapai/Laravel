@@ -16,7 +16,7 @@ class HomeController extends Controller
 
             $token = $user->createToken('API Token')->plainTextToken;
 
-            return  redirect()->away('http://localhost:5174?token=' . $token);
+            return  redirect()->away(env('APP_FRONT_URL') . '?token=' . $token);
         }
 
         // Інакше відображайте головну сторінку
