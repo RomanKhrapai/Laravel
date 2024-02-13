@@ -10,6 +10,7 @@ use App\Http\Resources\CandidateResource;
 use App\Models\Candidate;
 use App\Models\Company;
 use App\Models\Vacancy;
+use Illuminate\Support\Facades\Log;
 
 class OffersController extends BaseController
 {
@@ -33,7 +34,7 @@ class OffersController extends BaseController
             ->filter($filter)
             ->orderBy('created_at', 'asc')
             ->paginate($perPage, ['*'], 'page', $page);
-
+        Log::info($candidates);
         return CandidateResource::collection($candidates);
     }
 }

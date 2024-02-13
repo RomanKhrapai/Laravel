@@ -14,8 +14,6 @@ class IndexController extends BaseController
 {
     public function __invoke(FilterRequest $request)
     {
-
-
         $data = $request->validated();
         $page = $data['page'] ?? 1;
         $perPage = $data['per_page'] ?? 10;

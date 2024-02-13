@@ -14,7 +14,6 @@ class OffersController extends BaseController
 {
     public function __invoke(FilterRequest $request, Candidate $candidate)
     {
-        // dd($candidate);
 
         $data = $request->validated();
         $page = $data['page'] ?? 1;

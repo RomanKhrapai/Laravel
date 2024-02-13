@@ -69,6 +69,6 @@ class VacancyFilter extends AbstractFilter
     {
         $builder->join('companies', 'vacancies.company_id', '=', 'companies.id')
             ->where('companies.user_id', $value)
-            ->select('vacancies.*');;
+            ->select('vacancies.*');
     }
 }
