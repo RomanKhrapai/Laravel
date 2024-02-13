@@ -28,7 +28,9 @@ class OffersController extends BaseController
 
         $filter = app()->make(CandidateFilter::class, ['queryParams' => array_filter($data)]);
 
-        $candidates = Candidate::filter($filter)
+        $candidates = Candidate::withAvg('receivedReviews', 'vote')
+            ->withCount('receivedReviews')
+            ->filter($filter)
             ->orderBy('created_at', 'asc')
             ->paginate($perPage, ['*'], 'page', $page);
 

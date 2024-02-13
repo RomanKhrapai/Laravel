@@ -31,7 +31,9 @@ class OffersController extends BaseController
 
         $filter = app()->make(VacancyFilter::class, $params);
 
-        $vacancies = Vacancy::filter($filter)
+        $vacancies = Vacancy::withAvg('receivedReviews', 'vote')
+            ->withCount('receivedReviews')
+            ->filter($filter)
             ->orderBy('created_at', 'asc')
             ->paginate($perPage, ['*'], 'page', $page);
 

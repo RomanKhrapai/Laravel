@@ -8,6 +8,7 @@ use App\Http\Requests\Candidate\FilterRequest;
 use App\Models\Candidate;
 use App\Http\Resources\CandidateResource;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class IndexController extends BaseController
 {
@@ -18,6 +19,9 @@ class IndexController extends BaseController
         $data = $request->validated();
         $page = $data['page'] ?? 1;
         $perPage = $data['per_page'] ?? 2;
+        $sortfild = $data['sort'] ?? 'created_at';
+        $sortDirection =  $data['is_desc'] ?? 'asc';
+        if ($sortfild === 'vote') $sortfild = 'received_reviews_avg_vote';
 
         $user = Auth::user();
 
@@ -27,7 +31,11 @@ class IndexController extends BaseController
 
         $filter = app()->make(CandidateFilter::class, ['queryParams' => array_filter($data)]);
 
-        $candidates = Candidate::filter($filter)->paginate($perPage, ['*'], 'page', $page);
+        $candidates = Candidate::withAvg('receivedReviews', 'vote')
+            ->withCount('receivedReviews')
+            ->filter($filter)
+            ->orderBy($sortfild, $sortDirection)
+            ->paginate($perPage, ['*'], 'page', $page);
 
         return  CandidateResource::collection($candidates);
     }

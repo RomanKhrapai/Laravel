@@ -44,7 +44,10 @@ class Vacancy extends Model
     {
         return $this->belongsToMany(Skill::class);
     }
-
+    public function receivedReviews()
+    {
+        return $this->hasMany(Review::class, 'evaluated_company_id', 'company_id');
+    }
     public function scopeByName(Builder $query, $name)
     {
         $query->where('name', 'like', "%{$name}%");

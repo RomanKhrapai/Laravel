@@ -19,6 +19,10 @@ class IndexController extends BaseController
         $data = $request->validated();
         $page = $data['page'] ?? 1;
         $perPage = $data['per_page'] ?? 10;
+        $sortfild = $data['sort'] ?? 'created_at';
+        $sortDirection =  $data['is_desc'] ?? 'asc';
+        if ($sortfild === 'vote') $sortfild = 'received_reviews_avg_vote';
+
 
         $user = Auth::user();
 
@@ -30,7 +34,12 @@ class IndexController extends BaseController
 
         $filter = app()->make(VacancyFilter::class, ['queryParams' => array_filter($data)]);
 
-        $vacancies = Vacancy::filter($filter)->paginate($perPage, ['*'], 'page', $page);
+        $vacancies = Vacancy::withAvg('receivedReviews', 'vote')
+            ->withCount('receivedReviews')
+            ->filter($filter)
+            ->orderBy($sortfild, $sortDirection)
+            ->paginate($perPage, ['*'], 'page', $page);
+
         return  VacancyResource::collection($vacancies);
     }
 }

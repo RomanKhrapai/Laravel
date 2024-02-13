@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Validation\Rule;
 
 class FilterRequest extends FormRequest
 {
@@ -30,6 +31,18 @@ class FilterRequest extends FormRequest
             'profession_id' => 'nullable|exists:professions,id',
             'page'  => 'nullable|integer|gt:0|max:100',
             'per_page'  => 'nullable|integer|gt:1|max:100',
+            'sort' =>  [
+                'nullable',
+                'string',
+                'max:50',
+                Rule::in(['created_at', 'salary', "vote"]),
+            ],
+            'is_desc' =>  [
+                'nullable',
+                'string',
+                'max:5',
+                Rule::in(['desc', 'asc']),
+            ],
         ];
     }
     // 'title' => 'required|string|max:255',
