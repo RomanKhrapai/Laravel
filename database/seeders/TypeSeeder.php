@@ -15,10 +15,10 @@ class TypeSeeder extends Seeder
     public function run(): void
     {
         DB::table('types')->insert([
-            ['name' => "Повна"],
-            ['name' => 'Часткова'],
-            ['name' => 'Проектна'],
-            ['name' => 'Позмінна']
+            ['name' => "Full"],
+            ['name' => 'Partial'],
+            ['name' => 'Design'],
+            ['name' => 'Changeling']
         ]);
     }
 }

@@ -22,7 +22,7 @@
                 <input id="fileInput" type="file" name="img" accept=" image/jpeg" class=" custom-file-input "
                     data-url='{{ url(route('api.upload')) }}'>
                 <button id="remove-image">remove image</button>
-                <input type="hidden" name="image" id="input-image" value="{{ old('image'), '' }}" />
+                <input type="hidden" name="image" id="input-image" value="{{ old('image', $company->image) }}" />
             </label>
         </div>
 

@@ -1,19 +1,15 @@
 <?php
 
 use App\Http\Controllers\Api\ApiAreaController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ApiSkillController;
-use App\Http\Controllers\Api\ImageAvatarUploadController;
 use App\Http\Controllers\Api\ApiFormParametersController;
 use App\Http\Controllers\Api\ApiProfessionController;
 use App\Http\Controllers\Api\ApiUserController;
 use App\Http\Controllers\Api\Files\UploadApiImageController;
 use App\Http\Controllers\Api\Files\UploadImageController;
 use App\Http\Controllers\Auth\UpdateController;
-use App\Models\Chat;
-use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -91,7 +87,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::delete('/reviews/{review}', 'Review\DeleteController');
 
         Route::get('/reports/feedback', 'Report\FeedbackController');
-        // Route::get('/reports/vacancy', 'Report\VacancyController');
 
     });
 });

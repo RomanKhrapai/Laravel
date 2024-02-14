@@ -69,11 +69,6 @@
                                             <a href="{{ route('professions.index') }}" class="dropdown-item">Professions</a>
                                         </li>
                                     @endcan
-                                    {{-- @can('viewAny', App\Models\Langu::class) --}}
-                                    <li class="list-group-item item-action">
-                                        <a href="{{ route('languages.index') }}" class="dropdown-item">Languages</a>
-                                    </li>
-                                    {{-- @endcan --}}
                                     @can('viewAny', App\Models\Nature::class)
                                         <li class="list-group-item item-action">
                                             <a href="{{ route('natures.index') }}" class="dropdown-item">Natures</a>
@@ -102,8 +97,13 @@
 
                     <div class="dropdown py-sm-4 mt-sm-auto ms-auto ms-sm-0 flex-shrink-1">
                         @isset(Auth::user()->name)
-                            <img src="https://i.gyazo.com/50c000c0e4715eba3a2d778c01ac1c5c.png" alt="avatar"
-                                width="28" height="28" class="rounded-circle">
+                            @if (Auth::user()->image)
+                                <img src="{{ Storage::url(Auth::user()->image) }}" alt="avatar" width="28"
+                                    height="28" class="rounded-circle">
+                            @else
+                                <img src="https://i.gyazo.com/50c000c0e4715eba3a2d778c01ac1c5c.png" alt="avatar"
+                                    width="28" height="28" class="rounded-circle">
+                            @endif
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 {{ Auth::user()->name }}
@@ -133,7 +133,6 @@
                 <main class="row overflow-auto">
                     <div class="col pt-4">
 
-                        <!-- Main content -->
                         <section class="content px-sm-4">
                             @yield('content')
                         </section>

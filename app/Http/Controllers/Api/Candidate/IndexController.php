@@ -30,11 +30,15 @@ class IndexController extends BaseController
 
         $filter = app()->make(CandidateFilter::class, ['queryParams' => array_filter($data)]);
 
-        $candidates = Candidate::withAvg('receivedReviews', 'vote')
+        $query = Candidate::withAvg('receivedReviews', 'vote')
             ->withCount('receivedReviews')
             ->filter($filter)
-            ->orderBy($sortfild, $sortDirection)
-            ->paginate($perPage, ['*'], 'page', $page);
+            ->orderBy($sortfild, $sortDirection);
+
+        // $sql = $query->toSql();
+        // Log::info($sql);
+
+        $candidates = $query->paginate($perPage, ['*'], 'page', $page);
 
         return  CandidateResource::collection($candidates);
     }

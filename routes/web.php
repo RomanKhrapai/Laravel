@@ -3,10 +3,8 @@
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\ProfessionController;
-use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\TypeController;
 use App\Http\Controllers\NatureController;
 use App\Http\Controllers\SkillController;
@@ -35,7 +33,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('roles', RoleController::class);
     Route::resource('areas', AreaController::class);
     Route::resource('professions', ProfessionController::class);
-    Route::resource('languages', LanguageController::class);
     Route::resource('types', TypeController::class);
     Route::resource('natures', NatureController::class);
     Route::resource('skills', SkillController::class);

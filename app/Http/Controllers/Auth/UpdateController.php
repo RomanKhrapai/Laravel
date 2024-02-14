@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class UpdateController extends Controller
@@ -97,7 +98,7 @@ class UpdateController extends Controller
         $data  = $request->validated();
 
         $imageUrl = $data['image'];
-        $data['image'] = null;
+        // $data['image'] = null;
 
         if ($imageUrl && !File::exists(storage_path('app/public/' . $imageUrl))) {
             throw ValidationException::withMessages([
@@ -122,7 +123,6 @@ class UpdateController extends Controller
                 Storage::delete('public/' . $newUrl);
             }
         }
-
         $user->update($data);
 
         return response()->json(['user' => new UserResource($user)], 201);

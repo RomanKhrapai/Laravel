@@ -14,9 +14,9 @@ class NatureSeeder extends Seeder
     public function run(): void
     {
         DB::table('natures')->insert([
-            ['name' => "В офісі / на місці"],
-            ['name' => 'Віддалена'],
-            ['name' => 'Гібридна']
+            ['name' => "In the office / on site"],
+            ['name' => 'Distant'],
+            ['name' => 'Hybrid']
         ]);
         //
     }

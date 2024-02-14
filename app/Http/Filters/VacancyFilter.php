@@ -67,8 +67,12 @@ class VacancyFilter extends AbstractFilter
 
     public function userId(Builder $builder, $value)
     {
+        // $builder->whereHas('company', function (Builder $query) use ($value) {
+        //     $query->where('user_id', $value);
+        // });
+        // Log::info($value);
         $builder->join('companies', 'vacancies.company_id', '=', 'companies.id')
-            ->where('companies.user_id', $value)
-            ->select('vacancies.*');
+            ->where('companies.user_id', $value);
+        //     ->select('vacancies.*');
     }
 }

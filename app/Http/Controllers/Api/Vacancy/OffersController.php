@@ -29,12 +29,16 @@ class OffersController extends BaseController
 
         $filter = app()->make(CandidateFilter::class, ['queryParams' => array_filter($data)]);
 
-        $candidates = Candidate::withAvg('receivedReviews', 'vote')
+        $query = Candidate::withAvg('receivedReviews', 'vote')
             ->withCount('receivedReviews')
             ->filter($filter)
-            ->orderBy('created_at', 'asc')
-            ->paginate($perPage, ['*'], 'page', $page);
-        Log::info($candidates);
+            ->orderBy('created_at', 'asc');
+
+        // $sql = $query->toSql();
+        // Log::info($sql);
+
+        $candidates = $query->paginate($perPage, ['*'], 'page', $page);
+
         return CandidateResource::collection($candidates);
     }
 }

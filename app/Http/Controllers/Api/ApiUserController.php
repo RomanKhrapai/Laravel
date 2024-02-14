@@ -10,7 +10,7 @@ class ApiUserController extends Controller
     public function index(Request $request)
     {
 
-        $user = $request->user()->only(['id', 'role_id', 'name', 'email', 'image']);
+        $user = $request->user()->only(['id', 'role_id', 'name', 'telephone', 'email', 'image']);
 
 
         return response()->json([

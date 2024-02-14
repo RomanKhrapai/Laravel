@@ -19,8 +19,6 @@ class VacancyController extends Controller
     public function __construct(
         protected Vacancy $vacancy
     ) {
-        // $this->middleware('auth');
-        // $this->middleware('admin');
     }
     /**
      * Display a listing of the resource.

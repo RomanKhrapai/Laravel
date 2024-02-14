@@ -32,11 +32,14 @@ class IndexController extends BaseController
 
         $filter = app()->make(VacancyFilter::class, ['queryParams' => array_filter($data)]);
 
-        $vacancies = Vacancy::withAvg('receivedReviews', 'vote')
+        $query = Vacancy::withAvg('receivedReviews', 'vote')
             ->withCount('receivedReviews')
             ->filter($filter)
-            ->orderBy($sortfild, $sortDirection)
-            ->paginate($perPage, ['*'], 'page', $page);
+            ->orderBy($sortfild, $sortDirection);
+
+        // $sql = $query->toSql();
+        // Log::info($sql);
+        $vacancies = $query->paginate($perPage, ['*'], 'page', $page);
 
         return  VacancyResource::collection($vacancies);
     }

@@ -41,8 +41,11 @@ class CandidateFilter extends AbstractFilter
     public function typeId(Builder $builder, $value)
     {
         $builder->join('candidate_type', 'candidates.id', '=', 'candidate_type.candidate_id')
-            ->where('candidate_type.type_id', $value)
-            ->select('candidates.*');
+            ->where('candidate_type.type_id', $value);
+        //     ->select('candidates.*');
+        // $builder->whereHas('types', function (Builder $query) use ($value) {
+        //     $query->where('type_id', $value);
+        // });
     }
 
     public function title(Builder $builder, $value)

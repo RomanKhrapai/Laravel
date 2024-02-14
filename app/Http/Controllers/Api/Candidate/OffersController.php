@@ -9,6 +9,7 @@ use App\Http\Requests\Candidate\FilterRequest;
 use App\Http\Resources\VacancyResource;
 use App\Models\Candidate;
 use App\Models\Vacancy;
+use Illuminate\Support\Facades\Log;
 
 class OffersController extends BaseController
 {
@@ -30,11 +31,13 @@ class OffersController extends BaseController
 
         $filter = app()->make(VacancyFilter::class, $params);
 
-        $vacancies = Vacancy::withAvg('receivedReviews', 'vote')
+        $query  = Vacancy::withAvg('receivedReviews', 'vote')
             ->withCount('receivedReviews')
             ->filter($filter)
-            ->orderBy('created_at', 'asc')
-            ->paginate($perPage, ['*'], 'page', $page);
+            ->orderBy('created_at', 'asc');
+        // $sql = $query->toSql();
+        // Log::info($sql);
+        $vacancies = $query->paginate($perPage, ['*'], 'page', $page);
 
         return VacancyResource::collection($vacancies);
     }

@@ -14,7 +14,6 @@ use App\Models\CandidateSkill;
 use App\Models\Skill;
 use App\Models\Vacancy;
 
-use GuzzleHttp\Promise\Create;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -29,67 +28,65 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             NatureSeeder::class,
-            DegreeSeeder::class,
             RoleSeeder::class,
             UserSeeder::class,
-            CompanySeeder::class,
+            // CompanySeeder::class,
             TypeSeeder::class,
-            LanguagesSeeder::class,
             PermisionSeeder::class,
             ProfessionSeeder::class,
-            VacancySeeder::class,
+            // VacancySeeder::class,
             PermissionRoleSeeder::class
         ]);
 
         User::factory(10)->create();
-        Company::factory(12)->create();
+        // Company::factory(12)->create();
 
-        Area::factory(6)->create();
-        Profession::factory(3)->create();
-        Skill::factory(60)->create();
-        Vacancy::factory(20)->create();
-        Candidate::factory(20)->create();
+        // Area::factory(6)->create();
+        // Profession::factory(3)->create();
+        // Skill::factory(60)->create();
+        // Vacancy::factory(20)->create();
+        // Candidate::factory(20)->create();
 
 
-        SkillVacancy::factory(1)->create();
-        CandidateSkill::factory(1)->create();
-        SkillVacancy::factory(1)->create();
-        CandidateSkill::factory(1)->create();
-        SkillVacancy::factory(1)->create();
-        CandidateSkill::factory(1)->create();
-        SkillVacancy::factory(1)->create();
-        CandidateSkill::factory(1)->create();
-        SkillVacancy::factory(1)->create();
-        CandidateSkill::factory(1)->create();
-        SkillVacancy::factory(1)->create();
-        CandidateSkill::factory(1)->create();
-        SkillVacancy::factory(1)->create();
-        CandidateSkill::factory(1)->create();
-        SkillVacancy::factory(1)->create();
-        CandidateSkill::factory(1)->create();
-        SkillVacancy::factory(1)->create();
-        CandidateSkill::factory(1)->create();
-        SkillVacancy::factory(1)->create();
-        CandidateSkill::factory(1)->create();
-        SkillVacancy::factory(1)->create();
-        CandidateSkill::factory(1)->create();
-        SkillVacancy::factory(1)->create();
-        CandidateSkill::factory(1)->create();
-        SkillVacancy::factory(1)->create();
-        CandidateSkill::factory(1)->create();
-        SkillVacancy::factory(1)->create();
-        CandidateSkill::factory(1)->create();
-        SkillVacancy::factory(1)->create();
-        CandidateSkill::factory(1)->create();
-        SkillVacancy::factory(1)->create();
-        CandidateSkill::factory(1)->create();
-        SkillVacancy::factory(1)->create();
-        CandidateSkill::factory(1)->create();
-        SkillVacancy::factory(1)->create();
-        CandidateSkill::factory(1)->create();
-        SkillVacancy::factory(1)->create();
-        CandidateSkill::factory(1)->create();
-        SkillVacancy::factory(1)->create();
-        CandidateSkill::factory(1)->create();
+        // SkillVacancy::factory(1)->create();
+        // CandidateSkill::factory(1)->create();
+        // SkillVacancy::factory(1)->create();
+        // CandidateSkill::factory(1)->create();
+        // SkillVacancy::factory(1)->create();
+        // CandidateSkill::factory(1)->create();
+        // SkillVacancy::factory(1)->create();
+        // CandidateSkill::factory(1)->create();
+        // SkillVacancy::factory(1)->create();
+        // CandidateSkill::factory(1)->create();
+        // SkillVacancy::factory(1)->create();
+        // CandidateSkill::factory(1)->create();
+        // SkillVacancy::factory(1)->create();
+        // CandidateSkill::factory(1)->create();
+        // SkillVacancy::factory(1)->create();
+        // CandidateSkill::factory(1)->create();
+        // SkillVacancy::factory(1)->create();
+        // CandidateSkill::factory(1)->create();
+        // SkillVacancy::factory(1)->create();
+        // CandidateSkill::factory(1)->create();
+        // SkillVacancy::factory(1)->create();
+        // CandidateSkill::factory(1)->create();
+        // SkillVacancy::factory(1)->create();
+        // CandidateSkill::factory(1)->create();
+        // SkillVacancy::factory(1)->create();
+        // CandidateSkill::factory(1)->create();
+        // SkillVacancy::factory(1)->create();
+        // CandidateSkill::factory(1)->create();
+        // SkillVacancy::factory(1)->create();
+        // CandidateSkill::factory(1)->create();
+        // SkillVacancy::factory(1)->create();
+        // CandidateSkill::factory(1)->create();
+        // SkillVacancy::factory(1)->create();
+        // CandidateSkill::factory(1)->create();
+        // SkillVacancy::factory(1)->create();
+        // CandidateSkill::factory(1)->create();
+        // SkillVacancy::factory(1)->create();
+        // CandidateSkill::factory(1)->create();
+        // SkillVacancy::factory(1)->create();
+        // CandidateSkill::factory(1)->create();
     }
 }
