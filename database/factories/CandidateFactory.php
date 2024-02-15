@@ -21,14 +21,16 @@ class CandidateFactory extends Factory
      */
     public function definition(): array
     {
+        $nameJob = fake()->jobTitle();
         return [
-            'user_id' => User::get()->random()->id,
-            'title' => fake()->word(),
-            'description' => fake()->paragraph(),
+            'user_id' => User::where('role_id', 3)->get()->random()->id,
+            'title' =>  $nameJob . fake()->sentence(3),
+            'description' => fake()->realTextBetween($minNbChars = 160, $maxNbChars = 2000, $indexSize = 2),
             'area_id' => Area::get()->random()->id,
             'nature_id' => Nature::get()->random()->id,
             'profession_id' => Profession::get()->random()->id,
-            'salary' => fake()->numberBetween(1000, 50000)
+            'salary' => fake()->numberBetween(100, 6000),
+            'experience_months' => fake()->numberBetween(1, 60),
         ];
     }
 }

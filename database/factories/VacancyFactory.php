@@ -23,18 +23,20 @@ class VacancyFactory extends Factory
 
     public function definition(): array
     {
-        $salary = fake()->numberBetween(1000, 50000);
-        $maxSalary =  fake()->numberBetween(0, 1) == 1 ? fake()->numberBetween($salary, 60000) : null;
+        $salary = fake()->numberBetween(100, 5000);
+        $maxSalary =  fake()->numberBetween(0, 1) == 1 ? fake()->numberBetween($salary, 6000) : null;
+        $nameJob = fake()->jobTitle();
         return [
             'company_id' => Company::get()->random()->id,
-            'title' => fake()->word(),
-            'description' => fake()->paragraph(),
+            'title' => $nameJob . fake()->word(2),
+            'description' => fake()->realTextBetween($minNbChars = 160, $maxNbChars = 2000, $indexSize = 2),
             'area_id' => Area::get()->random()->id,
             'type_id' => Type::get()->random()->id,
             'nature_id' => Nature::get()->random()->id,
             'profession_id' => Profession::get()->random()->id,
             'salary' => $salary,
-            'max_salary' => $maxSalary
+            'max_salary' => $maxSalary,
+            'closed' => true,
         ];
     }
 }
