@@ -67,6 +67,5 @@ class Kernel extends HttpKernel
     ];
     protected $routeMiddleware = [
         'AuthMod' =>  \App\Http\Middleware\AuthModMiddleware::class,
-        // 'BroadcastSanctum' => \App\Http\Middleware\BroadcastSanctumMiddleware::class,
     ];
 }

@@ -56,21 +56,20 @@
                                 <img src="{{ Vite::asset('resources/icons/view-show.svg') }}" alt="show" />
                             </button></a>
 
-                        {{-- @can('update', $company) --}}
-                        <a href="{{ route('companies.edit', $company->id) }}">
-                            <button class="btn btn-warning">
-                                <img src="{{ Vite::asset('resources/icons/pencil2.svg') }}" alt="edit" />
+                        @can('update', $company)
+                            <a href="{{ route('companies.edit', $company->id) }}">
+                                <button class="btn btn-warning">
+                                    <img src="{{ Vite::asset('resources/icons/pencil2.svg') }}" alt="edit" />
+                                </button>
+                            </a>
+                        @endcan
+                        @can('delete', $company)
+                            <button data-bs-toggle="modal" class="btn bg-secondary text-white"
+                                data-bs-target="#deleteCompanyModal_{{ $company->id }}"
+                                data-action="{{ route('companies.destroy', $company->id) }}">
+                                <img src="{{ Vite::asset('resources/icons/bin.svg') }}" alt="delete" />
                             </button>
-                        </a>
-                        {{-- @endcan
-                        @can('delete', $company) --}}
-                        <button data-bs-toggle="modal" class="btn bg-secondary text-white"
-                            data-bs-target="#deletecompanyModal_{{ $company->id }}"
-                            data-action="{{ route('companies.destroy', $company->id) }}">
-                            <img src="{{ Vite::asset('resources/icons/bin.svg') }}" alt="delete" />
-                        </button>
-
-                        {{-- @endcan --}}
+                        @endcan
                     </td>
                 </tr>
             </tbody>
@@ -89,7 +88,7 @@
                             @csrf
                             @method('DELETE')
                             <div class="modal-body">
-                                <input id="id" name="$company->id" hidden value="">
+                                <input id="id" name="{{ $company->id }}" hidden value="">
                                 <h5 class="text-center">Are you sure you want to delete this company?</h5>
                             </div>
                             <div class="modal-footer">

@@ -4,15 +4,12 @@ namespace App\Events;
 
 use App\Http\Resources\Chat\MessageResource;
 use App\Models\Message;
-use Illuminate\Broadcasting\Channel;
+
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
 
 class StoreMessageEvent implements ShouldBroadcastNow
 {
@@ -36,8 +33,7 @@ class StoreMessageEvent implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new Channel('users_' . $this->userId);
-        // return new PrivateChannel('send_message_' . $this->userId);
+        return new PrivateChannel('users_' . $this->userId);
     }
 
     /**

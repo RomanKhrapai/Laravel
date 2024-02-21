@@ -17,7 +17,7 @@ class IndexController extends BaseController
     {
         $data = $request->validated();
         $page = $data['page'] ?? 1;
-        $perPage = $data['per_page'] ?? 10;
+        $perPage = $data['per_page'] ?? 12;
         $sortfild = $data['sort'] ?? 'created_at';
         $sortDirection =  $data['is_desc'] ?? 'asc';
 

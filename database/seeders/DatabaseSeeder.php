@@ -27,18 +27,18 @@ class DatabaseSeeder extends Seeder
 
 
         $this->call([
-            NatureSeeder::class,
-            RoleSeeder::class,
-            UserSeeder::class,
+            // NatureSeeder::class,
+            // RoleSeeder::class,
+            // UserSeeder::class,
             // CompanySeeder::class,
-            TypeSeeder::class,
+            // TypeSeeder::class,
             PermisionSeeder::class,
-            ProfessionSeeder::class,
+            // ProfessionSeeder::class,
             // VacancySeeder::class,
             PermissionRoleSeeder::class
         ]);
 
-        User::factory(10)->create();
+        // User::factory(10)->create();
         // Company::factory(12)->create();
 
         // Area::factory(6)->create();
