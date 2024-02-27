@@ -15,6 +15,7 @@
     <table class="table table-bordered table-hover bg-white">
         <thead class="">
             <tr>
+                <th scope="col">Id</th>
                 <th scope="col">Role name</th>
                 <th scope="col">Access buttons</th>
             </tr>
@@ -23,6 +24,9 @@
         @foreach ($roles as $role)
             <tbody>
                 <tr>
+                    <td>
+                        <h5>{{ $role->id }}</h5>
+                    </td>
                     <td>
                         <h5>{{ $role->name }}</h5>
                     </td>

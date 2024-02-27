@@ -93,6 +93,14 @@ class PermisionSeeder extends Seeder
             ['name' => 'candidate.delete', 'description' => ''],
             ['name' => 'candidate.restore', 'description' => ''],
             ['name' => 'candidate.forceDelete', 'description' => ''],
+
+            ['name' => 'review.viewAny', 'description' => ''],
+            ['name' => 'review.view', 'description' => ''],
+            ['name' => 'review.create', 'description' => ''],
+            ['name' => 'review.update', 'description' => ''],
+            ['name' => 'review.delete', 'description' => ''],
+            ['name' => 'review.restore', 'description' => ''],
+            ['name' => 'review.forceDelete', 'description' => ''],
         ]);
     }
 }

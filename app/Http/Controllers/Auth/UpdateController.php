@@ -7,21 +7,16 @@ use App\Http\Requests\Auth\UpdatePasswordRequest;
 use App\Http\Requests\Auth\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Jobs\SendChangePasswordMail;
-use App\Mail\ChangePasswordMail;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Str;
 use App\Models\User;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
+use App\Services\ImageService;
 
 class UpdateController extends Controller
 {
@@ -51,78 +46,40 @@ class UpdateController extends Controller
      * @return void
      */
 
-    public function password(UpdatePasswordRequest $request, User $user)
+    public function password(UpdatePasswordRequest $request)
     {
         $data = $request->validated();
+        $user = User::findOrFail(Auth::id());
 
-        if (
-            (Auth::user()->id !== $user->id)
-        ) {
-            return response()->json(['message' => 'no permission'], 401);
-        }
+        $user->update([
+            'password' => Hash::make($data['password']),
+            'role_id' => $data['role']
+        ]);
 
-        if (
-            !(Hash::check($data['oldPassword'], $user->password) ||
-                Hash::check('', $user->password))
-        ) {
-            return response()->json(['message' => 'old password not correct'], 401);
-        }
+        $userAgent = $request->header('User-Agent');
+        $user->tokens()
+            ->where('name', $userAgent)
+            ->delete();
 
-        if ($user) {
-            $user->update([
-                'password' => Hash::make($data['password']),
-                'role_id' => $data['role']
-            ]);
+        $token = $user->createToken($userAgent)->plainTextToken;
 
-            $userAgent = $request->header('User-Agent');
-            $user->tokens()
-                ->where('name', $userAgent)
-                ->delete();
+        SendChangePasswordMail::dispatch($user);
 
-            $token = $user->createToken($userAgent)->plainTextToken;
-
-            // Mail::to($user->email)->send(new ChangePasswordMail(Auth::user()));
-            SendChangePasswordMail::dispatch($user);
-
-            return response()->json(['access_token' => $token,]);
-        } else return response()->json(['message' => 'User not found',], 404);
+        return response()->json(['access_token' => $token,]);
     }
 
 
-    public function user(UpdateUserRequest $request, User $user)
+    public function user(UpdateUserRequest $request, ImageService $imageService)
     {
-        if (Auth::user()->id !== $user->id) {
-            return response()->json(['message' => 'no permission'], 401);
-        }
-
         $data  = $request->validated();
+        $user = User::findOrFail(Auth::id());
 
-        $imageUrl = $data['image'];
-        // $data['image'] = null;
+        $data = $imageService->saveImageUser($user, $data);
 
-        if ($imageUrl && !File::exists(storage_path('app/public/' . $imageUrl))) {
-            throw ValidationException::withMessages([
-                'image' => 'Problem file.',
-            ]);
-        } elseif ($imageUrl && $imageUrl !== $user->image) {
-            $uniqueName = Str::uuid()->toString();
-            $extension = pathinfo($imageUrl, PATHINFO_EXTENSION);
-            $newPath = 'images/users/avatars/' . $uniqueName . '.' . $extension;
-            Storage::disk('public')->move($imageUrl, $newPath);
-            $data['image'] = $newPath;
-
-            $newUrl = str_replace("/storage/", "", $user->image);
-            if (isset($user->image) && Storage::exists('public/' . $newUrl)) {
-                Storage::delete('public/' .  $newUrl);
-            }
-        } else {
-            $data['image'] = $imageUrl;
-
-            $newUrl = str_replace("/storage/", "", $user->image);
-            if (!$imageUrl && isset($user->image) && Storage::exists('public/' . $newUrl)) {
-                Storage::delete('public/' . $newUrl);
-            }
+        if (isset($data['errors'])) {
+            return response()->json($data);
         }
+
         $user->update($data);
 
         return response()->json(['user' => new UserResource($user)], 201);

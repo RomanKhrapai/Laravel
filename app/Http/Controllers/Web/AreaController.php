@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web;
 
 use App\Http\Requests\StoreAreaRequest;
 use App\Http\Requests\UpdateAreaRequest;
 use App\Models\Area;
-use App\Models\User;
+use App\Http\Controllers\Controller;
 
 class AreaController extends Controller
 {
@@ -91,7 +91,7 @@ class AreaController extends Controller
     {
         $this->authorize('delete', [Area::class, $area]);
 
-        $area->delete();
+        $area->softDeletes();
         return redirect()->route('areas.index')->with('success', 'Area deleted successfully.');
     }
 }

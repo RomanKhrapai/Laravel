@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
 use App\Models\Role;
@@ -88,8 +89,8 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
-        $role->permissions()->detach();
-        $role->delete();
+        // $role->permissions()->detach();
+        $role->softDeletes();
 
         return redirect()->route('roles.index')->with('success', 'Role deleted successfully.');
     }

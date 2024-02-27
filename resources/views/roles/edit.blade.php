@@ -24,13 +24,15 @@
         <div class="bg-white">
             @foreach ($permissions as $permission)
                 <div class="btn row">
-                    <label class='form-check-label'> <input value="{{ $permission->id }}" type="checkbox"
-                            class="form-check-input block" name="permissions[]"
-                            @if ($role->permissions->contains($permission->id)) checked @endif> {{ $permission->name }} </label>
+                    <label class='form-check-label'>
+                        <input value="{{ $permission->id }}" type="checkbox" class="form-check-input block"
+                            name="permissions[]" @if ($role->permissions->contains($permission->id)) checked @endif>
+                        {{ $permission->name }}
+                    </label>
                 </div>
             @endforeach
         </div>
-      
+
         @error('permissions')
             <div class="alert alert-danger">{{ $message }}</div>
         @enderror

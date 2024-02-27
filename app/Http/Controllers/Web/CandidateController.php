@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCandidateRequest;
 use App\Http\Requests\UpdateCandidateRequest;
 use App\Models\Candidate;
@@ -144,9 +145,9 @@ class CandidateController extends Controller
     public function destroy(Candidate $candidate)
     {
         $this->authorize('delete', [Candidate::class, $candidate]);
-        $candidate->types()->detach();
-        $candidate->skills()->detach();
-        $candidate->delete();
+        // $candidate->types()->detach();
+        // $candidate->skills()->detach();
+        $candidate->softDeletes();
 
         return redirect()->route('candidates.index')->with('success', 'User deleted successfully.');
     }

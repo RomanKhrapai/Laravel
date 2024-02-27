@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSkillRequest;
 use App\Http\Requests\UpdateSkillRequest;
 use App\Models\Profession;
@@ -97,7 +98,7 @@ class SkillController extends Controller
     {
         $this->authorize('delete', [Skill::class, $skill]);
 
-        $skill->delete();
+        $skill->softDeletes();
 
         return redirect()->route('skills.index')->with('success', 'Skill deleted successfully.');
     }

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreNatureRequest;
 use App\Http\Requests\UpdateNatureRequest;
 use App\Models\Nature;
@@ -92,7 +93,7 @@ class NatureController extends Controller
     {
         $this->authorize('delete', [Nature::class, $nature]);
 
-        $nature->delete();
+        $nature->softDeletes();
         return redirect()->route('natures.index')->with('success', 'Nature deleted successfully.');
     }
 }

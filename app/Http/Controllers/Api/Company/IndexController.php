@@ -16,10 +16,6 @@ class IndexController extends BaseController
     public function __invoke(FilterRequest $request)
     {
         $data = $request->validated();
-        $page = $data['page'] ?? 1;
-        $perPage = $data['per_page'] ?? 12;
-        $sortfild = $data['sort'] ?? 'created_at';
-        $sortDirection =  $data['is_desc'] ?? 'asc';
 
         $user = Auth::user();
 
@@ -31,8 +27,8 @@ class IndexController extends BaseController
 
         $companies = Company::withAvg('receivedReviews', 'vote')
             ->filter($filter)
-            ->orderBy($sortfild, $sortDirection)
-            ->paginate($perPage, ['*'], 'page', $page);
+            ->orderBy($data['sort'] ?? 'created_at',  $data['is_desc'] ?? 'asc')
+            ->paginate($data['per_page'] ?? 12, ['*'], 'page', $data['page'] ?? 1);
 
         return  CompanyResource::collection($companies);
     }

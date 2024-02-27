@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProfessionRequest;
 use App\Http\Requests\UpdateProfessionRequest;
 use App\Models\Profession;
@@ -76,7 +77,7 @@ class ProfessionController extends Controller
      */
     public function destroy(Profession $profession)
     {
-        $profession->delete();
+        $profession->softDeletes();
         return redirect()->route('professions.index')->with('success', 'profession deleted successfully.');
     }
 }

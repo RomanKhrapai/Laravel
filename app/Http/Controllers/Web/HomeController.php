@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -19,7 +19,6 @@ class HomeController extends Controller
             return  redirect()->away(env('APP_FRONT_URL') . '?token=' . $token);
         }
 
-        // Інакше відображайте головну сторінку
         return view('home');
     }
 }

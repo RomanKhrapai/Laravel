@@ -8,7 +8,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\Rule;
 
-class FilterRequest extends FormRequest
+class WebFilterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,10 +26,15 @@ class FilterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => ['nullable', 'exists:users,id', 'required_without:company_id'],
-            'company_id' => ['nullable', 'exists:companies,id', 'required_without:user_id'],
-            'page'  => ['nullable', 'integer', 'gt:0', 'max:100'],
-            'per_page'  => ['nullable', 'integer', 'gt:1', 'max:100'],
+            'id' => ['nullable', 'exists:reviews,id'],
+            'parent_id' => ['nullable', 'exists:reviews,id'],
+            'user_id' => ['nullable', 'exists:users,id'],
+            'company_id' => ['nullable', 'exists:companies,id'],
+            'evaluated_user_id' => ['nullable', 'exists:users,id'],
+            'evaluated_company_id' => ['nullable', 'exists:companies,id'],
+            'vote' => ['nullable', 'integer', 'min:0', 'max:10'],
+            'review' => ['nullable', 'string', 'max:2000'],
+
             'sort_by' =>  [
                 'nullable',
                 'string',
@@ -53,12 +58,5 @@ class FilterRequest extends FormRequest
                 Rule::in(['desc', 'asc']),
             ],
         ];
-    }
-
-    protected function failedValidation(Validator $validator)
-    {
-        throw new HttpResponseException(
-            response()->json(['errors' => $validator->errors()], JsonResponse::HTTP_UNPROCESSABLE_ENTITY)
-        );
     }
 }

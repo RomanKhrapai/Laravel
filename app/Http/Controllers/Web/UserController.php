@@ -1,14 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use App\Models\Role;
+use App\Services\ImageService;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Str;
 
@@ -40,27 +43,18 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreUserRequest $request)
+    public function store(StoreUserRequest $request, ImageService $imageService)
     {
         $this->authorize('create', User::class);
-        $imageUrl = $request->input('image');
-        $password = $request->input('password');
+        $data  = $request->validated();
 
-        $data = $request->except('_token', 'password', 'password_confirmation', 'img', "image");
+        $data = $imageService->saveNewImageUser($data);
 
-        if ($imageUrl && !File::exists(storage_path('app/public/' . $imageUrl))) {
-            throw ValidationException::withMessages([
-                'image' => 'Problem file.',
-            ]);
-        } elseif ($imageUrl) {
-            $uniqueName = Str::uuid()->toString();
-            $extension = pathinfo($imageUrl, PATHINFO_EXTENSION);
-            $newPath = 'images/users/avatars/' . $uniqueName . '.' . $extension;
-            Storage::disk('public')->move($imageUrl, $newPath);
-            $data['image'] = $newPath;
+        if (isset($data['errors'])) {
+            return redirect()->back()->withErrors($data);
         }
 
-        $data['password'] = Hash::make($password);
+        $data['password'] = Hash::make($data['password']);
         $user = User::create($data);
 
         return redirect()->route('users.show', ['user' => $user])->with('success', ['id' => $user->id]);
@@ -90,41 +84,22 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUserRequest $request, User $user)
+    public function update(UpdateUserRequest $request, User $user, ImageService $imageService)
     {
         $this->authorize('update', User::class);
+        $data  = $request->validated();
 
-        $imageUrl = $request->input('image');
-        $password = $request->input('password');
+        $data = $imageService->saveImageUser($user, $data);
 
-        $data = $request->except('_token', 'password', 'password_confirmation', 'img', "image");
-
-        if ($imageUrl && !File::exists(storage_path('app/public/' . $imageUrl))) {
-            throw ValidationException::withMessages([
-                'image' => 'Problem file.',
-            ]);
-        } elseif ($imageUrl && $imageUrl !== $user->image) {
-            $uniqueName = Str::uuid()->toString();
-            $extension = pathinfo($imageUrl, PATHINFO_EXTENSION);
-            $newPath = 'images/users/avatars/' . $uniqueName . '.' . $extension;
-            Storage::disk('public')->move($imageUrl, $newPath);
-            $data['image'] = $newPath;
-
-            $newUrl = str_replace("/storage/", "", $user->image);
-            if (isset($user->image) && Storage::exists('public/' . $newUrl)) {
-                Storage::delete('public/' .  $newUrl);
-            }
-        } else {
-            $data['image'] = $imageUrl;
-
-            $newUrl = str_replace("/storage/", "", $user->image);
-            if (!$imageUrl && isset($user->image) && Storage::exists('public/' . $newUrl)) {
-                Storage::delete('public/' . $newUrl);
-            }
+        if (isset($data['errors'])) {
+            return redirect()->back()->withErrors($data);
         }
 
+        $password = $data['password'];
         if (!empty($password)) {
             $data['password'] = Hash::make($password);
+        } else {
+            unset($data['password']);
         }
         $user->update($data);
 
@@ -138,7 +113,7 @@ class UserController extends Controller
     {
         $this->authorize('delete', User::class);
 
-        $user->delete();
+        $user->softDeletes();
 
         return redirect()->route('users.index')->with('success', 'User deleted successfully.');
     }

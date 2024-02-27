@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreVacancyRequest;
 use App\Http\Requests\UpdateVacancyRequest;
 use App\Models\Area;
@@ -138,8 +139,8 @@ class VacancyController extends Controller
     public function destroy(Vacancy $vacancy)
     {
         $this->authorize('delete', [Vacancy::class, $vacancy]);
-        $vacancy->skills()->detach();
-        $vacancy->delete();
+        // $vacancy->skills()->detach();
+        $vacancy->softDeletes();
 
         return redirect()->route('vacancies.index')->with('success', 'User deleted successfully.');
     }

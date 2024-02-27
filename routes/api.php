@@ -54,8 +54,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/uploadavatar', [UploadApiImageController::class, 'upload'])->name('api.uploadAvatar');
     Route::get('/user', [ApiUserController::class, 'index']);
 
-    Route::patch('/update/password/{user}', [UpdateController::class, 'password']);
-    Route::patch('/update/user/{user}', [UpdateController::class, 'user']);
+    Route::patch('/update/password', [UpdateController::class, 'password']);
+    Route::patch('/update/user', [UpdateController::class, 'user']);
 
     Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
         Route::get('/authdata', 'User\AuthDataController');
@@ -87,7 +87,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::delete('/reviews/{review}', 'Review\DeleteController');
 
         Route::get('/reports/feedback', 'Report\FeedbackController');
-
     });
 });
 

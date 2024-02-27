@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
+use App\Rules\OldPassword;
 use Illuminate\Validation\Rule;
 
 class UpdatePasswordRequest extends FormRequest
@@ -25,10 +26,11 @@ class UpdatePasswordRequest extends FormRequest
      */
     public function rules(): array
     {
+
         return [
-            'oldPassword' => 'nullable|string|min:8',
+            'oldPassword' => ['nullable', 'string', new OldPassword],
             'password' => 'required|string|min:8',
-            'role' => ['required', Rule::in([2, 3])],
+            'role' => 'required|in:2,3',
         ];
     }
 

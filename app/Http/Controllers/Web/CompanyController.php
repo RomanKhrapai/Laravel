@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\Company;
@@ -132,7 +133,7 @@ class CompanyController extends Controller
     {
         $this->authorize('delete', [Company::class, $company]);
 
-        $company->delete();
+        $company->softDeletes();
 
         return redirect()->route('companies.index')->with('success', 'User deleted successfully.');
     }

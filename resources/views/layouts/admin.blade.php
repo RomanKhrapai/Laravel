@@ -10,7 +10,7 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
-
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css" rel="stylesheet">
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
@@ -51,6 +51,11 @@
                                     @can('viewAny', App\Models\Candidate::class)
                                         <li class="list-group-item item-action">
                                             <a href="{{ route('candidates.index') }}" class="dropdown-item">Candidates</a>
+                                        </li>
+                                    @endcan
+                                    @can('viewAny', App\Models\Review::class)
+                                        <li class="list-group-item item-action">
+                                            <a href="{{ route('reviews.index') }}" class="dropdown-item">Reviews</a>
                                         </li>
                                     @endcan
                                 </ul>

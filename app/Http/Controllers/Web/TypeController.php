@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTypeRequest;
 use App\Http\Requests\UpdateTypeRequest;
 use App\Models\Type;
@@ -85,7 +86,7 @@ class TypeController extends Controller
     public function destroy(Type $type)
     {
         $this->authorize('delete', [Type::class, $type]);
-        $type->delete();
+        $type->softDeletes();
         return redirect()->route('types.index')->with('success', 'type deleted successfully.');
     }
 }

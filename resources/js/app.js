@@ -5,7 +5,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const fileInput = document.getElementById("fileInput");
     const inputImage = document.getElementById("input-image");
     const removeImage = document.getElementById("remove-image");
+    const select = document.getElementById("filter_select");
 
+    if (select) {
+        select.addEventListener("change", chengeSearch);
+    }
     if (removeImage) {
         removeImage.addEventListener("click", deleteImageData);
     }
@@ -79,7 +83,6 @@ function skillsAjax(e) {
         .get(`${baseUrl}?${params}`, {
             headers: {
                 Accept: "application/json",
-
             },
         })
         .then((response) => {
@@ -106,4 +109,12 @@ function skillsAjax(e) {
         .catch((error) => {
             console.error("Axios Error:", error);
         });
+}
+
+function chengeSearch(e) {
+    const search = document.getElementById("filter_search");
+    search.name = e.target.value;
+    search.value = "";
+    console.log(e.target.value);
+    console.log(search);
 }
